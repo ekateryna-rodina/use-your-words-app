@@ -1,0 +1,80 @@
+{
+  "parts": [
+    { "id": 1, "part": "verb" },
+    { "id": 2, "part": "noun" },
+    { "id": 3, "part": "adject" }
+  ],
+  "words": [
+    {
+      "id": 1,
+      "word": "paraphrase",
+      "meaning": "To restate, put what someone else said into different words",
+      "sentences": [
+        "To {paraphrase} Ben Franklin, 'Everything in moderation...', and giving peanut butter to a dog certainly falls in this category."
+      ],
+      "part": 1,
+      "file": "https://ssl.gstatic.com/dictionary/static/sounds/20200429/paraphrase--_gb_1.mp3",
+      "synonyms": ["digest", "rehash", "rephrase"],
+      "antonyms": ["quote"]
+    },
+    {
+      "id": 2,
+      "word": "itinerant",
+      "part": 3,
+      "meaning": "Wandering, moving from place to place, especially to perform work",
+      "file": "https://ssl.gstatic.com/dictionary/static/sounds/20200429/itinerant--_gb_1.8.mp3",
+      "synonyms": ["migratory", "nomadic"],
+      "antonyms": []
+    },
+    {
+      "id": 3,
+      "word": "gratuitous",
+      "part": 3,
+      "meaning": "Free, given without charge or obligation",
+      "file": "https://ssl.gstatic.com/dictionary/static/sounds/20200429/gratuitous--_gb_1.mp3",
+      "synonyms": ["complimentary", "chargeless"],
+      "antonyms": ["costly", "expensive"]
+    },
+    {
+      "id": 4,
+      "word": "approbation",
+      "part": 2,
+      "meaning": "Wandering, moving from place to place, escpecially to perform work",
+      "file": "https://ssl.gstatic.com/dictionary/static/sounds/20200429/approbation--_gb_1.mp3",
+      "synonyms": ["admiration", "consent", "approval"],
+      "antonyms": ["denial", "disfavor"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": 1,
+      "type": 1,
+      "answerWordIds": [1],
+      "sentence": "To {paraphrase} Ben Franklin, 'Everything in moderation...', and giving peanut butter to a dog certainly falls in this category."
+    },
+    {
+      "id": 2,
+      "type": 2,
+      "answerWordIds": [1],
+      "file": "https://ssl.gstatic.com/dictionary/static/sounds/20200429/paraphrase--_gb_1.mp3"
+    },
+    {
+      "id": 3,
+      "type": 3,
+      "answerWordIds": [1],
+      "meaningsWordIds": [1, 2, 3, 4]
+    },
+    { "id": 4, "type": 4, "answerWordIds": [1], "choiceWordIds": [1, 2, 3, 4] },
+    { "id": 5, "type": 5, "answerWordIds": [1], "choiceWordIds": [1, 2, 3, 4] },
+    { "id": 6, "type": 6, "answerWordIds": [1, 2, 3, 4] },
+    { "id": 7, "type": 7, "answerWordIds": [1], "choiceWordIds": [1, 2, 3, 4] },
+    { "id": 8, "type": 8, "answerWordIds": [1], "choiceWordIds": [1, 2, 3, 4] },
+    { "id": 9, "type": 9, "answerWordIds": [1], "choiceWordIds": [1, 2, 3, 4] },
+    {
+      "id": 10,
+      "type": 10,
+      "answerWordIds": [1],
+      "choiceWordIds": [1, 2, 3, 4]
+    }
+  ]
+}
