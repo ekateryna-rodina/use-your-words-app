@@ -1,26 +1,23 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var cors = require("cors");
-var bodyParser = require("express");
-var express = require("express");
-var fs = require("fs");
-var logger = require("morgan");
-var sequelize_1 = require("sequelize");
+var cors_1 = __importDefault(require("cors"));
+var express_1 = __importDefault(require("express"));
+var fs_1 = __importDefault(require("fs"));
+var morgan_1 = __importDefault(require("morgan"));
+var db_1 = __importDefault(require("./config/db"));
 var get_1 = require("./routes/vocabulary/get");
-var app = express();
+var app = (0, express_1.default)();
 var port = 8080;
-app.use(logger("common", {
-    stream: fs.createWriteStream("./access.log", { flags: "a" }),
+app.use((0, morgan_1.default)("common", {
+    stream: fs_1.default.createWriteStream("./access.log", { flags: "a" }),
 }));
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(cors());
-var sequelize = new sequelize_1.Sequelize("uyw-db", "katerynarodina", "kariedb", {
-    host: "localhost",
-    dialect: "postgres",
-});
-sequelize
-    .authenticate()
+app.use((0, morgan_1.default)("dev"));
+app.use(express_1.default.json());
+app.use((0, cors_1.default)());
+db_1.default.authenticate()
     .then(function () { return console.log("Database is connected..."); })
     .catch(function (err) { return console.log(err); });
 app.use(get_1.getWordsRouter);

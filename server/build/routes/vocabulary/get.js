@@ -41,17 +41,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWordsRouter = void 0;
 var express_1 = __importDefault(require("express"));
+var Antonym_1 = __importDefault(require("../../models/Antonym"));
+var PartOfSpeech_1 = __importDefault(require("../../models/PartOfSpeech"));
+var Phrase_1 = __importDefault(require("../../models/Phrase"));
+var Synonym_1 = __importDefault(require("../../models/Synonym"));
+var Word_1 = __importDefault(require("../../models/Word"));
 var router = express_1.default.Router();
 exports.getWordsRouter = router;
 router.get("/api/words", function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var words, error_1;
     return __generator(this, function (_a) {
-        try {
-            res.status(200).send({ words: [] });
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4, Word_1.default.findAll({
+                        include: [
+                            {
+                                model: Phrase_1.default,
+                                as: "phrases",
+                            },
+                            {
+                                model: PartOfSpeech_1.default,
+                                as: "part_of_speech",
+                            },
+                            {
+                                model: Synonym_1.default,
+                                as: "synonyms",
+                            },
+                            {
+                                model: Antonym_1.default,
+                                as: "antonyms",
+                            },
+                        ],
+                    })];
+            case 1:
+                words = _a.sent();
+                res.status(200).send({ words: words });
+                return [3, 3];
+            case 2:
+                error_1 = _a.sent();
+                console.log(error_1);
+                next();
+                return [3, 3];
+            case 3: return [2];
         }
-        catch (error) {
-            next(error);
-        }
-        return [2];
     });
 }); });
 //# sourceMappingURL=get.js.map

@@ -1,9 +1,8 @@
-import * as cors from "cors";
-import * as bodyParser from "express";
-import * as express from "express";
-import * as fs from "fs";
-import * as logger from "morgan";
-import { Sequelize } from "sequelize";
+import cors from "cors";
+import { default as bodyParser, default as express } from "express";
+import fs from "fs";
+import logger from "morgan";
+import db from "./config/db";
 import { getWordsRouter } from "./routes/vocabulary/get";
 
 const app = express();
@@ -18,14 +17,8 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(cors());
 
-const sequelize = new Sequelize("uyw-db", "katerynarodina", "kariedb", {
-  host: "localhost",
-  dialect: "postgres",
-});
-
 // db health check
-sequelize
-  .authenticate()
+db.authenticate()
   .then(() => console.log("Database is connected..."))
   .catch((err) => console.log(err));
 
