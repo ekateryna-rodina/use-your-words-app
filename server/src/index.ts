@@ -4,6 +4,7 @@ import fs from "fs";
 import logger from "morgan";
 import db from "./config/db";
 import { getWordsRouter } from "./routes/vocabulary/get";
+import { getWordsApiRouter } from "./routes/wordsApi/get";
 
 const app = express();
 const port = 8080;
@@ -23,6 +24,7 @@ db.authenticate()
   .catch((err) => console.log(err));
 
 app.use(getWordsRouter);
+app.use(getWordsApiRouter);
 
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);

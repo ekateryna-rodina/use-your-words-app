@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Word } from "../../types/Word";
+import request from "../../utils/request";
 import { FileUploader } from "../FileUploader";
 import { SelectField } from "../SelectField";
 import { TextArea } from "../TextArea";
@@ -12,7 +13,7 @@ function AddNewWord() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
   const validate = Yup.object({
-    word: Yup.string().required().min(3, "Must be 5 characters or more"),
+    word: Yup.string().required().min(3, "Must be 3 characters or more"),
     meaning: Yup.string().required().min(5, "Must be 5 characters or more"),
     fileUrl: Yup.string().required().min(5, "Must be 5 characters or more"),
     partOfSpeech: Yup.number().required().oneOf([1, 2, 3], "Required"),
@@ -31,18 +32,18 @@ function AddNewWord() {
   };
   const onSaveWordHandler = async (values: Word) => {
     setLoading(true);
-    try {
-      await fetch("http://localhost/words", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    request(`http://localhost/words`, values, "POST")
+      .then((info) => console.log(info))
+      .catch((err) => console.log(err));
+    setLoading(false);
+  };
+  const onAutoFillHandler = async (e: React.FormEvent, word: string) => {
+    e.preventDefault();
+    if (!word) return;
+    setLoading(true);
+    request(`http://localhost:8080/api/wordsApi`, { word })
+      .then((info) => console.log(info))
+      .catch((err) => console.log(err));
     setLoading(false);
   };
   return (
@@ -56,6 +57,9 @@ function AddNewWord() {
           Create New Word
           <Form>
             <TextField label="Enter word" name="word" />
+            <button onClick={(e) => onAutoFillHandler(e, formik.values.word)}>
+              Autofill
+            </button>
             <TextField label="Enter meaning" name="meaning" />
             <div>
               <TextField label="Enter mp3 url" name="fileUrl" />
