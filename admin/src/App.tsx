@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Layout from "./components/Layout";
+import { Layout } from "./components/Layout";
 import Challenges from "./containers/Challenges";
 import Dashboard from "./containers/Dashboard";
 import Vocabulary from "./containers/Vocabulary";
