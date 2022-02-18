@@ -2,12 +2,15 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Word } from "../../types/Word";
+import { FileUploader } from "../FileUploader";
 import { SelectField } from "../SelectField";
 import { TextArea } from "../TextArea";
 import { TextField } from "../TextField";
 
 function AddNewWord() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<boolean>(false);
   const validate = Yup.object({
     word: Yup.string().required().min(3, "Must be 5 characters or more"),
     meaning: Yup.string().required().min(5, "Must be 5 characters or more"),
@@ -51,10 +54,14 @@ function AddNewWord() {
       {(formik) => (
         <div>
           Create New Word
-          {console.log(formik.values)}
           <Form>
             <TextField label="Enter word" name="word" />
             <TextField label="Enter meaning" name="meaning" />
+            <div>
+              <TextField label="Enter mp3 url" name="fileUrl" />
+              or
+              <FileUploader file={file} setFile={setFile} error={error} />
+            </div>
             <SelectField label="Select part of speech" name="partOfSpeech" />
             <TextArea
               name="phrases"
