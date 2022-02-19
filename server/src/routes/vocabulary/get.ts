@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import ApiError from "../../error/validationError";
 import Antonym from "../../models/Antonym";
 import PartOfSpeech from "../../models/PartOfSpeech";
 import Phrase from "../../models/Phrase";
@@ -32,8 +33,7 @@ router.get(
       });
       res.status(200).send({ words });
     } catch (error) {
-      console.log(error);
-      next();
+      next(new ApiError(error.code, error.message));
     }
   }
 );

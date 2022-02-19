@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWordsRouter = void 0;
 var express_1 = __importDefault(require("express"));
+var validationError_1 = __importDefault(require("../../error/validationError"));
 var Antonym_1 = __importDefault(require("../../models/Antonym"));
 var PartOfSpeech_1 = __importDefault(require("../../models/PartOfSpeech"));
 var Phrase_1 = __importDefault(require("../../models/Phrase"));
@@ -80,8 +81,7 @@ router.get("/api/words", function (req, res, next) { return __awaiter(void 0, vo
                 return [3, 3];
             case 2:
                 error_1 = _a.sent();
-                console.log(error_1);
-                next();
+                next(new validationError_1.default(error_1.code, error_1.message));
                 return [3, 3];
             case 3: return [2];
         }
