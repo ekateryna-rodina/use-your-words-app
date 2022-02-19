@@ -15,6 +15,7 @@ app.use(
   })
 );
 app.use(logger("dev"));
+require("dotenv").config();
 app.use(bodyParser.json());
 app.use(cors());
 

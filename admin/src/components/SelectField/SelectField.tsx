@@ -10,7 +10,7 @@ const SelectField = ({ label, ...props }: SelectFieldProps) => {
   return (
     <div>
       <label htmlFor={field.name}>{label}</label>
-      <select {...field} {...props}>
+      <select {...field} {...props} multiple>
         <option value={1}>verb</option>
         <option value={2}>noun</option>
         <option value={3}>adjec</option>

@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { fetchWordDictionary } from "../../services/wordsApi.service";
+import fetchWordInfo from "../../controllers/wordsApi.controller";
 const router = express.Router();
 
 router.get(
@@ -7,8 +7,8 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     const { word } = req.query as { word: string };
     try {
-      const data = await fetchWordDictionary(word);
-      res.status(200).send({ wordInfo: data[0] });
+      const wordInfo = await fetchWordInfo(word);
+      res.status(200).send({ wordInfo });
     } catch (error) {
       console.log(error);
       res.send(500);

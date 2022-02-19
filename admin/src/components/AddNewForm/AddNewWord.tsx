@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Word } from "../../types/Word";
 import request from "../../utils/request";
@@ -12,24 +12,26 @@ function AddNewWord() {
   const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
+  const [initialValues, setInitialValues] = useState<Word>({
+    word: "",
+    meaning: "",
+    fileUrl: "",
+    partOfSpeech: [],
+    phrases: "",
+    synonyms: "",
+    antonyms: "",
+  });
   const validate = Yup.object({
     word: Yup.string().required().min(3, "Must be 3 characters or more"),
     meaning: Yup.string().required().min(5, "Must be 5 characters or more"),
     fileUrl: Yup.string().required().min(5, "Must be 5 characters or more"),
-    partOfSpeech: Yup.number().required().oneOf([1, 2, 3], "Required"),
+    partOfSpeech: Yup.array().of(Yup.mixed().oneOf(["1", "2", "3"])),
     phrases: Yup.string().required().min(10, "Must be 10 characters or more"),
     synonyms: Yup.string().required().min(3, "Must be 3 characters or more"),
     antonyms: Yup.string().required().min(3, "Must be 3 characters or more"),
   });
-  const initialValues = {
-    word: "",
-    meaning: "",
-    fileUrl: "",
-    partOfSpeech: 0,
-    phrases: "",
-    synonyms: "",
-    antonyms: "",
-  };
+
   const onSaveWordHandler = async (values: Word) => {
     setLoading(true);
     request(`http://localhost/words`, values, "POST")
@@ -42,12 +44,23 @@ function AddNewWord() {
     if (!word) return;
     setLoading(true);
     request(`http://localhost:8080/api/wordsApi`, { word })
-      .then((info) => console.log(info))
+      .then((response) => setAutofill(response.wordInfo))
       .catch((err) => console.log(err));
     setLoading(false);
   };
+  useEffect(() => {
+    console.log("hjere");
+    if (!autofill || !Object.keys(autofill).length) return;
+    setInitialValues({ ...initialValues, ...autofill });
+    // eslint-disable-next-line
+  }, [autofill]);
+  useEffect(() => {
+    console.log(initialValues);
+    console.log("initial values changes");
+  }, [initialValues]);
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={initialValues}
       validationSchema={validate}
       onSubmit={(values) => onSaveWordHandler(values)}
@@ -55,12 +68,13 @@ function AddNewWord() {
       {(formik) => (
         <div>
           Create New Word
+          {console.log(formik)}
           <Form>
             <TextField label="Enter word" name="word" />
             <button onClick={(e) => onAutoFillHandler(e, formik.values.word)}>
               Autofill
             </button>
-            <TextField label="Enter meaning" name="meaning" />
+            <TextArea label="Enter meaning" name="meaning" />
             <div>
               <TextField label="Enter mp3 url" name="fileUrl" />
               or

@@ -16,6 +16,7 @@ app.use((0, morgan_1.default)("common", {
     stream: fs_1.default.createWriteStream("./access.log", { flags: "a" }),
 }));
 app.use((0, morgan_1.default)("dev"));
+require("dotenv").config();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 db_1.default.authenticate()

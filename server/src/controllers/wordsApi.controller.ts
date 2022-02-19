@@ -1,0 +1,47 @@
+import { fetchInfo } from "../services/wordsApi.service";
+import { Word } from "../types/Word";
+
+const mapToWord = (obj) => {
+  const result: Partial<Word> = {};
+  result.word = obj.word;
+  result.partOfSpeech = obj.meanings.map((m) => m.partOfSpeech).join("|");
+  result.meaning = [
+    ...obj.meanings.map((m) =>
+      [...m.definitions.map((d) => d.definition)].join("|")
+    ),
+  ].join("|");
+  result.fileUrl = obj.phonetics.filter((p) => "audio" in p)[0]?.audio ?? "";
+  const phrases = [
+    ...Object.values(obj.collocations).map((c: { examples: [] }) =>
+      [...c.examples].join("|")
+    ),
+  ].join("|");
+  const formattedCollections = phrases
+    .replace(/ \<b>/g, " ")
+    .replace(/<\/b>/g, "")
+    .replace(/ \./g, ".")
+    .replace(/ \,/g, ",");
+
+  result.phrases = formattedCollections;
+
+  const synonyms = Array.from(
+    new Set(obj.synonymsAntonyms?.meta.syns.map((s) => s).flat())
+  ).join("|");
+
+  const antonyms = Array.from(
+    new Set(obj.synonymsAntonyms?.meta.ants.map((s) => s).flat())
+  ).join("|");
+  result.synonyms = synonyms;
+  result.antonyms = antonyms;
+  console.log(result);
+  return result;
+};
+export default async function fetchWordInfo(word: string) {
+  try {
+    const data = await fetchInfo(word);
+    const wordInfo: Partial<Word> = mapToWord(data);
+    return wordInfo;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
