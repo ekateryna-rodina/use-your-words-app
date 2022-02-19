@@ -4,7 +4,7 @@ import { Word } from "../types/Word";
 const mapToWord = (obj) => {
   const result: Partial<Word> = {};
   result.word = obj.word;
-  result.partOfSpeech = obj.meanings.map((m) => m.partOfSpeech).join("|");
+  result.partOfSpeech = obj.meanings.map((m) => m.partOfSpeech);
   result.meaning = [
     ...obj.meanings.map((m) =>
       [...m.definitions.map((d) => d.definition)].join("|")
@@ -20,7 +20,9 @@ const mapToWord = (obj) => {
     .replace(/ \<b>/g, " ")
     .replace(/<\/b>/g, "")
     .replace(/ \./g, ".")
-    .replace(/ \,/g, ",");
+    .replace(/ \,/g, ",")
+    .replace(/ \?/g, "?")
+    .replace(/ \!/g, "!");
 
   result.phrases = formattedCollections;
 
