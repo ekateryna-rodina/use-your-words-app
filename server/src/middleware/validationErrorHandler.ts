@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import ValidationError from "../error/validationError";
+import ValidationError from "../error/apiError";
 
 function apiErrorHandler(
   err: Error,

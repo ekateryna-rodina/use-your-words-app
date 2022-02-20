@@ -4,19 +4,21 @@ const request = (url: string, params = {}, method: Method = "GET") => {
     method: Method;
     body: string | undefined;
     headers: { Accept: string; "Content-Type": string } | undefined;
+    mode: RequestMode | undefined;
   } = {
     method,
     body: undefined,
-    headers: undefined,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
   };
-  if ("GET" === method) {
+  console.log("here");
+  if (method === "GET") {
     url += "?" + new URLSearchParams(params).toString();
   } else {
     options.body = JSON.stringify(params);
-    options.headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
   }
 
   return fetch(url, options).then((response) => response.json());

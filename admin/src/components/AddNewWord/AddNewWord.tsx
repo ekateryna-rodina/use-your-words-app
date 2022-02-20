@@ -36,7 +36,7 @@ function AddNewWord() {
 
   const onSaveWordHandler = async (values: Word) => {
     setLoading(true);
-    request(`http://localhost/words`, values, "POST")
+    request(`http://localhost:8080/api/words`, values, "POST")
       .then((info) => console.log(info))
       .catch((err) => console.log(err));
     setLoading(false);
@@ -51,15 +51,10 @@ function AddNewWord() {
     setLoading(false);
   };
   useEffect(() => {
-    console.log("hjere");
     if (!autofill || !Object.keys(autofill).length) return;
     setInitialValues({ ...initialValues, ...autofill });
     // eslint-disable-next-line
   }, [autofill]);
-  useEffect(() => {
-    console.log(initialValues);
-    console.log("initial values changes");
-  }, [initialValues]);
   return (
     <Formik
       enableReinitialize={true}
@@ -70,7 +65,6 @@ function AddNewWord() {
       {(formik) => (
         <div>
           Create New Word
-          {console.log(formik)}
           <Form>
             <TextField label="Enter word" name="word" />
             <button onClick={(e) => onAutoFillHandler(e, formik.values.word)}>

@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { saveWord } from "../../controllers/words.controller";
-import ApiError from "../../error/validationError";
+import ApiError from "../../error/apiError";
 import validate from "../../middleware/validate";
 import validateWord from "../../schema/word";
 const router = express.Router();

@@ -11,7 +11,6 @@ import { getWordsApiRouter } from "./routes/wordsApi/get";
 import { runSeed } from "./seeders/init";
 
 const app = express();
-dotenv.config();
 
 const port = process.env.PORT || 8080;
 const corsOptions = {
@@ -27,6 +26,7 @@ app.use(
 );
 app.use(logger("dev"));
 app.use(bodyParser.json());
+dotenv.config();
 
 app.use(getWordsRouter);
 app.use(postWordsRouter);

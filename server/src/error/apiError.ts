@@ -8,6 +8,9 @@ class ApiError {
   static BadRequest(msg: string): ApiError {
     return new ApiError(400, msg);
   }
+  static WordApiEntryRequest(msg: string): ApiError {
+    return new ApiError(404, msg);
+  }
 }
 
 export default ApiError;

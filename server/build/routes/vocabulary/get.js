@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWordsRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const words_controller_1 = require("../../controllers/words.controller");
-const validationError_1 = __importDefault(require("../../error/validationError"));
+const apiError_1 = __importDefault(require("../../error/apiError"));
 const router = express_1.default.Router();
 exports.getWordsRouter = router;
 router.get("/api/words", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,7 +24,7 @@ router.get("/api/words", (req, res, next) => __awaiter(void 0, void 0, void 0, f
         res.status(200).send({ words });
     }
     catch (error) {
-        next(new validationError_1.default(error.code, error.message));
+        next(new apiError_1.default(error.code, error.message));
     }
 }));
 //# sourceMappingURL=get.js.map

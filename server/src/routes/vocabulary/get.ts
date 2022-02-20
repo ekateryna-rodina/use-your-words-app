@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { getAllWords } from "../../controllers/words.controller";
-import ApiError from "../../error/validationError";
+import ApiError from "../../error/apiError";
 const router = express.Router();
 
 router.get(

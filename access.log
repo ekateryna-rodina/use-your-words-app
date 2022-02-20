@@ -1,0 +1,7 @@
+::1 - - [20/Feb/2022:01:22:14 +0000] "GET /api/wordsApi?word=gratuitos HTTP/1.1" 500 21
+::1 - - [20/Feb/2022:01:24:57 +0000] "GET /api/wordsApi?word=gratuitos HTTP/1.1" 500 21
+::1 - - [20/Feb/2022:01:26:03 +0000] "GET /api/wordsApi?word=gratuitos HTTP/1.1" 500 21
+::1 - - [20/Feb/2022:02:26:03 +0000] "POST /api/words HTTP/1.1" 200 2
+::1 - - [20/Feb/2022:02:26:04 +0000] "POST /api/words HTTP/1.1" 200 2
+::1 - - [20/Feb/2022:02:29:51 +0000] "POST /api/words HTTP/1.1" 200 2
+::1 - - [20/Feb/2022:02:33:34 +0000] "POST /api/words HTTP/1.1" 200 2

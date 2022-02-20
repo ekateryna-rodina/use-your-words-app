@@ -10,16 +10,18 @@ export async function getAllWords() {
   }
 }
 export async function saveWord(word: Word) {
-  const { synonyms, antonyms, phrases, partOfSpeech, ...rest } = word;
+  const { synonyms, antonyms, phrases, meaning, partOfSpeech, ...rest } = word;
   try {
     const wordInfo = { ...rest };
     console.log(word);
+    console.log(wordInfo, "info");
     const newWord = await postWord({
       wordInfo,
       partOfSpeech,
-      synonyms,
-      antonyms,
-      phrases,
+      synonyms: synonyms.split("|"),
+      antonyms: antonyms.split("|"),
+      phrases: phrases.split("|"),
+      meanings: meaning.split("|"),
     });
     return newWord;
   } catch (error) {

@@ -43,6 +43,6 @@ function restInfo() {
 export function runSeed() {
   //   createWords();
   //   createPartOfSpeech();
-  createWordPartOfSpeech();
-  restInfo();
+  // createWordPartOfSpeech();
+  // restInfo();
 }

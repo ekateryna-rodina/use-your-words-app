@@ -15,7 +15,6 @@ const post_1 = require("./routes/vocabulary/post");
 const get_2 = require("./routes/wordsApi/get");
 const init_1 = require("./seeders/init");
 const app = (0, express_1.default)();
-dotenv_1.default.config();
 const port = process.env.PORT || 8080;
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -28,6 +27,7 @@ app.use((0, morgan_1.default)("common", {
 }));
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
+dotenv_1.default.config();
 app.use(get_1.getWordsRouter);
 app.use(post_1.postWordsRouter);
 app.use(get_2.getWordsApiRouter);
