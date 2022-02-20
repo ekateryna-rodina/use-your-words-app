@@ -13,6 +13,7 @@ export async function saveWord(word: Word) {
   const { synonyms, antonyms, phrases, partOfSpeech, ...rest } = word;
   try {
     const wordInfo = { ...rest };
+    console.log(word);
     const newWord = await postWord({
       wordInfo,
       partOfSpeech,

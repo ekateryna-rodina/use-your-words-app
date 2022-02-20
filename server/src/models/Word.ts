@@ -1,5 +1,5 @@
 "use strict";
-import { Model, UUIDV4, UUID } from "sequelize";
+import { Model } from "sequelize";
 
 interface WordAttributes {
   id: string;
