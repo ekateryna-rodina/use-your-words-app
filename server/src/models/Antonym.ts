@@ -1,24 +1,36 @@
-import * as Sequelize from "sequelize";
-import db from "../config/db";
-
-const Antonym = db.define(
-  "antonyms",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+"use strict";
+import { Model } from "sequelize";
+interface AntonymAttributes {
+  id: string;
+  antonym: string;
+}
+module.exports = (sequelize: any, DataTypes: any) => {
+  class Antonym extends Model<AntonymAttributes> implements AntonymAttributes {
+    id!: string;
+    antonym!: string;
+    static associate(models: any) {
+      Antonym.belongsTo(models.Word, {
+        foreignKey: "wordId",
+        onDelete: "CASCADE",
+      });
+    }
+  }
+  Antonym.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      antonym: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    antonym: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
-    wordId: {
-      type: Sequelize.INTEGER,
-      field: "word_id",
-    },
-  },
-  { schema: "vocabulary", timestamps: false }
-);
-
-export default Antonym;
+    {
+      sequelize,
+      modelName: "Antonym",
+    }
+  );
+  return Antonym;
+};

@@ -1,24 +1,36 @@
-import * as Sequelize from "sequelize";
-import db from "../config/db";
-
-const Synonym = db.define(
-  "synonyms",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+"use strict";
+import { Model } from "sequelize";
+interface SynonymAttributes {
+  id: string;
+  synonym: string;
+}
+module.exports = (sequelize: any, DataTypes: any) => {
+  class Synonym extends Model<SynonymAttributes> implements SynonymAttributes {
+    id!: string;
+    synonym!: string;
+    static associate(models: any) {
+      Synonym.belongsTo(models.Word, {
+        foreignKey: "wordId",
+        onDelete: "CASCADE",
+      });
+    }
+  }
+  Synonym.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      synonym: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    synonym: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
-    wordId: {
-      type: Sequelize.INTEGER,
-      field: "word_id",
-    },
-  },
-  { schema: "vocabulary", timestamps: false }
-);
-
-export default Synonym;
+    {
+      sequelize,
+      modelName: "Synonym",
+    }
+  );
+  return Synonym;
+};

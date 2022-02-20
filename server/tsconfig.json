@@ -3,10 +3,11 @@
     "module": "commonjs",
     "removeComments": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "outDir": "build",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowJs": true
   },
-  "include": ["src/*.ts", "src/**/*.ts"],
+  "include": ["src/*.ts", "src/**/*.ts", "src/**/*.js"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

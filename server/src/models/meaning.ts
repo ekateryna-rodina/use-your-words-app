@@ -1,28 +1,28 @@
 "use strict";
 import { Model } from "sequelize";
-interface PhraseAttributes {
+interface MeaningAttributes {
   id: string;
-  phrase: string;
+  meaning: string;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Phrase extends Model<PhraseAttributes> implements PhraseAttributes {
+  class Meaning extends Model<MeaningAttributes> implements MeaningAttributes {
     id!: string;
-    phrase!: string;
+    meaning!: string;
     static associate(models: any) {
-      Phrase.belongsTo(models.Word, {
+      Meaning.belongsTo(models.Word, {
         foreignKey: "wordId",
         onDelete: "CASCADE",
       });
     }
   }
-  Phrase.init(
+  Meaning.init(
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      phrase: {
+      meaning: {
         type: DataTypes.STRING,
         validate: { len: [5, 255] },
         allowNull: false,
@@ -30,8 +30,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "Phrase",
+      modelName: "Meaning",
     }
   );
-  return Phrase;
+  return Meaning;
 };

@@ -3,14 +3,17 @@ import dotenv from "dotenv";
 import { default as bodyParser, default as express } from "express";
 import fs from "fs";
 import logger from "morgan";
-import db from "./config/db";
 import apiErrorHandler from "./middleware/validationErrorHandler";
+import db from "./models";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
 import { getWordsApiRouter } from "./routes/wordsApi/get";
+import { runSeed } from "./seeders/init";
 
 const app = express();
-const port = 8080;
+dotenv.config();
+
+const port = process.env.PORT || 8080;
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
@@ -23,13 +26,7 @@ app.use(
   })
 );
 app.use(logger("dev"));
-dotenv.config();
 app.use(bodyParser.json());
-
-// db health check
-db.authenticate()
-  .then(() => console.log("Database is connected..."))
-  .catch((err) => console.log(err));
 
 app.use(getWordsRouter);
 app.use(postWordsRouter);
@@ -38,6 +35,10 @@ app.use(getWordsApiRouter);
 // middleware
 app.use(apiErrorHandler);
 
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
+// seed
+runSeed();
+db.sequelize.sync().then(() => {
+  app.listen(port, () => {
+    console.log(`server started at http://localhost:${port}`);
+  });
 });

@@ -1,43 +1,29 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Sequelize = __importStar(require("sequelize"));
-var db_1 = __importDefault(require("../config/db"));
-var Antonym = db_1.default.define("antonyms", {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    antonym: {
-        type: Sequelize.STRING,
-        unique: true,
-    },
-    wordId: {
-        type: Sequelize.INTEGER,
-        field: "word_id",
-    },
-}, { schema: "vocabulary", timestamps: false });
-exports.default = Antonym;
-//# sourceMappingURL=Antonym.js.map
+const sequelize_1 = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+    class Antonym extends sequelize_1.Model {
+        static associate(models) {
+            Antonym.belongsTo(models.Word, {
+                foreignKey: "wordId",
+                onDelete: "CASCADE",
+            });
+        }
+    }
+    Antonym.init({
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        },
+        antonym: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    }, {
+        sequelize,
+        modelName: "Antonym",
+    });
+    return Antonym;
+};
+//# sourceMappingURL=antonym.js.map

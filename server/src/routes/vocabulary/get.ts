@@ -1,36 +1,13 @@
 import express, { NextFunction, Request, Response } from "express";
+import { getAllWords } from "../../controllers/words.controller";
 import ApiError from "../../error/validationError";
-import Antonym from "../../models/Antonym";
-import PartOfSpeech from "../../models/PartOfSpeech";
-import Phrase from "../../models/Phrase";
-import Synonym from "../../models/Synonym";
-import Word from "../../models/Word";
 const router = express.Router();
 
 router.get(
   "/api/words",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const words = await Word.findAll({
-        include: [
-          {
-            model: Phrase,
-            as: "phrases",
-          },
-          {
-            model: PartOfSpeech,
-            as: "part_of_speech",
-          },
-          {
-            model: Synonym,
-            as: "synonyms",
-          },
-          {
-            model: Antonym,
-            as: "antonyms",
-          },
-        ],
-      });
+      const words = await getAllWords();
       res.status(200).send({ words });
     } catch (error) {
       next(new ApiError(error.code, error.message));

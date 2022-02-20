@@ -1,20 +1,39 @@
-import * as Sequelize from "sequelize";
-import db from "../config/db";
-
-const PartOfSpeech = db.define(
-  "parts_of_speech",
+"use strict";
+import { Model } from "sequelize";
+interface PartOfSpeechAttributes {
+  id: string;
+  part: string;
+}
+module.exports = (sequelize: any, DataTypes: any) => {
+  class PartOfSpeech
+    extends Model<PartOfSpeechAttributes>
+    implements PartOfSpeechAttributes
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+    id!: string;
+    part!: string;
+    static associate(models: any) {
+      PartOfSpeech.belongsToMany(models.Word, {
+        through: "WordPartOfSpeech",
+      });
+    }
+  }
+  PartOfSpeech.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      part: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
     },
-    part: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
-  },
-  { schema: "vocabulary", timestamps: false, freezeTableName: true }
-);
-
-export default PartOfSpeech;
+    {
+      sequelize,
+      modelName: "PartOfSpeech",
+    }
+  );
+  return PartOfSpeech;
+};
