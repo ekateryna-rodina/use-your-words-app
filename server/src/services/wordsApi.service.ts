@@ -9,7 +9,6 @@ export async function fetchInfo(word: string) {
   const endpointCollocations =
     "https://linguatools-english-collocations.p.rapidapi.com/bolls/";
   const endpointSynonymsAntonyms = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${process.env.MERRIAM_WEBSTER_THESAURUS}`;
-  console.log("key", process.env.RAPID_API_KEY);
   try {
     const dictionaryPromise = axios(endpointDictionary);
     const collocationsPromise = axios(endpointCollocations, {

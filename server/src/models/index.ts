@@ -20,7 +20,7 @@ if (config.use_env_variable) {
     config
   );
 }
-console.log(__dirname);
+
 fs.readdirSync(__dirname)
   .filter((file: string): boolean => {
     return (

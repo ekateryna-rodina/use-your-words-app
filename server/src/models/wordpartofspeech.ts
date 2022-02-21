@@ -11,9 +11,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
   {
     PartOfSpeechId!: string;
     WordId!: string;
-    static associate(models: any) {
-      console.log(models);
-    }
   }
   WordPartOfSpeech.init(
     {
@@ -22,7 +19,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "PartOfSpeeches",
+          model: "PartOfSpeech",
           key: "id",
         },
       },
@@ -31,7 +28,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "Words",
+          model: "Word",
           key: "id",
         },
       },
