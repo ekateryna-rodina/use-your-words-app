@@ -1,26 +1,30 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Word } from "../../types/Word";
+import { Word, WordOutput } from "../../types/Word";
 import request from "../../utils/request";
 import { FileUploader } from "../FileUploader";
 import { SelectField } from "../SelectField";
 import { TextArea } from "../TextArea";
 import { TextField } from "../TextField";
 
-function AddNewWord() {
+type AddNewWordProps = {
+  word?: WordOutput;
+};
+function AddNewWord({ word }: AddNewWordProps) {
+  const [editWord, setEditWord] = useState<WordOutput | undefined>(word);
   const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
   const [initialValues, setInitialValues] = useState<Word>({
-    word: "",
-    meaning: "",
-    fileUrl: "",
-    partOfSpeech: [],
-    phrases: "",
-    synonyms: "",
-    antonyms: "",
+    word: editWord ? editWord.word : "",
+    meaning: editWord ? editWord.meaning : "",
+    fileUrl: editWord ? editWord.fileUrl : "",
+    partOfSpeech: editWord ? editWord.partOfSpeech.split("|") : [],
+    phrases: editWord ? editWord.phrases : "",
+    synonyms: editWord ? editWord.synonyms : "",
+    antonyms: editWord ? editWord.antonyms : "",
   });
   const validate = Yup.object({
     word: Yup.string().required().min(3, "Must be 3 characters or more"),
