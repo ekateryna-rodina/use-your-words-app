@@ -8,26 +8,36 @@ import request from "../utils/request";
 
 const Vocabulary = () => {
   const [words, setWords] = useState<WordOutput[] | null>(null);
-  const [showAddNewDialog, setShowAddNewDialog] = useState<boolean>(false);
-
+  const [modal, setModal] = useState<{
+    show: boolean;
+    action: "add" | "edit";
+    word?: WordOutput;
+  }>({ show: false, action: "add" });
+  const [getUrl, deleteUrl] = [
+    "http://localhost:8080/api/words",
+    "http://localhost:8080/api/words",
+  ];
   useEffect(() => {
     const fetchVocabulary = async () => {
-      const response = await fetch("http://localhost:8080/api/words");
+      const response = await fetch(getUrl);
       const { words } = await response.json();
       setWords(words);
     };
     fetchVocabulary().catch((err) => console.log(err));
+    // eslint-disable-next-line
   }, []);
 
   const onDeleteHanlder = (id: string) => {
-    request(`http://localhost:8080/api/words`, { id }, "DELETE")
+    request(deleteUrl, { id }, "DELETE")
       .then((response) => console.log("success delete"))
       .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      <button onClick={() => setShowAddNewDialog(true)}>Add New</button>
+      <button onClick={() => setModal({ show: true, action: "add" })}>
+        Add New
+      </button>
       {!words ? (
         <span>no words</span>
       ) : (
@@ -57,7 +67,11 @@ const Vocabulary = () => {
                 <td>{w.synonyms}</td>
                 <td>{w.antonyms}</td>
                 <td>
-                  <button>
+                  <button
+                    onClick={() =>
+                      setModal({ show: true, action: "edit", word: w })
+                    }
+                  >
                     <EditIcon />
                   </button>
                   <button onClick={() => onDeleteHanlder(w.id)}>
@@ -74,10 +88,11 @@ const Vocabulary = () => {
           position: "absolute",
           background: "white",
           inset: "0",
-          opacity: showAddNewDialog ? 1 : 0,
-          pointerEvents: showAddNewDialog ? "auto" : "none",
+          opacity: modal.show ? 1 : 0,
+          pointerEvents: modal.show ? "auto" : "none",
         }}
       >
+        {}
         <AddNewWord />
       </div>
     </div>
