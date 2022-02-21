@@ -1,17 +1,14 @@
 import ApiError from "../error/apiError";
 import db from "../models";
+import { mapToWords } from "../utils/mapToObject";
 import { executeTransaction } from "./wordsApi.transaction";
 
 const getWords = async () => {
   try {
-    const words = await db.Word.findAll();
-    // const phrases = await db.Phrase.findAll({
-    //   include: db.Word,
-    // });
-    const all = await db.Word.findAll({
+    const result = await db.Word.findAll({
       include: [db.Phrase, db.Meaning, db.Synonym, db.Antonym, db.PartOfSpeech],
     });
-    console.log(all);
+    const words = mapToWords(result);
     return words;
   } catch (error) {
     console.log(error);
