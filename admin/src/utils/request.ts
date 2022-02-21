@@ -14,8 +14,8 @@ const request = (url: string, params = {}, method: Method = "GET") => {
     },
     mode: "cors",
   };
-  console.log("here");
-  if (method === "GET") {
+
+  if (["GET", "DELETE"].includes(method)) {
     url += "?" + new URLSearchParams(params).toString();
   } else {
     options.body = JSON.stringify(params);

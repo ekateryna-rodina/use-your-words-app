@@ -7,3 +7,5 @@ export type Word = {
   synonyms: string;
   antonyms: string;
 };
+
+export type WordOutput = Word & { id: string; partOfSpeech: string };

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AddNewWord } from "../components/AddNewWord";
-import { Word } from "../types/Word";
+import DeleteIcon from "../components/icons/DeleteIcon";
+import EditIcon from "../components/icons/EditIcon";
+import { PlaySound } from "../components/PlaySound";
+import { WordOutput } from "../types/Word";
+import request from "../utils/request";
 
 const Vocabulary = () => {
-  const [words, setWords] = useState<Word[] | null>(null);
+  const [words, setWords] = useState<WordOutput[] | null>(null);
   const [showAddNewDialog, setShowAddNewDialog] = useState<boolean>(false);
 
   useEffect(() => {
@@ -14,6 +18,12 @@ const Vocabulary = () => {
     };
     fetchVocabulary().catch((err) => console.log(err));
   }, []);
+
+  const onDeleteHanlder = (id: string) => {
+    request(`http://localhost:8080/api/words`, { id }, "DELETE")
+      .then((response) => console.log("success delete"))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div>
@@ -39,12 +49,21 @@ const Vocabulary = () => {
               <tr>
                 <td>{w.word}</td>
                 <td>{w.partOfSpeech}</td>
-                <td>{w.fileUrl}</td>
+                <td>
+                  <PlaySound fileUrl={w.fileUrl} />
+                </td>
                 <td>{w.meaning}</td>
                 <td>{w.phrases}</td>
                 <td>{w.synonyms}</td>
                 <td>{w.antonyms}</td>
-                <td></td>
+                <td>
+                  <button>
+                    <EditIcon />
+                  </button>
+                  <button onClick={() => onDeleteHanlder(w.id)}>
+                    <DeleteIcon />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
