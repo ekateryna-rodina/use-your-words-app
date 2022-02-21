@@ -12,9 +12,9 @@ const EditIcon = () => {
       <path
         d="M17.75 4.375L14.625 1.25L2.125 13.75L0.875 18.125L5.25 16.875L17.75 4.375ZM12.125 3.75L15.25 6.875L12.125 3.75ZM2.125 13.75L5.25 16.875L2.125 13.75Z"
         stroke="black"
-        stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

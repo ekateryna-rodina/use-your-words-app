@@ -35,7 +35,6 @@ const mapToWord = (obj) => {
   ).join("|");
   result.synonyms = synonyms;
   result.antonyms = antonyms;
-  console.log(result);
   return result;
 };
 export default async function fetchWordInfo(word: string) {

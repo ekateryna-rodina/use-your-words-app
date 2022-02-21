@@ -1,6 +1,6 @@
-import { WordOutput } from "../types/Word";
+import { ExistingWord } from "../types/Word";
 
-export function mapToWords(dtos: any[]): WordOutput[] {
+export function mapToWords(dtos: any[]): ExistingWord[] {
   let words = [];
   for (let dto of dtos) {
     const { id, word, fileUrl, createdAt, updatedAt } = dto.dataValues;
@@ -33,5 +33,5 @@ export function mapToWords(dtos: any[]): WordOutput[] {
     };
     words.push(result);
   }
-  return words as WordOutput[];
+  return words as ExistingWord[];
 }

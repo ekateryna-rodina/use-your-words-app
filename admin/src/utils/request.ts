@@ -1,4 +1,4 @@
-type Method = "POST" | "GET" | "UPDATE" | "DELETE";
+type Method = "POST" | "GET" | "PUT" | "DELETE";
 const request = (url: string, params = {}, method: Method = "GET") => {
   let options: {
     method: Method;

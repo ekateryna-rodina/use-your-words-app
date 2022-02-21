@@ -10,9 +10,8 @@ const Vocabulary = () => {
   const [words, setWords] = useState<WordOutput[] | null>(null);
   const [modal, setModal] = useState<{
     show: boolean;
-    action: "add" | "edit";
-    word?: WordOutput;
-  }>({ show: false, action: "add" });
+  }>({ show: false });
+  const [currentWord, setCurrentWord] = useState<WordOutput | undefined>();
   const [getUrl, deleteUrl] = [
     "http://localhost:8080/api/words",
     "http://localhost:8080/api/words",
@@ -27,7 +26,12 @@ const Vocabulary = () => {
     // eslint-disable-next-line
   }, []);
 
-  const onDeleteHanlder = (id: string) => {
+  useEffect(() => {
+    if (!currentWord) return;
+    setModal({ show: true });
+  }, [currentWord]);
+
+  const onDeleteHandler = (id: string) => {
     request(deleteUrl, { id }, "DELETE")
       .then((response) => console.log("success delete"))
       .catch((err) => console.log(err));
@@ -35,9 +39,7 @@ const Vocabulary = () => {
 
   return (
     <div>
-      <button onClick={() => setModal({ show: true, action: "add" })}>
-        Add New
-      </button>
+      <button onClick={() => setModal({ show: true })}>Add New</button>
       {!words ? (
         <span>no words</span>
       ) : (
@@ -56,7 +58,7 @@ const Vocabulary = () => {
           </thead>
           <tbody>
             {words.map((w) => (
-              <tr>
+              <tr key={w.id}>
                 <td>{w.word}</td>
                 <td>{w.partOfSpeech}</td>
                 <td>
@@ -67,14 +69,10 @@ const Vocabulary = () => {
                 <td>{w.synonyms}</td>
                 <td>{w.antonyms}</td>
                 <td>
-                  <button
-                    onClick={() =>
-                      setModal({ show: true, action: "edit", word: w })
-                    }
-                  >
+                  <button onClick={() => setCurrentWord(w)}>
                     <EditIcon />
                   </button>
-                  <button onClick={() => onDeleteHanlder(w.id)}>
+                  <button onClick={() => onDeleteHandler(w.id)}>
                     <DeleteIcon />
                   </button>
                 </td>
@@ -83,18 +81,7 @@ const Vocabulary = () => {
           </tbody>
         </table>
       )}
-      <div
-        style={{
-          position: "absolute",
-          background: "white",
-          inset: "0",
-          opacity: modal.show ? 1 : 0,
-          pointerEvents: modal.show ? "auto" : "none",
-        }}
-      >
-        {}
-        <AddNewWord />
-      </div>
+      {modal.show ? <AddNewWord word={currentWord} /> : <></>}
     </div>
   );
 };

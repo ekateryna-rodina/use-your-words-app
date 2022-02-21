@@ -12,6 +12,7 @@ type AddNewWordProps = {
   word?: WordOutput;
 };
 function AddNewWord({ word }: AddNewWordProps) {
+  console.log(word);
   const [editWord, setEditWord] = useState<WordOutput | undefined>(word);
   const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
@@ -40,9 +41,16 @@ function AddNewWord({ word }: AddNewWordProps) {
 
   const onSaveWordHandler = async (values: Word) => {
     setLoading(true);
-    request(`http://localhost:8080/api/words`, values, "POST")
-      .then((info) => console.log(info))
-      .catch((err) => console.log(err));
+    if (editWord) {
+      request(`http://localhost:8080/api/words`, values, "PUT")
+        .then((info) => console.log(info))
+        .catch((err) => console.log(err));
+    } else {
+      request(`http://localhost:8080/api/words`, values, "POST")
+        .then((info) => console.log(info))
+        .catch((err) => console.log(err));
+    }
+
     setLoading(false);
   };
   const onAutoFillHandler = async (e: React.FormEvent, word: string) => {

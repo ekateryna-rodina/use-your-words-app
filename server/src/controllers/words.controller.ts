@@ -1,5 +1,5 @@
-import { getWords, postWord } from "../services/words.service";
-import { Word } from "../types/Word";
+import { getWords, postWord, putWord } from "../services/words.service";
+import { ExistingWord, Word } from "../types/Word";
 
 export async function getAllWords() {
   try {
@@ -22,6 +22,27 @@ export async function saveWord(word: Word) {
       meanings: meaning.split("|"),
     };
     const newWord = await postWord(wordFullInfo);
+    return newWord;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function updateWord(word: ExistingWord) {
+  const { id, synonyms, antonyms, phrases, meaning, partOfSpeech, ...rest } =
+    word;
+  try {
+    const wordInfo = { ...rest };
+    const wordFullInfo = {
+      id,
+      wordInfo,
+      partOfSpeech,
+      synonyms: synonyms.split("|"),
+      antonyms: antonyms.split("|"),
+      phrases: phrases.split("|"),
+      meanings: meaning.split("|"),
+    };
+    const newWord = await putWord(wordFullInfo);
     return newWord;
   } catch (error) {
     throw new Error(error);

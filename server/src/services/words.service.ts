@@ -26,6 +26,7 @@ type PostWord = {
   phrases: string[];
   meanings: string[];
 };
+type PutWord = PostWord & { id: string };
 const postWord = async (wordFullInfo: PostWord) => {
   try {
     executeTransaction(wordFullInfo);
@@ -34,4 +35,11 @@ const postWord = async (wordFullInfo: PostWord) => {
   }
 };
 
-export { getWords, postWord };
+const putWord = async (wordFullInfo: PutWord) => {
+  try {
+  } catch (error) {
+    return new ApiError(error.code, error.message);
+  }
+};
+
+export { getWords, postWord, putWord };

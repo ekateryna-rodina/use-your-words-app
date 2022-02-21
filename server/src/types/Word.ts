@@ -8,4 +8,4 @@ export type Word = {
   antonyms: string;
 };
 
-export type WordOutput = Word & "id" & { partOfSpeech: string };
+export type ExistingWord = Word & { id: string; partOfSpeech: string };
