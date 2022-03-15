@@ -1,24 +1,22 @@
-import { ErrorMessage, useField } from "formik";
 import React from "react";
 
 type SelectFieldProps = {
   label: string;
   name: string;
   options: string[];
+  validate: any;
 };
-const SelectField = ({ label, ...props }: SelectFieldProps) => {
-  const [field, meta] = useField(props);
+const SelectField = ({ label, validate, name, options }: SelectFieldProps) => {
   return (
     <div>
-      <label htmlFor={field.name}>{label}</label>
-      <select {...field} {...props} multiple>
-        {props.options.map((o) => (
-          <option key={o} {...field} {...props} value={o}>
+      <label htmlFor={name}>{label}</label>
+      <select name={name} multiple {...validate(name)}>
+        {options.map((o) => (
+          <option key={o} value={o}>
             {o}
           </option>
         ))}
       </select>
-      <ErrorMessage name={field.name} />
     </div>
   );
 };

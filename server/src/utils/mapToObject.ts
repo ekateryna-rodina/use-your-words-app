@@ -1,10 +1,10 @@
 import { ExistingWord } from "../types/Word";
 
 export function mapToWords(dtos: any[]): ExistingWord[] {
-  let words = [];
-  for (let dto of dtos) {
+  const words = [];
+  for (const dto of dtos) {
     const { id, word, fileUrl, createdAt, updatedAt } = dto.dataValues;
-    const meaning = dto.dataValues.Meanings.map(
+    const meanings = dto.dataValues.Meanings.map(
       (m: { dataValues: { meaning: string } }) => m.dataValues.meaning
     ).join("|");
     const phrases = dto.dataValues.Phrases.map(
@@ -25,7 +25,7 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
       fileUrl,
       createdAt,
       updatedAt,
-      meaning,
+      meanings,
       phrases,
       synonyms,
       antonyms,

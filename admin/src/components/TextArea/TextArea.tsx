@@ -1,17 +1,14 @@
-import { ErrorMessage, useField } from "formik";
 import React from "react";
 
 type TextAreaProps = {
-  label: string;
+  label?: string;
   name: string;
 };
-const TextArea = ({ label, ...props }: TextAreaProps) => {
-  const [field, meta] = useField(props);
+const TextArea = ({ label, name }: TextAreaProps) => {
   return (
     <div>
-      <label htmlFor={field.name}>{label}</label>
-      <textarea {...field} {...props} autoComplete="off" />
-      <ErrorMessage name={field.name} />
+      {label ? <label htmlFor={name}>{label}</label> : <></>}
+      <textarea name={name} autoComplete="off" />
     </div>
   );
 };

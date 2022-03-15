@@ -1,5 +1,5 @@
 type Method = "POST" | "GET" | "PUT" | "DELETE";
-const request = (url: string, params = {}, method: Method = "GET") => {
+const request = async (url: string, params = {}, method: Method = "GET") => {
   let options: {
     method: Method;
     body: string | undefined;
@@ -21,7 +21,8 @@ const request = (url: string, params = {}, method: Method = "GET") => {
     options.body = JSON.stringify(params);
   }
 
-  return fetch(url, options).then((response) => response.json());
+  const response = await fetch(url, options);
+  return await response.json();
 };
 
 export default request;

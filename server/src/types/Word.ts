@@ -1,11 +1,15 @@
+export type WordData = {
+  id: string;
+  value: string;
+};
 export type Word = {
   word: string;
-  meaning: string;
+  meanings: string[] | WordData[];
   fileUrl: string;
-  partOfSpeech: string[];
-  phrases: string;
-  synonyms: string;
-  antonyms: string;
+  partOfSpeech: string[] | WordData[];
+  phrases: string[] | WordData[];
+  synonyms: string[] | WordData[];
+  antonyms: string[] | WordData[];
 };
 
 export type ExistingWord = Word & { id: string; partOfSpeech: string };

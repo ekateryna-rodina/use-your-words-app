@@ -36,7 +36,10 @@ const postWord = async (wordFullInfo: PostWord) => {
 };
 
 const putWord = async (wordFullInfo: PutWord) => {
+  const id = wordFullInfo.id;
+
   try {
+    console.log(wordFullInfo);
   } catch (error) {
     return new ApiError(error.code, error.message);
   }

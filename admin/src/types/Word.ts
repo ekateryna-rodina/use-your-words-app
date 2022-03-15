@@ -1,11 +1,12 @@
+export type FormValue = { id?: string; value: string };
 export type Word = {
   word: string;
-  meaning: string;
   fileUrl: string;
-  partOfSpeech: string | number | string[]; // TODO: deduct to one
-  phrases: string;
-  synonyms: string;
-  antonyms: string;
+  meanings: string[] | FormValue[];
+  partOfSpeech: string[] | FormValue[];
+  phrases: string[] | FormValue[];
+  synonyms: string[] | FormValue[];
+  antonyms: string[] | FormValue[];
 };
 
-export type WordOutput = Word & { id: string; partOfSpeech: string };
+export type WordWithId = Word & { id: string };

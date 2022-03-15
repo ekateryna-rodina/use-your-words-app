@@ -1,4 +1,4 @@
-import { getWords, postWord, putWord } from "../services/words.service";
+import { getWords } from "../services/words.service";
 import { ExistingWord, Word } from "../types/Word";
 
 export async function getAllWords() {
@@ -10,40 +10,41 @@ export async function getAllWords() {
   }
 }
 export async function saveWord(word: Word) {
-  const { synonyms, antonyms, phrases, meaning, partOfSpeech, ...rest } = word;
+  const { synonyms, antonyms, phrases, meanings, partOfSpeech, ...rest } = word;
   try {
     const wordInfo = { ...rest };
-    const wordFullInfo = {
-      wordInfo,
-      partOfSpeech,
-      synonyms: synonyms.split("|"),
-      antonyms: antonyms.split("|"),
-      phrases: phrases.split("|"),
-      meanings: meaning.split("|"),
-    };
-    const newWord = await postWord(wordFullInfo);
-    return newWord;
+    // const wordFullInfo = {
+    //   wordInfo,
+    //   partOfSpeech,
+    //   synonyms: synonyms.split("|"),
+    //   antonyms: antonyms.split("|"),
+    //   phrases: phrases.split("|"),
+    //   meanings: meaning.split("|"),
+    // };
+    // const newWord = await postWord(wordFullInfo);
+    return {};
   } catch (error) {
     throw new Error(error);
   }
 }
 
 export async function updateWord(word: ExistingWord) {
-  const { id, synonyms, antonyms, phrases, meaning, partOfSpeech, ...rest } =
+  const { id, synonyms, antonyms, phrases, meanings, partOfSpeech, ...rest } =
     word;
   try {
     const wordInfo = { ...rest };
-    const wordFullInfo = {
-      id,
-      wordInfo,
-      partOfSpeech,
-      synonyms: synonyms.split("|"),
-      antonyms: antonyms.split("|"),
-      phrases: phrases.split("|"),
-      meanings: meaning.split("|"),
-    };
-    const newWord = await putWord(wordFullInfo);
-    return newWord;
+    // const wordFullInfo = {
+    //   id,
+    //   wordInfo,
+    //   partOfSpeech,
+    //   synonyms: synonyms.split("|"),
+    //   antonyms: antonyms.split("|"),
+    //   phrases: phrases.split("|"),
+    //   meanings: meaning.split("|"),
+    // };
+    // const newWord = await putWord(wordFullInfo);
+    // return newWord;
+    return {};
   } catch (error) {
     throw new Error(error);
   }

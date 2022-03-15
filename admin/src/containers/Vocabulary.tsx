@@ -3,15 +3,15 @@ import { AddNewWord } from "../components/AddNewWord";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
-import { WordOutput } from "../types/Word";
+import { WordWithId } from "../types/Word";
 import request from "../utils/request";
 
 const Vocabulary = () => {
-  const [words, setWords] = useState<WordOutput[] | null>(null);
+  const [words, setWords] = useState<WordWithId[] | null>(null);
   const [modal, setModal] = useState<{
     show: boolean;
   }>({ show: false });
-  const [currentWord, setCurrentWord] = useState<WordOutput | undefined>();
+  const [currentWord, setCurrentWord] = useState<WordWithId | undefined>();
   const [getUrl, deleteUrl] = [
     "http://localhost:8080/api/words",
     "http://localhost:8080/api/words",
@@ -64,7 +64,7 @@ const Vocabulary = () => {
                 <td>
                   <PlaySound fileUrl={w.fileUrl} />
                 </td>
-                <td>{w.meaning}</td>
+                <td>{w.meanings}</td>
                 <td>{w.phrases}</td>
                 <td>{w.synonyms}</td>
                 <td>{w.antonyms}</td>
