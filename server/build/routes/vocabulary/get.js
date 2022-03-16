@@ -21,6 +21,7 @@ exports.getWordsRouter = router;
 router.get("/api/words", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const words = yield (0, words_controller_1.getAllWords)();
+        console.log(words);
         res.status(200).send({ words });
     }
     catch (error) {

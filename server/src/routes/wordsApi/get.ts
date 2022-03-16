@@ -10,7 +10,6 @@ router.get(
       const wordInfo = await fetchWordInfo(word);
       res.status(200).send({ wordInfo });
     } catch (error) {
-      console.log(error);
       res.send(500);
     }
   }

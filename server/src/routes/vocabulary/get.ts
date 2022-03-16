@@ -8,6 +8,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const words = await getAllWords();
+      console.log(words);
       res.status(200).send({ words });
     } catch (error) {
       next(new ApiError(error.code, error.message));

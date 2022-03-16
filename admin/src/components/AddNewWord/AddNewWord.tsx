@@ -38,20 +38,19 @@ function AddNewWord({ word }: AddNewWordProps) {
     formState: { errors },
   } = useForm({ resolver });
 
-  const [putUrl, postUrl, wordInfoUrl] = [
-    "http://localhost:8080/api/words",
+  const [postPutUrl, wordInfoUrl] = [
     "http://localhost:8080/api/words",
     "http://localhost:8080/api/wordsApi",
   ];
 
-  const onSaveWordHandler = async (values: Word) => {
+  const onSaveWordHandler = async (values: any) => {
     setLoading(true);
     if (editWord) {
-      request(putUrl, values, "PUT")
+      request(postPutUrl, values, "PUT")
         .then((info) => console.log(info))
         .catch((err) => console.log(err));
     } else {
-      request(postUrl, values, "POST")
+      request(postPutUrl, values, "POST")
         .then((info) => console.log(info))
         .catch((err) => console.log(err));
     }
@@ -70,7 +69,6 @@ function AddNewWord({ word }: AddNewWordProps) {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
@@ -79,7 +77,7 @@ function AddNewWord({ word }: AddNewWordProps) {
     if (!autofill || !Object.keys(autofill).length) return;
     const { fileUrl, meanings, partOfSpeech, phrases, synonyms, antonyms } =
       autofill;
-    console.log("autofill", autofill);
+
     reset({
       fileUrl,
       meanings,
@@ -88,13 +86,13 @@ function AddNewWord({ word }: AddNewWordProps) {
       antonyms,
       phrases,
     });
-    console.log("value", getValues());
+
     // eslint-disable-next-line
   }, [autofill]);
   return (
     <div>
       Create New Word
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form onSubmit={handleSubmit((data) => onSaveWordHandler(data))}>
         <TextField label="Enter word" name="word" validate={register} />
         <button onClick={(e) => onAutoFillHandler(e)}>Autofill</button>
         <div>

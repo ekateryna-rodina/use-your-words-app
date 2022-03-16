@@ -5,6 +5,9 @@ class ApiError {
     this.message = message;
     this.code = code;
   }
+  static WordAlreadyExists(msg: string) {
+    return new ApiError(400, "This word already exists");
+  }
   static BadRequest(msg: string): ApiError {
     return new ApiError(400, msg);
   }
