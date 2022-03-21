@@ -40,7 +40,6 @@ const toObject = (response: {
     [],
   ];
   for (const prop of Object.keys(response)) {
-    console.log(response[prop]);
     switch (response[prop].constructor.name) {
       case "Synonym":
         synonyms.push({

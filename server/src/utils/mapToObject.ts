@@ -5,20 +5,35 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
   for (const dto of dtos) {
     const { id, word, fileUrl, createdAt, updatedAt } = dto.dataValues;
     const meanings = dto.dataValues.Meanings.map(
-      (m: { dataValues: { meaning: string } }) => m.dataValues.meaning
-    ).join("|");
+      (m: { dataValues: { meaning: string; id: string } }) => ({
+        value: m.dataValues.meaning,
+        id: m.dataValues.id,
+      })
+    );
     const phrases = dto.dataValues.Phrases.map(
-      (m: { dataValues: { phrase: string } }) => m.dataValues.phrase
-    ).join("|");
+      (m: { dataValues: { phrase: string; id: string } }) => ({
+        value: m.dataValues.phrase,
+        id: m.dataValues.id,
+      })
+    );
     const synonyms = dto.dataValues.Synonyms.map(
-      (m: { dataValues: { synonym: string } }) => m.dataValues.synonym
-    ).join("|");
+      (m: { dataValues: { synonym: string; id: string } }) => ({
+        value: m.dataValues.synonym,
+        id: m.dataValues.id,
+      })
+    );
     const antonyms = dto.dataValues.Antonyms.map(
-      (m: { dataValues: { antonym: string } }) => m.dataValues.antonym
-    ).join("|");
+      (m: { dataValues: { antonym: string; id: string } }) => ({
+        value: m.dataValues.antonym,
+        id: m.dataValues.id,
+      })
+    );
     const partOfSpeech = dto.dataValues.PartOfSpeeches.map(
-      (m: { dataValues: { part: string } }) => m.dataValues.part
-    ).join("|");
+      (m: { dataValues: { part: string; id: string } }) => ({
+        value: m.dataValues.part,
+        id: m.dataValues.id,
+      })
+    );
     const result = {
       id,
       word,

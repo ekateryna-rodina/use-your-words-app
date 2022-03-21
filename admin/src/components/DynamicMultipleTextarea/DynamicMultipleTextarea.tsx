@@ -15,7 +15,7 @@ const DynamicMultipleTextarea = ({
   control,
   register,
 }: DynamicMultipleTextareaProps) => {
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name,
   });
@@ -29,23 +29,30 @@ const DynamicMultipleTextarea = ({
     <>
       {<span>{`List ${name} for the term`}</span>}
       {fields.map((obj, index) => (
-        // <TextArea key={id} name={name} />
         <div key={obj.id}>
           <textarea
-            {...register(`${name}.${index}.value`)}
+            {...register(`${name}.${index}.value.value`)}
             name={`${name}[${index}].name`}
-            // defaultValue={obj[index.toString()]}
+            onChange={(e) => {
+              update(index, {
+                name,
+                value: { id: obj.id, value: e.target.value },
+              });
+            }}
+            defaultValue={`${name}.${index}.value.value`}
+            autoFocus
           />
           <button type="button" onClick={() => remove(index)}>
             -
           </button>
         </div>
       ))}
-      <button type="button" onClick={() => append({})}>
+      <button
+        type="button"
+        onClick={() => append({ name, value: { id: "", value: "" } })}
+      >
         +
       </button>
-      {/* {error ? <p>Fill this field first</p> : <></>} */}
-      {/* <button onClick={onAddNew}>+</button> */}
     </>
   );
 };

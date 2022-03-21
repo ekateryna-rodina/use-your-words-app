@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm, useFormState } from "react-hook-form";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
-import { Word } from "../../types/Word";
+import { FormValue, Word } from "../../types/Word";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 import { FileUploader } from "../FileUploader";
@@ -18,25 +18,20 @@ function AddNewWord({ word }: AddNewWordProps) {
   const [file, setFile] = useState<File | null>(null);
   const [error] = useState<boolean>(false);
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
-  // const [values, setValues] = useState<Word>({
-  //   word: editWord ? editWord.word : "",
-  //   meaning: editWord ? editWord.meaning : [],
-  //   fileUrl: editWord ? editWord.fileUrl : "",
-  //   partOfSpeech: editWord ? editWord.partOfSpeech : [],
-  //   phrases: editWord ? editWord.phrases : [],
-  //   synonyms: editWord ? editWord.synonyms : [],
-  //   antonyms: editWord ? editWord.antonyms : [],
-  // });
-
   const resolver = useYupValidationResolver(wordSchema);
+  const [editedFields, setEditedFields] = useState({});
   const {
     handleSubmit,
     register,
     control,
     getValues,
     reset,
+    getFieldState,
     formState: { errors },
-  } = useForm({ resolver });
+  } = useForm<Word & { antonym: any }>({ resolver });
+  const formState = useFormState({
+    control,
+  });
 
   const [postPutUrl, wordInfoUrl] = [
     "http://localhost:8080/api/words",
@@ -46,9 +41,12 @@ function AddNewWord({ word }: AddNewWordProps) {
   const onSaveWordHandler = async (values: any) => {
     setLoading(true);
     if (editWord) {
-      request(postPutUrl, values, "PUT")
-        .then((info) => console.log(info))
-        .catch((err) => console.log(err));
+      console.log("antonyms", getFieldState("antonym"));
+      console.log("values ant", getValues());
+      console.log(formState);
+      // request(postPutUrl, values, "PUT")
+      //   .then((info) => console.log(info))
+      //   .catch((err) => console.log(err));
     } else {
       request(postPutUrl, values, "POST")
         .then((info) => console.log(info))
@@ -77,7 +75,7 @@ function AddNewWord({ word }: AddNewWordProps) {
     if (!autofill || !Object.keys(autofill).length) return;
     const { fileUrl, meanings, partOfSpeech, phrases, synonyms, antonyms } =
       autofill;
-
+    console.log("autofill", partOfSpeech);
     reset({
       fileUrl,
       meanings,
@@ -89,10 +87,32 @@ function AddNewWord({ word }: AddNewWordProps) {
 
     // eslint-disable-next-line
   }, [autofill]);
+  useEffect(() => {
+    if (!editWord) return;
+    console.log("editword", editWord.partOfSpeech);
+    reset({
+      word: editWord.word,
+      fileUrl: editWord.fileUrl,
+      meanings: editWord.meanings,
+      partOfSpeech: editWord.partOfSpeech.map((p) => (p as FormValue).value),
+      synonyms: editWord.synonyms,
+      antonyms: editWord.antonyms,
+      phrases: editWord.phrases,
+    });
+    // eslint-disable-next-line
+  }, [editWord]);
   return (
     <div>
-      Create New Word
-      <form onSubmit={handleSubmit((data) => onSaveWordHandler(data))}>
+      {editWord ? "Edit word" : "Create New Word"}
+      <form
+        onSubmit={handleSubmit(
+          (data) => onSaveWordHandler(data),
+          (e) => {
+            console.log(getValues());
+            console.log("invalidd", e);
+          }
+        )}
+      >
         <TextField label="Enter word" name="word" validate={register} />
         <button onClick={(e) => onAutoFillHandler(e)}>Autofill</button>
         <div>
@@ -133,6 +153,21 @@ function AddNewWord({ word }: AddNewWordProps) {
         />
         {loading ? <span>Loading</span> : <></>}
         <button type="submit">Save</button>
+        {Object.keys(errors).length ? (
+          <ul>
+            {Object.keys(errors).length ? (
+              Object.keys(errors).map((e, index) => (
+                <li key={index}>
+                  {(errors[e as keyof typeof errors] as FieldError).message}
+                </li>
+              ))
+            ) : (
+              <></>
+            )}
+          </ul>
+        ) : (
+          <></>
+        )}
       </form>
     </div>
   );

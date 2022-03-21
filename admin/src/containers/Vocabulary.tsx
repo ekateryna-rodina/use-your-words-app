@@ -3,7 +3,7 @@ import { AddNewWord } from "../components/AddNewWord";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
-import { WordWithId } from "../types/Word";
+import { FormValue, WordWithId } from "../types/Word";
 import request from "../utils/request";
 
 const Vocabulary = () => {
@@ -60,14 +60,46 @@ const Vocabulary = () => {
             {words.map((w) => (
               <tr key={w.id}>
                 <td>{w.word}</td>
-                <td>{w.partOfSpeech}</td>
+                <td>
+                  <ul>
+                    {w.partOfSpeech.map((item) => (
+                      <li key={(item as FormValue).id}>
+                        {(item as FormValue).value}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
                 <td>
                   <PlaySound fileUrl={w.fileUrl} />
                 </td>
-                <td>{w.meanings}</td>
-                <td>{w.phrases}</td>
-                <td>{w.synonyms}</td>
-                <td>{w.antonyms}</td>
+                <td>
+                  {w.meanings.map((item) => (
+                    <li key={(item as FormValue).id}>
+                      {(item as FormValue).value}
+                    </li>
+                  ))}
+                </td>
+                <td>
+                  {w.phrases.map((item) => (
+                    <li key={(item as FormValue).id}>
+                      {(item as FormValue).value}
+                    </li>
+                  ))}
+                </td>
+                <td>
+                  {w.synonyms.map((item) => (
+                    <li key={(item as FormValue).id}>
+                      {(item as FormValue).value}
+                    </li>
+                  ))}
+                </td>
+                <td>
+                  {w.antonyms.map((item) => (
+                    <li key={(item as FormValue).id}>
+                      {(item as FormValue).value}
+                    </li>
+                  ))}
+                </td>
                 <td>
                   <button onClick={() => setCurrentWord(w)}>
                     <EditIcon />
