@@ -118,7 +118,29 @@ const putWord = async (wordFullInfo: PutWord) => {
   } = wordFullInfo;
   try {
     await db.Word.update({ word, fileUrl }, { where: { id } });
-    // deletion
+    // update parts of speech
+    // delete old
+    await db.WordPartOfSpeech.destroy({
+      where: {
+        [Op.and]: [
+          { WordId: id },
+          {
+            PartOfSpeechId: {
+              [Op.notIn]: partOfSpeech,
+            },
+          },
+        ],
+      },
+    });
+    // add new
+    const partsofSpeech = partOfSpeech.map((ps) => ({
+      PartOfSpeechId: ps,
+      WordId: id,
+    }));
+    await db.WordPartOfSpeech.bulkCreate(partsofSpeech, {
+      updateOnDuplicate: ["PartOfSpeechId", "WordId"],
+    });
+    // deletion for synonyms, antonyms, meanings, phrases
     await db.Antonym.destroy({
       where: {
         [Op.and]: [
@@ -213,4 +235,19 @@ const deleteWord = async (id: string) => {
   }
 };
 
-export { getWords, postWord, putWord, deleteWord };
+const getPartsOfSpeech = async () => {
+  try {
+    const response = await db.PartOfSpeech.findAll({});
+    const parts = response.map(
+      (p: { dataValues: { id: string; part: string } }) => ({
+        id: p.dataValues.id,
+        value: p.dataValues.part,
+      })
+    );
+    return parts;
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+
+export { getWords, postWord, putWord, deleteWord, getPartsOfSpeech };

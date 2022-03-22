@@ -1,5 +1,6 @@
 import {
   deleteWord,
+  getPartsOfSpeech,
   getWords,
   postWord,
   putWord,
@@ -51,6 +52,19 @@ export async function updateWord(updateWord: ExistingWord) {
 }
 
 export async function dropWord(id: string) {
-  await deleteWord(id);
-  return { ok: true };
+  try {
+    await deleteWord(id);
+    return { ok: true };
+  } catch (error) {
+    return { ok: false };
+  }
+}
+
+export async function fetchPartsOfSpeech() {
+  try {
+    const parts = await getPartsOfSpeech();
+    return parts;
+  } catch (error) {
+    return null;
+  }
 }

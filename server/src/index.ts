@@ -5,6 +5,7 @@ import fs from "fs";
 import logger from "morgan";
 import apiErrorHandler from "./middleware/validationErrorHandler";
 import db from "./models";
+import { getPartOfSpeechRouter } from "./routes/partOfSpeech/get";
 import { deleteWordsRouter } from "./routes/vocabulary/delete";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
@@ -35,6 +36,7 @@ app.use(postWordsRouter);
 app.use(putWordsRouter);
 app.use(deleteWordsRouter);
 app.use(getWordsApiRouter);
+app.use(getPartOfSpeechRouter);
 
 // middleware
 app.use(apiErrorHandler);
