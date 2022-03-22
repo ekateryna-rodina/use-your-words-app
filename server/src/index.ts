@@ -5,6 +5,7 @@ import fs from "fs";
 import logger from "morgan";
 import apiErrorHandler from "./middleware/validationErrorHandler";
 import db from "./models";
+import { deleteWordsRouter } from "./routes/vocabulary/delete";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
 import { putWordsRouter } from "./routes/vocabulary/update";
@@ -32,6 +33,7 @@ dotenv.config();
 app.use(getWordsRouter);
 app.use(postWordsRouter);
 app.use(putWordsRouter);
+app.use(deleteWordsRouter);
 app.use(getWordsApiRouter);
 
 // middleware

@@ -201,9 +201,16 @@ const putWord = async (wordFullInfo: PutWord) => {
       updateOnDuplicate: ["meaning"],
     });
   } catch (error) {
-    console.log("errro", error);
     throw new ApiError(500, error.message);
   }
 };
 
-export { getWords, postWord, putWord };
+const deleteWord = async (id: string) => {
+  try {
+    await db.Word.destroy({ where: { id } });
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+
+export { getWords, postWord, putWord, deleteWord };

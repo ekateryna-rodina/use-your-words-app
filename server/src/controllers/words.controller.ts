@@ -1,4 +1,9 @@
-import { getWords, postWord, putWord } from "../services/words.service";
+import {
+  deleteWord,
+  getWords,
+  postWord,
+  putWord,
+} from "../services/words.service";
 import { ExistingWord, Word } from "../types/Word";
 
 export async function getAllWords() {
@@ -43,4 +48,9 @@ export async function updateWord(updateWord: ExistingWord) {
   } catch (error) {
     throw new Error(error);
   }
+}
+
+export async function dropWord(id: string) {
+  await deleteWord(id);
+  return { ok: true };
 }

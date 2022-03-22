@@ -740,3 +740,12 @@
 ::1 - - [22/Mar/2022:18:08:07 +0000] "GET /api/words HTTP/1.1" 200 17119
 ::1 - - [22/Mar/2022:18:08:18 +0000] "PUT /api/words HTTP/1.1" 200 2
 ::1 - - [22/Mar/2022:18:08:21 +0000] "GET /api/words HTTP/1.1" 200 17051
+::1 - - [22/Mar/2022:18:24:03 +0000] "DELETE /api/words?id=bdd4c375-925d-4adf-b3f3-94424d56b6cf HTTP/1.1" 404 151
+::1 - - [22/Mar/2022:18:29:00 +0000] "GET /api/words HTTP/1.1" 200 17051
+::1 - - [22/Mar/2022:18:29:07 +0000] "DELETE /api/words?id=30fe2d56-19ca-4924-bf3a-ecc483655b70 HTTP/1.1" 200 2
+::1 - - [22/Mar/2022:18:30:57 +0000] "DELETE /api/words?id=30fe2d56-19ca-4924-bf3a-ecc483655b70 HTTP/1.1" 500 1294
+::1 - - [22/Mar/2022:18:33:05 +0000] "GET /api/words HTTP/1.1" 200 17051
+::1 - - [22/Mar/2022:18:33:08 +0000] "DELETE /api/words?id=30fe2d56-19ca-4924-bf3a-ecc483655b70 HTTP/1.1" 200 11
+::1 - - [22/Mar/2022:18:33:12 +0000] "GET /api/words HTTP/1.1" 200 14417
+::1 - - [22/Mar/2022:18:33:24 +0000] "DELETE /api/words?id=deb8906a-69dd-4549-8a49-3c86ab51fc94 HTTP/1.1" 200 11
+::1 - - [22/Mar/2022:18:33:26 +0000] "GET /api/words HTTP/1.1" 200 3398
