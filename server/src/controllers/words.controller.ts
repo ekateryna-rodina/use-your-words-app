@@ -1,4 +1,4 @@
-import { getWords, postWord } from "../services/words.service";
+import { getWords, postWord, putWord } from "../services/words.service";
 import { ExistingWord, Word } from "../types/Word";
 
 export async function getAllWords() {
@@ -24,24 +24,22 @@ export async function saveWord(word: Word) {
   return newWord;
 }
 
-export async function updateWord(word: ExistingWord) {
-  const { id, synonyms, antonyms, phrases, meanings, partOfSpeech, ...rest } =
-    word;
-  console.log(word);
+export async function updateWord(updateWord: ExistingWord) {
+  const { id, word, fileUrl, synonym, antonym, phrase, meaning, partOfSpeech } =
+    updateWord;
   try {
-    const wordInfo = { ...rest };
-    // const wordFullInfo = {
-    //   id,
-    //   wordInfo,
-    //   partOfSpeech,
-    //   synonyms: synonyms.split("|"),
-    //   antonyms: antonyms.split("|"),
-    //   phrases: phrases.split("|"),
-    //   meanings: meaning.split("|"),
-    // };
-    // const newWord = await putWord(wordFullInfo);
-    // return newWord;
-    return {};
+    const wordFullInfo = {
+      id,
+      word,
+      fileUrl,
+      partOfSpeech,
+      synonyms: synonym,
+      antonyms: antonym,
+      phrases: phrase,
+      meanings: meaning,
+    };
+    const newWord = await putWord(wordFullInfo);
+    return newWord;
   } catch (error) {
     throw new Error(error);
   }

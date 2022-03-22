@@ -1,7 +1,8 @@
 export type WordData = {
-  id?: string;
-  value: string;
-  name: string;
+  value: {
+    id?: string;
+    value: string;
+  };
 };
 export type Word = {
   word: string;
@@ -13,4 +14,11 @@ export type Word = {
   antonyms: string[] | WordData[];
 };
 
-export type ExistingWord = Word & { id: string; partOfSpeech: string };
+export type ExistingWord = Word & {
+  id: string;
+  partOfSpeech: string;
+  antonym: WordData[];
+  synonym: WordData[];
+  phrase: WordData[];
+  meaning: WordData[];
+};

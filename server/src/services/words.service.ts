@@ -1,5 +1,7 @@
+import { Op } from "@sequelize/core";
 import ApiError from "../error/apiError";
 import db from "../models";
+import { WordData } from "../types/Word";
 import { mapToWords } from "../utils/mapToObject";
 import { executeTransaction } from "./wordsApi.transaction";
 
@@ -31,7 +33,16 @@ type PostWord = {
   phrases: string[];
   meanings: string[];
 };
-type PutWord = PostWord & { id: string };
+type PutWord = {
+  id: string;
+  word: string;
+  fileUrl: string;
+  partOfSpeech: (string[] | WordData[]) & string;
+  synonyms: WordData[];
+  antonyms: WordData[];
+  phrases: WordData[];
+  meanings: WordData[];
+};
 const toObject = (response: {
   id: string;
   word: string;
@@ -95,11 +106,102 @@ const postWord = async (wordFullInfo: PostWord) => {
 };
 
 const putWord = async (wordFullInfo: PutWord) => {
-  const id = wordFullInfo.id;
-
+  const {
+    id,
+    word,
+    fileUrl,
+    synonyms,
+    antonyms,
+    meanings,
+    phrases,
+    partOfSpeech,
+  } = wordFullInfo;
   try {
-    console.log(id);
+    await db.Word.update({ word, fileUrl }, { where: { id } });
+    // deletion
+    await db.Antonym.destroy({
+      where: {
+        [Op.and]: [
+          { wordId: id },
+          {
+            id: {
+              [Op.notIn]: antonyms.map((a) => a.value.id),
+            },
+          },
+        ],
+      },
+    });
+    await db.Synonym.destroy({
+      where: {
+        [Op.and]: [
+          { wordId: id },
+          {
+            id: {
+              [Op.notIn]: synonyms.map((a) => a.value.id),
+            },
+          },
+        ],
+      },
+    });
+    await db.Meaning.destroy({
+      where: {
+        [Op.and]: [
+          { wordId: id },
+          {
+            id: {
+              [Op.notIn]: meanings.map((a) => a.value.id),
+            },
+          },
+        ],
+      },
+    });
+    await db.Phrase.destroy({
+      where: {
+        [Op.and]: [
+          { wordId: id },
+          {
+            id: {
+              [Op.notIn]: phrases.map((a) => a.value.id),
+            },
+          },
+        ],
+      },
+    });
+    // update or add
+    const newAntonyms = antonyms.map((a) => ({
+      id: a.value.id,
+      antonym: a.value.value,
+      wordId: id,
+    }));
+    const newSynonyms = synonyms.map((s) => ({
+      id: s.value.id,
+      synonym: s.value.value,
+      wordId: id,
+    }));
+    const newMeanings = meanings.map((s) => ({
+      id: s.value.id,
+      meaning: s.value.value,
+      wordId: id,
+    }));
+    const newPhrases = phrases.map((s) => ({
+      id: s.value.id,
+      phrase: s.value.value,
+      wordId: id,
+    }));
+    await db.Antonym.bulkCreate(newAntonyms, {
+      updateOnDuplicate: ["antonym"],
+    });
+    await db.Synonym.bulkCreate(newSynonyms, {
+      updateOnDuplicate: ["synonym"],
+    });
+    await db.Phrase.bulkCreate(newPhrases, {
+      updateOnDuplicate: ["phrase"],
+    });
+    await db.Meaning.bulkCreate(newMeanings, {
+      updateOnDuplicate: ["meaning"],
+    });
   } catch (error) {
+    console.log("errro", error);
     throw new ApiError(500, error.message);
   }
 };
