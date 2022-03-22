@@ -12,7 +12,7 @@ import { getWordsApiRouter } from "./routes/wordsApi/get";
 import { runSeed } from "./seeders/init";
 
 const app = express();
-
+app.set("etag", false);
 const port = process.env.PORT || 8080;
 const corsOptions = {
   origin: "http://localhost:3000",

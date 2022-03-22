@@ -16,6 +16,7 @@ const update_1 = require("./routes/vocabulary/update");
 const get_2 = require("./routes/wordsApi/get");
 const init_1 = require("./seeders/init");
 const app = (0, express_1.default)();
+app.set("etag", false);
 const port = process.env.PORT || 8080;
 const corsOptions = {
     origin: "http://localhost:3000",

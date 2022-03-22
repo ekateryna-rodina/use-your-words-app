@@ -6,7 +6,13 @@ import { executeTransaction } from "./wordsApi.transaction";
 const getWords = async () => {
   try {
     const result = await db.Word.findAll({
-      include: [db.Phrase, db.Meaning, db.Synonym, db.Antonym, db.PartOfSpeech],
+      include: [
+        { model: db.Phrase, separate: true },
+        { model: db.Meaning, separate: true },
+        { model: db.Synonym, separate: true },
+        { model: db.Antonym, separate: true },
+        { model: db.PartOfSpeech, separate: false },
+      ],
     });
     const words = mapToWords(result);
     return words;
