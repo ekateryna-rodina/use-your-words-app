@@ -18,7 +18,13 @@ const request = async (url: string, params = {}, method: Method = "GET") => {
   if (["GET", "DELETE"].includes(method)) {
     url += "?" + new URLSearchParams(params).toString();
   } else {
+    if (["PUT"].includes(method)) {
+      url +=
+        "?" +
+        new URLSearchParams({ id: (params as { id: string }).id }).toString();
+    }
     options.body = JSON.stringify(params);
+    console.log(options);
   }
 
   const response = await fetch(url, options);

@@ -7,6 +7,7 @@ import apiErrorHandler from "./middleware/validationErrorHandler";
 import db from "./models";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
+import { putWordsRouter } from "./routes/vocabulary/update";
 import { getWordsApiRouter } from "./routes/wordsApi/get";
 import { runSeed } from "./seeders/init";
 
@@ -30,6 +31,7 @@ dotenv.config();
 
 app.use(getWordsRouter);
 app.use(postWordsRouter);
+app.use(putWordsRouter);
 app.use(getWordsApiRouter);
 
 // middleware

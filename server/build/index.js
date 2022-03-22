@@ -12,6 +12,7 @@ const validationErrorHandler_1 = __importDefault(require("./middleware/validatio
 const models_1 = __importDefault(require("./models"));
 const get_1 = require("./routes/vocabulary/get");
 const post_1 = require("./routes/vocabulary/post");
+const update_1 = require("./routes/vocabulary/update");
 const get_2 = require("./routes/wordsApi/get");
 const init_1 = require("./seeders/init");
 const app = (0, express_1.default)();
@@ -30,6 +31,7 @@ app.use(express_1.default.json());
 dotenv_1.default.config();
 app.use(get_1.getWordsRouter);
 app.use(post_1.postWordsRouter);
+app.use(update_1.putWordsRouter);
 app.use(get_2.getWordsApiRouter);
 app.use(validationErrorHandler_1.default);
 (0, init_1.runSeed)();

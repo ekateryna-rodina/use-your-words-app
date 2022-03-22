@@ -27,6 +27,7 @@ export async function saveWord(word: Word) {
 export async function updateWord(word: ExistingWord) {
   const { id, synonyms, antonyms, phrases, meanings, partOfSpeech, ...rest } =
     word;
+  console.log(word);
   try {
     const wordInfo = { ...rest };
     // const wordFullInfo = {

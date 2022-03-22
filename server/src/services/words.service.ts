@@ -92,7 +92,7 @@ const putWord = async (wordFullInfo: PutWord) => {
   const id = wordFullInfo.id;
 
   try {
-    console.log(wordFullInfo);
+    console.log(id);
   } catch (error) {
     throw new ApiError(500, error.message);
   }

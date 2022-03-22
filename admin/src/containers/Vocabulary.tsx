@@ -20,6 +20,7 @@ const Vocabulary = () => {
     const fetchVocabulary = async () => {
       const response = await fetch(getUrl);
       const { words } = await response.json();
+      console.log("start", words);
       setWords(words);
     };
     fetchVocabulary().catch((err) => console.log(err));

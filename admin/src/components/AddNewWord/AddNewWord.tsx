@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FieldError, useForm, useFormState } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
 import { FormValue, Word } from "../../types/Word";
@@ -26,12 +26,8 @@ function AddNewWord({ word }: AddNewWordProps) {
     control,
     getValues,
     reset,
-    getFieldState,
     formState: { errors },
-  } = useForm<Word & { antonym: any }>({ resolver });
-  const formState = useFormState({
-    control,
-  });
+  } = useForm<Word>({ resolver });
 
   const [postPutUrl, wordInfoUrl] = [
     "http://localhost:8080/api/words",
@@ -41,12 +37,11 @@ function AddNewWord({ word }: AddNewWordProps) {
   const onSaveWordHandler = async (values: any) => {
     setLoading(true);
     if (editWord) {
-      console.log("antonyms", getFieldState("antonym"));
-      console.log("values ant", getValues());
-      console.log(formState);
-      // request(postPutUrl, values, "PUT")
-      //   .then((info) => console.log(info))
-      //   .catch((err) => console.log(err));
+      console.log("values end", getValues());
+      console.log("editWord", editWord);
+      request(postPutUrl, values, "PUT")
+        .then((info) => console.log(info))
+        .catch((err) => console.log(err));
     } else {
       request(postPutUrl, values, "POST")
         .then((info) => console.log(info))
@@ -75,7 +70,7 @@ function AddNewWord({ word }: AddNewWordProps) {
     if (!autofill || !Object.keys(autofill).length) return;
     const { fileUrl, meanings, partOfSpeech, phrases, synonyms, antonyms } =
       autofill;
-    console.log("autofill", partOfSpeech);
+
     reset({
       fileUrl,
       meanings,
@@ -89,7 +84,6 @@ function AddNewWord({ word }: AddNewWordProps) {
   }, [autofill]);
   useEffect(() => {
     if (!editWord) return;
-    console.log("editword", editWord.partOfSpeech);
     reset({
       word: editWord.word,
       fileUrl: editWord.fileUrl,
@@ -108,8 +102,7 @@ function AddNewWord({ word }: AddNewWordProps) {
         onSubmit={handleSubmit(
           (data) => onSaveWordHandler(data),
           (e) => {
-            console.log(getValues());
-            console.log("invalidd", e);
+            console.log(e);
           }
         )}
       >
