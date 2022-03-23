@@ -4,8 +4,9 @@ type TextFieldProps = {
   label?: string;
   name: string;
   validate: any;
+  disabled: boolean;
 };
-const TextField = ({ label, validate, name }: TextFieldProps) => {
+const TextField = ({ label, validate, name, disabled }: TextFieldProps) => {
   return (
     <div>
       {label ? <label htmlFor={name}>{label}</label> : <></>}
@@ -13,6 +14,7 @@ const TextField = ({ label, validate, name }: TextFieldProps) => {
         type="text"
         aria-label={label}
         id={name}
+        disabled={disabled}
         autoComplete="off"
         {...validate(name)}
       />

@@ -1,39 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { AddNewWord } from "../components/AddNewWord";
+import { AddEditWord } from "../components/AddEditWord";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
-import { FormValue, WordWithId } from "../types/Word";
+import { FormValue, PartOfSpeech, WordWithId } from "../types/";
 import request from "../utils/request";
 
 const Vocabulary = () => {
   const [words, setWords] = useState<WordWithId[] | null>(null);
+  const [partsOfSpeech, setPartsOfSpeech] = useState<PartOfSpeech[]>([]);
   const [modal, setModal] = useState<{
     show: boolean;
   }>({ show: false });
   const [currentWord, setCurrentWord] = useState<WordWithId | undefined>();
-  const [getUrl, deleteUrl] = [
-    "http://localhost:8080/api/words",
-    "http://localhost:8080/api/words",
-  ];
+  const baseURL = "http://localhost:8080/api";
+  const wordURL = `${baseURL}/words`;
+  const partOfSpeechURL = `${baseURL}/partOfSpeech`;
+
   useEffect(() => {
     const fetchVocabulary = async () => {
-      const response = await fetch(getUrl);
+      const response = await fetch(wordURL);
       const { words } = await response.json();
-      console.log("start", words);
       setWords(words);
     };
+    const fetchPartsOfSpeech = async () => {
+      const response = await fetch(partOfSpeechURL);
+      const parts = await response.json();
+      setPartsOfSpeech(parts);
+    };
     fetchVocabulary().catch((err) => console.log(err));
+    fetchPartsOfSpeech().catch((err) => console.log(err));
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (!currentWord) return;
+    if (!currentWord || !Object.keys(currentWord).length) return;
     setModal({ show: true });
   }, [currentWord]);
 
   const onDeleteHandler = (id: string) => {
-    request(deleteUrl, { id }, "DELETE")
+    request(wordURL, { id }, "DELETE")
       .then((response) => console.log("success delete"))
       .catch((err) => console.log(err));
   };
@@ -63,7 +69,7 @@ const Vocabulary = () => {
                 <td>{w.word}</td>
                 <td>
                   <ul>
-                    {w.partOfSpeech.map((item) => (
+                    {w.partOfSpeech.map((item: {}) => (
                       <li key={(item as FormValue).id}>
                         {(item as FormValue).value}
                       </li>
@@ -74,28 +80,28 @@ const Vocabulary = () => {
                   <PlaySound fileUrl={w.fileUrl} />
                 </td>
                 <td>
-                  {w.meanings.map((item) => (
+                  {w.meanings.map((item: {}) => (
                     <li key={(item as FormValue).id}>
                       {(item as FormValue).value}
                     </li>
                   ))}
                 </td>
                 <td>
-                  {w.phrases.map((item) => (
+                  {w.phrases.map((item: {}) => (
                     <li key={(item as FormValue).id}>
                       {(item as FormValue).value}
                     </li>
                   ))}
                 </td>
                 <td>
-                  {w.synonyms.map((item) => (
+                  {w.synonyms.map((item: {}) => (
                     <li key={(item as FormValue).id}>
                       {(item as FormValue).value}
                     </li>
                   ))}
                 </td>
                 <td>
-                  {w.antonyms.map((item) => (
+                  {w.antonyms.map((item: {}) => (
                     <li key={(item as FormValue).id}>
                       {(item as FormValue).value}
                     </li>
@@ -114,7 +120,11 @@ const Vocabulary = () => {
           </tbody>
         </table>
       )}
-      {modal.show ? <AddNewWord word={currentWord} /> : <></>}
+      {modal.show ? (
+        <AddEditWord word={currentWord} tempParts={partsOfSpeech} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

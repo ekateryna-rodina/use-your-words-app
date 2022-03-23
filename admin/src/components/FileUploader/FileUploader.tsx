@@ -5,8 +5,14 @@ type FileUploaderProps = {
   setFile: (file: File) => void;
   file: File | null;
   error: boolean;
+  disabled: boolean;
 };
-const FileUploader = ({ setFile, file, error }: FileUploaderProps) => {
+const FileUploader = ({
+  setFile,
+  file,
+  error,
+  disabled,
+}: FileUploaderProps) => {
   async function dropFileHandler(
     files: File[],
     rejectedFiles: FileRejection[]
@@ -37,13 +43,25 @@ const FileUploader = ({ setFile, file, error }: FileUploaderProps) => {
               border: "1px  solid",
               borderStyle: "dashed",
               textAlign: "center",
-              borderColor: file?.name ? "green" : error ? "red" : "blue",
+              pointerEvents: disabled ? "none" : "auto",
+              borderColor: file?.name
+                ? "green"
+                : error
+                ? "red"
+                : disabled
+                ? "gray"
+                : "blue",
             }}
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             {!file?.name ? (
-              <p style={{ color: "blue", fontWeight: "bold" }}>
+              <p
+                style={{
+                  color: disabled ? "gray" : "blue",
+                  fontWeight: "bold",
+                }}
+              >
                 Upload mp3 file
               </p>
             ) : (

@@ -2,24 +2,31 @@ import React, { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
-import { FormValue, Word } from "../../types/Word";
+import {
+  FormValue,
+  PartOfSpeech,
+  PronunciationType,
+  Word,
+  WordWithId,
+} from "../../types/";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
-import { FileUploader } from "../FileUploader";
+import { PronunciationRadio } from "../PronunciationRadio";
 import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
 
-type AddNewWordProps = {
-  word?: Word;
+type AddEditWordProps = {
+  word?: WordWithId;
+  tempParts: PartOfSpeech[];
 };
-function AddNewWord({ word }: AddNewWordProps) {
-  const [editWord] = useState<Word | undefined>(word);
+function AddEditWord({ word, tempParts }: AddEditWordProps) {
+  const [editWord] = useState<WordWithId | undefined>(word);
   const [loading, setLoading] = useState<boolean>(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [error] = useState<boolean>(false);
+  const [active, setActive] = useState<PronunciationType>("autofill");
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<boolean>(false);
   const resolver = useYupValidationResolver(wordSchema);
-  const [editedFields, setEditedFields] = useState({});
   const {
     handleSubmit,
     register,
@@ -37,9 +44,7 @@ function AddNewWord({ word }: AddNewWordProps) {
   const onSaveWordHandler = async (values: any) => {
     setLoading(true);
     if (editWord) {
-      console.log("values end", getValues());
-      console.log("editWord", editWord);
-      request(postPutUrl, values, "PUT")
+      request(postPutUrl, { ...values, id: editWord.id }, "PUT")
         .then((info) => console.log(info))
         .catch((err) => console.log(err));
     } else {
@@ -88,7 +93,7 @@ function AddNewWord({ word }: AddNewWordProps) {
       word: editWord.word,
       fileUrl: editWord.fileUrl,
       meanings: editWord.meanings,
-      partOfSpeech: editWord.partOfSpeech.map((p) => (p as FormValue).value),
+      partOfSpeech: editWord.partOfSpeech.map((p) => (p as FormValue).id),
       synonyms: editWord.synonyms,
       antonyms: editWord.antonyms,
       phrases: editWord.phrases,
@@ -106,18 +111,30 @@ function AddNewWord({ word }: AddNewWordProps) {
           }
         )}
       >
-        <TextField label="Enter word" name="word" validate={register} />
+        <TextField
+          label="Enter word"
+          name="word"
+          validate={register}
+          disabled={false}
+        />
         <button onClick={(e) => onAutoFillHandler(e)}>Autofill</button>
-        <div>
-          <TextField label="Enter mp3 url" name="fileUrl" validate={register} />
-          or
-          <FileUploader file={file} setFile={setFile} error={error} />
-        </div>
+        <PronunciationRadio
+          {...{
+            register,
+            file,
+            setFile,
+            fileError,
+            setFileError,
+            active,
+            setActive,
+          }}
+        />
         <SelectField
           label="Select part of speech"
           name="partOfSpeech"
-          options={["verb", "noun", "adjective"]}
+          options={tempParts}
           validate={register}
+          control={control}
         />
 
         <DynamicMultipleTextarea
@@ -166,4 +183,4 @@ function AddNewWord({ word }: AddNewWordProps) {
   );
 }
 
-export default AddNewWord;
+export default React.memo(AddEditWord);

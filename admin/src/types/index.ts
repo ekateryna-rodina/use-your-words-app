@@ -1,3 +1,10 @@
+export type PronunciationType = "autofill" | "upload" | "record";
+
+export type PartOfSpeech = {
+  id: string;
+  value: string;
+};
+
 export type FormValue = { id?: string; value: string };
 export type Word = {
   word: string;

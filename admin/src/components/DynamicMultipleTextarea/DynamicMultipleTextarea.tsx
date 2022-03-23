@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
-import { FormValue } from "../../types/Word";
+import { FormValue } from "../../types/";
 
 type DynamicMultipleTextareaProps = {
   name: string;
