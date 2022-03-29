@@ -8,6 +8,7 @@ export default function validate(schema: OptionalObjectSchema<ObjectShape>) {
       req.body = validated;
       next();
     } catch (err) {
+      console.log(err);
       next(ApiError.BadRequest(err));
     }
   };

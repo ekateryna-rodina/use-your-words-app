@@ -30,9 +30,9 @@ export async function saveWord(word: Word) {
   return newWord;
 }
 
-export async function updateWord(updateWord: ExistingWord) {
+export async function updateWord(data: ExistingWord) {
   const { id, word, fileUrl, synonym, antonym, phrase, meaning, partOfSpeech } =
-    updateWord;
+    data;
   try {
     const wordFullInfo = {
       id,
