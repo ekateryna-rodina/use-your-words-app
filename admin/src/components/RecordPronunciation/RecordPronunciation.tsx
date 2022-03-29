@@ -1,13 +1,33 @@
 import React from "react";
+import { Controller } from "react-hook-form";
 import { MediaRecorder } from "../MediaRecorder";
 
 type RecordPronunciationProps = {
-  disabled: boolean;
+  active: boolean;
+  control: any;
+  word: string;
+  setFile: (file: File | null) => void;
 };
-const RecordPronunciation = ({ disabled }: RecordPronunciationProps) => {
+const RecordPronunciation = ({
+  active,
+  control,
+  word,
+  setFile,
+}: RecordPronunciationProps) => {
   return (
     <>
-      <MediaRecorder disabled={disabled} />
+      <Controller
+        name="recordPronunciation"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <MediaRecorder
+            disabled={!active}
+            setFile={setFile}
+            word={word}
+            onChange={onChange}
+          />
+        )}
+      ></Controller>
     </>
   );
 };

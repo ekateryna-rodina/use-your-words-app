@@ -14,6 +14,9 @@ export type Word = {
   phrases: string[] | FormValue[];
   synonyms: string[] | FormValue[];
   antonyms: string[] | FormValue[];
+  pronunciationRadio: PronunciationType;
+  uploadPronunciation?: string;
+  recordPronunciation?: string;
 };
 
 export type WordWithId = Word & { id: string };

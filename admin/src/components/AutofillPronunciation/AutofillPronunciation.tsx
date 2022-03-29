@@ -1,22 +1,31 @@
 import React from "react";
+import { Controller } from "react-hook-form";
 import { TextField } from "../TextField";
 
 type AutofillPronunciationProps = {
-  validate: any;
-  disabled: boolean;
+  register: any;
+  active: boolean;
+  control: any;
 };
 const AutofillPronunciation = ({
-  validate,
-  disabled,
+  register,
+  active,
+  control,
 }: AutofillPronunciationProps) => {
   return (
     <>
-      <TextField
-        label="Enter mp3 url"
+      <Controller
         name="fileUrl"
-        validate={validate}
-        disabled={disabled}
-      />
+        control={control}
+        render={() => (
+          <TextField
+            label=""
+            name="fileUrl"
+            validate={register}
+            disabled={!active}
+          />
+        )}
+      ></Controller>
     </>
   );
 };

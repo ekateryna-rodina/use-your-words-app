@@ -1,27 +1,37 @@
 import React from "react";
+import { Controller } from "react-hook-form";
 import { FileUploader } from "../FileUploader";
 
 type UploadPronunciationProps = {
-  disabled: boolean;
+  control: any;
+  active: boolean;
   file: File | null;
   setFile: (file: File | null) => void;
   fileError: boolean;
   setFileError: (isError: boolean) => void;
 };
 const UploadPronunciation = ({
-  disabled,
+  active,
   fileError,
   file,
   setFile,
+  control,
 }: UploadPronunciationProps) => {
   return (
     <>
-      <FileUploader
-        file={file}
-        setFile={setFile}
-        error={fileError}
-        disabled={disabled}
-      />
+      <Controller
+        name="uploadPronunciation"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <FileUploader
+            file={file}
+            setFile={setFile}
+            error={fileError}
+            disabled={!active}
+            onChange={onChange}
+          />
+        )}
+      ></Controller>
     </>
   );
 };

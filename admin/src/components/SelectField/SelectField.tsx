@@ -15,7 +15,6 @@ const SelectField = ({
   options,
   control,
 }: SelectFieldProps) => {
-  console.log(options);
   return (
     <div>
       <label htmlFor={name}>{label}</label>

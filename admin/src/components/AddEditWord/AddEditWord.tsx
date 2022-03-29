@@ -1,14 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
-import {
-  FormValue,
-  PartOfSpeech,
-  PronunciationType,
-  Word,
-  WordWithId,
-} from "../../types/";
+import { FormValue, PartOfSpeech, Word, WordWithId } from "../../types/";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 import { PronunciationRadio } from "../PronunciationRadio";
@@ -22,7 +17,6 @@ type AddEditWordProps = {
 function AddEditWord({ word, tempParts }: AddEditWordProps) {
   const [editWord] = useState<WordWithId | undefined>(word);
   const [loading, setLoading] = useState<boolean>(false);
-  const [active, setActive] = useState<PronunciationType>("autofill");
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<boolean>(false);
@@ -33,23 +27,66 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
     control,
     getValues,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm<Word>({ resolver });
+  } = useForm<Word>({
+    resolver,
+    defaultValues: {
+      pronunciationRadio: "autofill",
+    },
+  });
 
   const [postPutUrl, wordInfoUrl] = [
     "http://localhost:8080/api/words",
     "http://localhost:8080/api/wordsApi",
   ];
 
+  const submitFileToStorage = async () => {
+    if (file?.name) {
+      const [cloudName, uploadPreset] = [
+        process.env.REACT_APP_CLOUD_NAME ?? "",
+        process.env.REACT_APP_UPLOAD_PRESET ?? "",
+      ];
+
+      if (!cloudName || !uploadPreset) return;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("resource_type", "video");
+      try {
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+          formData
+        );
+        return response.data.secure_url;
+      } catch (error) {
+        return null;
+      }
+    }
+  };
+
   const onSaveWordHandler = async (values: any) => {
+    let fileUrl = getValues("fileUrl");
     setLoading(true);
+    console.log(
+      getValues("pronunciationRadio"),
+      ["upload", "record"].includes(getValues("pronunciationRadio"))
+    );
+    if (["upload", "record"].includes(getValues("pronunciationRadio"))) {
+      fileUrl = await submitFileToStorage();
+    }
+
     if (editWord) {
-      request(postPutUrl, { ...values, id: editWord.id }, "PUT")
+      request(
+        postPutUrl,
+        { ...values, id: editWord.id, fileUrl: fileUrl },
+        "PUT"
+      )
         .then((info) => console.log(info))
         .catch((err) => console.log(err));
     } else {
-      request(postPutUrl, values, "POST")
-        .then((info) => console.log(info))
+      request(postPutUrl, { ...values, fileUrl }, "POST")
+        .then((info) => console.log("in", fileUrl, info))
         .catch((err) => console.log(err));
     }
 
@@ -79,6 +116,7 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
     reset({
       fileUrl,
       meanings,
+      pronunciationRadio: "autofill",
       partOfSpeech,
       synonyms,
       antonyms,
@@ -125,8 +163,10 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
             setFile,
             fileError,
             setFileError,
-            active,
-            setActive,
+            active: getValues("pronunciationRadio"),
+            control,
+            getValues,
+            word: getValues("word"),
           }}
         />
         <SelectField

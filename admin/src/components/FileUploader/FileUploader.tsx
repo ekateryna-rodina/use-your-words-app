@@ -6,12 +6,14 @@ type FileUploaderProps = {
   file: File | null;
   error: boolean;
   disabled: boolean;
+  onChange: (fileName: string) => void;
 };
 const FileUploader = ({
   setFile,
   file,
   error,
   disabled,
+  onChange,
 }: FileUploaderProps) => {
   async function dropFileHandler(
     files: File[],
@@ -22,9 +24,10 @@ const FileUploader = ({
   let maxSize = 5e6;
   return (
     <Dropzone
-      onDrop={(acceptedFiles: File[], rejectedFiles: FileRejection[]) =>
-        dropFileHandler(acceptedFiles, rejectedFiles)
-      }
+      onDrop={(acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        dropFileHandler(acceptedFiles, rejectedFiles);
+        onChange(acceptedFiles[0].name);
+      }}
       maxSize={maxSize}
       multiple={false}
       accept="audio/*"
@@ -54,7 +57,7 @@ const FileUploader = ({
             }}
             {...getRootProps()}
           >
-            <input {...getInputProps()} />
+            <input {...getInputProps({})} />
             {!file?.name ? (
               <p
                 style={{
