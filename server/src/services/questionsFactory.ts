@@ -1,7 +1,14 @@
 import { QuestionType } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 import {
+  createChooseAntonymByWordQuestion,
   createChooseMeaningByWordQuestion,
+  createChooseSynonymByWordQuestion,
+  createChooseWordByAntonymQuestion,
+  createChooseWordByMeaningQuestion,
+  createChooseWordBySynonymQuestion,
+  createConnectWordsWithMeaningsQuestion,
+  //   createConnectWordsWithMeaningsQuestion,
   createFillGapQuestion,
   createPronounceQuestion,
   createTypeWordByMeaningQuestion,

@@ -1,6 +1,5 @@
 export enum QuestionType {
   FillGap = "Fill the gap",
-
   Pronounce = "Pronounce the word",
   TypeWordByPronunciation = "Type the word you heard",
   TypeWordByMeaning = "What a word does match the meaning",
@@ -15,39 +14,56 @@ export enum QuestionType {
 
 export type BaseQuestion = {
   wordId: string;
+  question: string;
+  answer: string | string[];
+  options?: string[];
 };
 
 export type FillGapQuestion = BaseQuestion & {
   __type: QuestionType.FillGap;
-  answer: string;
-  phrase: string;
 };
 
 export type PronounceQuestion = BaseQuestion & {
   __type: QuestionType.Pronounce;
-  fileUrl: string;
 };
 
 export type TypeWordByPronunciationQuestion = BaseQuestion & {
   __type: QuestionType.TypeWordByPronunciation;
-  fileUrl: string;
-  answer: string;
 };
 
 export type TypeWordByMeaningQuestion = BaseQuestion & {
   __type: QuestionType.TypeWordByMeaning;
-  meaning: string;
-  answer: string;
 };
 
 export type ChooseMeaningByWordQuestion = BaseQuestion & {
   __type: QuestionType.ChooseMeaningByWord;
-  options: string[];
-  answer: string;
 };
 
 export type ChooseWordByMeaningQuestion = BaseQuestion & {
   __type: QuestionType.ChooseWordByMeaning;
-  options: string[];
-  answer: string;
+};
+
+export type ConnectWordsWithMeaningsQuestion = Omit<
+  BaseQuestion,
+  "question" | "answer"
+> & {
+  __type: QuestionType.ConnectWordsWithMeanings;
+  question: { words: string[]; meanings: string[] };
+  answer: Record<string, string>;
+};
+
+export type ChooseSynonymByWordQuestion = BaseQuestion & {
+  __type: QuestionType.ChooseSynonymByWord;
+};
+
+export type ChooseAntonymByWordQuestion = BaseQuestion & {
+  __type: QuestionType.ChooseAntonymByWord;
+};
+
+export type ChooseWordBySynonymQuestion = BaseQuestion & {
+  __type: QuestionType.ChooseWordBySynonym;
+};
+
+export type ChooseWordByAntonymQuestion = BaseQuestion & {
+  __type: QuestionType.ChooseWordByAntonym;
 };
