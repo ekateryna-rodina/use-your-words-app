@@ -1,19 +1,33 @@
+import { Op } from "sequelize";
 import ApiError from "../error/apiError";
 import db from "../models";
 import { QuestionType } from "../types/Question";
 import { ExistingWord } from "../types/Word";
+import { mapToWords } from "../utils/mapToObject";
 import QuestionsFactory from "./questionsFactory";
 
 const generateQuizQuestions = async (wordIds: string[]) => {
-  let quizQuestions = [];
-  const questionTypes = Object.keys(QuestionType).filter(
-    (key) => !isNaN(+QuestionType[key])
-  );
+  if (!wordIds) return;
+  const quizQuestions = [];
   try {
-    const items = await db.Word.findAll({ where: { id: { $in: wordIds } } });
-    for (let item of items) {
-      for (let qt of questionTypes) {
-        var questionType: QuestionType =
+    const itemDtos = await db.Word.findAll({
+      where: {
+        id: {
+          [Op.in]: wordIds,
+        },
+      },
+      include: [
+        { model: db.Phrase, separate: true },
+        { model: db.Meaning, separate: true },
+        { model: db.Synonym, separate: true },
+        { model: db.Antonym, separate: true },
+      ],
+    });
+
+    const items = mapToWords(itemDtos);
+    for (const item of items) {
+      for (const qt of Object.keys(QuestionType)) {
+        const questionType: QuestionType =
           QuestionType[qt as keyof typeof QuestionType];
         const newQuestion = QuestionsFactory(
           questionType,

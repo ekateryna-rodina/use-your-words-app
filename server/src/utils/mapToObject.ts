@@ -2,6 +2,7 @@ import { ExistingWord } from "../types/Word";
 
 export function mapToWords(dtos: any[]): ExistingWord[] {
   const words = [];
+  let partOfSpeech = [];
   for (const dto of dtos) {
     const { id, word, fileUrl, createdAt, updatedAt } = dto.dataValues;
     const meanings = dto.dataValues.Meanings.map(
@@ -10,30 +11,36 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
         id: m.dataValues.id,
       })
     );
+
     const phrases = dto.dataValues.Phrases.map(
       (m: { dataValues: { phrase: string; id: string } }) => ({
         value: m.dataValues.phrase,
         id: m.dataValues.id,
       })
     );
+
     const synonyms = dto.dataValues.Synonyms.map(
       (m: { dataValues: { synonym: string; id: string } }) => ({
         value: m.dataValues.synonym,
         id: m.dataValues.id,
       })
     );
+
     const antonyms = dto.dataValues.Antonyms.map(
       (m: { dataValues: { antonym: string; id: string } }) => ({
         value: m.dataValues.antonym,
         id: m.dataValues.id,
       })
     );
-    const partOfSpeech = dto.dataValues.PartOfSpeeches.map(
-      (m: { dataValues: { part: string; id: string } }) => ({
-        value: m.dataValues.part,
-        id: m.dataValues.id,
-      })
-    );
+    if (dto.dataValues.PartOfSpeeches) {
+      partOfSpeech = dto.dataValues.PartOfSpeeches.map(
+        (m: { dataValues: { part: string; id: string } }) => ({
+          value: m.dataValues.part,
+          id: m.dataValues.id,
+        })
+      );
+    }
+
     const result = {
       id,
       word,

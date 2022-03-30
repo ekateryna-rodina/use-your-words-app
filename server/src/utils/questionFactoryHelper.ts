@@ -14,15 +14,19 @@ import {
 import { ExistingWord, WordData } from "../types/Word";
 
 export const createFillGapQuestion = (wordInfo: ExistingWord) => {
+  const randomIndex = Math.floor(Math.random() * wordInfo.phrases.length);
+  const randomPhrase = (wordInfo.phrases[randomIndex] as WordData).value;
+  console.log(wordInfo);
+  const _question = randomPhrase.value.replace(
+    wordInfo.word,
+    `[${wordInfo.word}]`
+  );
+  console.log(_question);
   const question: FillGapQuestion = {
     __type: QuestionType.FillGap,
     wordId: wordInfo.id,
     answer: wordInfo.word,
-    question: (
-      wordInfo.phrases[
-        Math.floor(Math.random() * wordInfo.phrases.length)
-      ] as WordData
-    ).value.value.replace(wordInfo.word, `[${wordInfo.word}]`),
+    question: _question,
   };
   return question;
 };

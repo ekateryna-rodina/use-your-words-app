@@ -8,9 +8,10 @@ router.get(
   "/api/questions",
   validate(validateWords),
   async (req: Request, res: Response, next: NextFunction) => {
-    const questions = await generateQuestions(req.body.wordIds);
+    const wordIds = (req.query.wordIds as string).split(",");
+    const questions = await generateQuestions(wordIds);
     res.status(200).json({ questions });
   }
 );
 
-export { router as postWordsRouter };
+export { router as getQuestionsRouter };
