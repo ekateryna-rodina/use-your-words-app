@@ -23,7 +23,7 @@ export type FillGapQuestion = BaseQuestion & {
   __type: QuestionType.FillGap;
 };
 
-export type PronounceQuestion = BaseQuestion & {
+export type PronounceQuestion = Omit<BaseQuestion, "answer"> & {
   __type: QuestionType.Pronounce;
 };
 

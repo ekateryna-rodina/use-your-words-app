@@ -20,7 +20,7 @@ const Vocabulary = () => {
   const partOfSpeechURL = `${baseURL}/partOfSpeech`;
   const [showCreateQuizModal, setShowCreateQuizModal] =
     useState<boolean>(false);
-  const quizQuestionsLimitLength = 1;
+  const quizQuestionsLimitLength = 4;
   useEffect(() => {
     const fetchVocabulary = async () => {
       const response = await fetch(wordURL);

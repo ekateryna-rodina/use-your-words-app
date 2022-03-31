@@ -11,22 +11,16 @@ import {
   TypeWordByMeaningQuestion,
   TypeWordByPronunciationQuestion,
 } from "../types/Question";
-import { ExistingWord, WordData } from "../types/Word";
+import { ExistingWord } from "../types/Word";
 
 export const createFillGapQuestion = (wordInfo: ExistingWord) => {
   const randomIndex = Math.floor(Math.random() * wordInfo.phrases.length);
-  const randomPhrase = (wordInfo.phrases[randomIndex] as WordData).value;
-  console.log(wordInfo);
-  const _question = randomPhrase.value.replace(
-    wordInfo.word,
-    `[${wordInfo.word}]`
-  );
-  console.log(_question);
+  const randomPhrase = (wordInfo.phrases[randomIndex] as any).value;
   const question: FillGapQuestion = {
     __type: QuestionType.FillGap,
     wordId: wordInfo.id,
     answer: wordInfo.word,
-    question: _question,
+    question: randomPhrase.replace(wordInfo.word, `[${wordInfo.word}]`),
   };
   return question;
 };
@@ -36,8 +30,8 @@ export const createPronounceQuestion = (wordInfo: ExistingWord) => {
     __type: QuestionType.Pronounce,
     wordId: wordInfo.id,
     question: wordInfo.fileUrl,
-    answer: wordInfo.word,
   };
+
   return question;
 };
 
@@ -50,20 +44,20 @@ export const createTypeWordByPronunciationQuestion = (
     answer: wordInfo.word,
     question: wordInfo.fileUrl,
   };
+
   return question;
 };
 
 export const createTypeWordByMeaningQuestion = (wordInfo: ExistingWord) => {
+  const randomIndex = Math.floor(Math.random() * wordInfo.meanings.length);
+  const randomMeaning = (wordInfo.meanings[randomIndex] as any).value;
   const question: TypeWordByMeaningQuestion = {
     __type: QuestionType.TypeWordByMeaning,
     wordId: wordInfo.id,
     answer: wordInfo.word,
-    question: (
-      wordInfo.phrases[
-        Math.floor(Math.random() * wordInfo.meaning.length)
-      ] as WordData
-    ).value.value,
+    question: randomMeaning,
   };
+
   return question;
 };
 
@@ -74,15 +68,16 @@ export const createChooseMeaningByWordQuestion = (
   const wrongOptions = otherWordsInfo
     .sort(() => 0.5 - Math.random())
     .slice(0, 3)
-    .map((o) => o.meaning[0].value.value);
-  const options = [...wrongOptions, wordInfo.meaning[0].value.value];
+    .map((o) => (o.meanings[0] as any).value);
+  const options = [...wrongOptions, (wordInfo.meanings[0] as any).value];
   const question: ChooseMeaningByWordQuestion = {
     __type: QuestionType.ChooseMeaningByWord,
     wordId: wordInfo.id,
-    answer: wordInfo.meaning[0].value.value,
+    answer: (wordInfo.meanings[0] as any).value,
     question: wordInfo.word,
     options,
   };
+
   return question;
 };
 
@@ -98,10 +93,11 @@ export const createChooseWordByMeaningQuestion = (
   const question: ChooseMeaningByWordQuestion = {
     __type: QuestionType.ChooseMeaningByWord,
     wordId: wordInfo.id,
-    question: wordInfo.meaning[0].value.value,
+    question: (wordInfo.meanings[0] as any).value,
     answer: wordInfo.word,
     options,
   };
+
   return question;
 };
 
@@ -113,7 +109,7 @@ export const createConnectWordsWithMeaningsQuestion = (
     .sort(() => 0.5 - Math.random())
     .slice(0, 4);
   const words = items.map((item) => item.word);
-  const meanings = items.map((item) => item.meaning[0].value.value);
+  const meanings = items.map((item) => (item.meanings[0] as any).value);
   const question: ConnectWordsWithMeaningsQuestion = {
     __type: QuestionType.ConnectWordsWithMeanings,
     wordId: wordInfo.id,
@@ -121,8 +117,12 @@ export const createConnectWordsWithMeaningsQuestion = (
       words: words.sort(() => 0.5 - Math.random()),
       meanings: meanings.sort(() => 0.5 - Math.random()),
     },
-    answer: { word: "meaning" },
+    answer: items.reduce((acc: Record<string, string>, curr, index) => {
+      acc[curr.word] = (curr.meanings[0] as any).value;
+      return acc;
+    }, {}),
   };
+
   return question;
 };
 
@@ -133,15 +133,17 @@ export const createChooseSynonymByWordQuestion = (
   const wrongOptions = otherWordsInfo
     .sort(() => 0.5 - Math.random())
     .slice(0, 3)
-    .map((o) => o.synonym[0].value.value);
-  const options = [...wrongOptions, wordInfo.synonym[0].value.value];
+    .map((o) => (o.synonyms[0] as any).value);
+  const options = [...wrongOptions, (wordInfo.synonyms[0] as any).value];
+
   const question: ChooseSynonymByWordQuestion = {
     __type: QuestionType.ChooseSynonymByWord,
     wordId: wordInfo.id,
     question: wordInfo.word,
-    answer: wordInfo.synonym[0].value.value,
+    answer: (wordInfo.synonyms[0] as any).value,
     options,
   };
+
   return question;
 };
 
@@ -152,15 +154,16 @@ export const createChooseAntonymByWordQuestion = (
   const wrongOptions = otherWordsInfo
     .sort(() => 0.5 - Math.random())
     .slice(0, 3)
-    .map((o) => o.antonym[0].value.value);
-  const options = [...wrongOptions, wordInfo.antonym[0].value.value];
+    .map((o) => (o.antonyms[0] as any).value);
+  const options = [...wrongOptions, (wordInfo.antonyms[0] as any).value];
   const question: ChooseAntonymByWordQuestion = {
     __type: QuestionType.ChooseAntonymByWord,
     wordId: wordInfo.id,
     question: wordInfo.word,
-    answer: wordInfo.antonym[0].value.value,
+    answer: (wordInfo.antonyms[0] as any).value,
     options,
   };
+
   return question;
 };
 
@@ -176,10 +179,11 @@ export const createChooseWordBySynonymQuestion = (
   const question: ChooseWordBySynonymQuestion = {
     __type: QuestionType.ChooseWordBySynonym,
     wordId: wordInfo.id,
-    question: wordInfo.synonym[0].value.value,
+    question: (wordInfo.synonyms[0] as any).value,
     answer: wordInfo.word,
     options,
   };
+
   return question;
 };
 
@@ -195,9 +199,10 @@ export const createChooseWordByAntonymQuestion = (
   const question: ChooseWordByAntonymQuestion = {
     __type: QuestionType.ChooseWordByAntonym,
     wordId: wordInfo.id,
-    question: wordInfo.antonym[0].value.value,
+    question: (wordInfo.antonyms[0] as any).value,
     answer: wordInfo.word,
     options,
   };
+
   return question;
 };

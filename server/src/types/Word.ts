@@ -1,3 +1,7 @@
+export type Value = {
+  id?: string;
+  value: string;
+};
 export type WordData = {
   value: {
     id?: string;
