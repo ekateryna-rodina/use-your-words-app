@@ -3,6 +3,7 @@ import {
   ChooseMeaningByWordQuestion,
   ChooseSynonymByWordQuestion,
   ChooseWordByAntonymQuestion,
+  ChooseWordByMeaningQuestion,
   ChooseWordBySynonymQuestion,
   ConnectWordsWithMeaningsQuestion,
   FillGapQuestion,
@@ -90,8 +91,8 @@ export const createChooseWordByMeaningQuestion = (
     .slice(0, 3)
     .map((o) => o.word);
   const options = [...wrongOptions, wordInfo.word];
-  const question: ChooseMeaningByWordQuestion = {
-    __type: QuestionType.ChooseMeaningByWord,
+  const question: ChooseWordByMeaningQuestion = {
+    __type: QuestionType.ChooseWordByMeaning,
     wordId: wordInfo.id,
     question: (wordInfo.meanings[0] as any).value,
     answer: wordInfo.word,
