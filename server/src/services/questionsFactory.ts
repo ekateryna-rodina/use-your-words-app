@@ -1,4 +1,4 @@
-import { QuestionType } from "../types/Question";
+import { BaseQuestion, QuestionType } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 import {
   createChooseAntonymByWordQuestion,
@@ -8,7 +8,6 @@ import {
   createChooseWordByMeaningQuestion,
   createChooseWordBySynonymQuestion,
   createConnectWordsWithMeaningsQuestion,
-  //   createConnectWordsWithMeaningsQuestion,
   createFillGapQuestion,
   createPronounceQuestion,
   createTypeWordByMeaningQuestion,
@@ -19,7 +18,7 @@ const QuestionsFactory = (
   type: QuestionType,
   wordInfo: ExistingWord,
   allOtherWordsInfo: ExistingWord[]
-) => {
+): (BaseQuestion & { __type: QuestionType }) | null => {
   switch (type) {
     case QuestionType.FillGap:
       return createFillGapQuestion(wordInfo);
@@ -47,7 +46,7 @@ const QuestionsFactory = (
     case QuestionType.ChooseWordByAntonym:
       return createChooseWordByAntonymQuestion(wordInfo, allOtherWordsInfo);
     default:
-      return {};
+      return null;
   }
 };
 

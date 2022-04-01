@@ -39,7 +39,7 @@ app.use(update_1.putWordsRouter);
 app.use(delete_1.deleteWordsRouter);
 app.use(get_4.getWordsApiRouter);
 app.use(get_1.getPartOfSpeechRouter);
-app.use(get_2.getQuestionsRouter);
+app.use(get_2.questionsRouter);
 app.use(validationErrorHandler_1.default);
 (0, init_1.runSeed)();
 models_1.default.sequelize.sync().then(() => {

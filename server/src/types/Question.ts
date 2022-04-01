@@ -1,3 +1,4 @@
+// TODO: move to a package
 export enum QuestionType {
   FillGap = "Fill the gap",
   Pronounce = "Pronounce the word",
@@ -14,8 +15,8 @@ export enum QuestionType {
 
 export type BaseQuestion = {
   wordId: string;
-  question: string;
-  answer: string | string[];
+  question: string | { words: string[]; meanings: string[] };
+  answer?: string | string[] | Record<string, string>;
   options?: string[];
 };
 
@@ -23,7 +24,7 @@ export type FillGapQuestion = BaseQuestion & {
   __type: QuestionType.FillGap;
 };
 
-export type PronounceQuestion = Omit<BaseQuestion, "answer"> & {
+export type PronounceQuestion = BaseQuestion & {
   __type: QuestionType.Pronounce;
 };
 
@@ -43,13 +44,8 @@ export type ChooseWordByMeaningQuestion = BaseQuestion & {
   __type: QuestionType.ChooseWordByMeaning;
 };
 
-export type ConnectWordsWithMeaningsQuestion = Omit<
-  BaseQuestion,
-  "question" | "answer"
-> & {
+export type ConnectWordsWithMeaningsQuestion = BaseQuestion & {
   __type: QuestionType.ConnectWordsWithMeanings;
-  question: { words: string[]; meanings: string[] };
-  answer: Record<string, string>;
 };
 
 export type ChooseSynonymByWordQuestion = BaseQuestion & {
@@ -66,4 +62,10 @@ export type ChooseWordBySynonymQuestion = BaseQuestion & {
 
 export type ChooseWordByAntonymQuestion = BaseQuestion & {
   __type: QuestionType.ChooseWordByAntonym;
+};
+
+export type Quiz = {
+  id: string;
+  name: string;
+  questions: [];
 };
