@@ -11,8 +11,8 @@ router.get(
   validate(validateQuestionsInput),
   async (req: Request, res: Response, next: NextFunction) => {
     const wordIds = (req.query.wordIds as string).split(",");
-    const questions = await generateQuestions(wordIds);
-    res.status(200).json({ questions });
+    const quiz = await generateQuestions(wordIds);
+    res.status(200).json({ quiz });
   }
 );
 

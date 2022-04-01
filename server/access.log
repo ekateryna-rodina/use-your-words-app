@@ -1510,3 +1510,16 @@
 ::1 - - [01/Apr/2022:22:00:41 +0000] "GET /api/question?wordId=3f2a2f0b-a643-414c-b28d-f10af7c3d5a7&quizWordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29&questionType=Given+a+meaning.+What+is+the+closest+word%3F HTTP/1.1" 200 238
 ::1 - - [01/Apr/2022:22:01:21 +0000] "GET /api/question?wordId=3f2a2f0b-a643-414c-b28d-f10af7c3d5a7&quizWordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29&questionType=Given+a+meaning.+What+is+the+closest+word%3F HTTP/1.1" 200 228
 ::1 - - [01/Apr/2022:22:01:41 +0000] "GET /api/question?wordId=3f2a2f0b-a643-414c-b28d-f10af7c3d5a7&quizWordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29&questionType=Given+a+word.+What+is+the+closest+meaning%3F HTTP/1.1" 200 424
+::1 - - [01/Apr/2022:23:06:04 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 11152
+::1 - - [01/Apr/2022:23:06:42 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10945
+::1 - - [01/Apr/2022:23:12:15 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10923
+::1 - - [01/Apr/2022:23:13:33 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10959
+::1 - - [01/Apr/2022:23:14:01 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [01/Apr/2022:23:14:01 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [01/Apr/2022:23:14:05 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [01/Apr/2022:23:14:05 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [01/Apr/2022:23:14:24 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10846
+::1 - - [01/Apr/2022:23:16:14 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [01/Apr/2022:23:16:14 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [01/Apr/2022:23:16:32 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10628
+::1 - - [01/Apr/2022:23:19:21 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 10754

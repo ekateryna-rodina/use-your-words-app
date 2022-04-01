@@ -1,5 +1,4 @@
 import { Op } from "sequelize";
-import { v4 as uuidv4 } from "uuid";
 import ApiError from "../error/apiError";
 import db from "../models";
 import { BaseQuestion, QuestionType } from "../types/Question";
@@ -11,7 +10,7 @@ const generateQuizQuestions = async (wordIds: string[]) => {
   if (!wordIds) return;
   const questions: (BaseQuestion & { __type: QuestionType })[] = [];
   const quizInfo = {
-    quizId: uuidv4(),
+    name: "New number",
   };
   try {
     const itemDtos = await db.Word.findAll({
