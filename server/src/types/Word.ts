@@ -10,12 +10,12 @@ export type WordData = {
 };
 export type Word = {
   word: string;
-  meanings: string[] | WordData[];
+  meanings: string[] | WordData[] | Value[];
   fileUrl: string;
   partOfSpeech: string[] | WordData[];
-  phrases: string[] | WordData[];
-  synonyms: string[] | WordData[];
-  antonyms: string[] | WordData[];
+  phrases: string[] | WordData[] | Value[];
+  synonyms: string[] | WordData[] | Value[];
+  antonyms: string[] | WordData[] | Value[];
 };
 
 export type ExistingWord = Word & {

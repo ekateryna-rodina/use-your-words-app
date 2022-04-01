@@ -54,8 +54,7 @@ export const generateQuestion = async (
   quizWordIds: string[],
   questionType: QuestionType
 ) => {
-  if (!wordId) return;
-  const quizQuestions = [];
+  if (!wordId || !questionType) return;
   try {
     const itemDtos = await db.Word.findAll({
       where: {
@@ -75,11 +74,9 @@ export const generateQuestion = async (
     const newQuestion = QuestionsFactory(
       questionType,
       items.filter((i) => i.id === wordId)[0] as ExistingWord,
-      items.filter((w: ExistingWord) => w.word !== wordId)
+      items.filter((w: ExistingWord) => w.id != wordId)
     );
-
-    quizQuestions.push(newQuestion);
-    return quizQuestions;
+    return newQuestion;
   } catch (error) {
     throw new ApiError(500, error.message);
   }

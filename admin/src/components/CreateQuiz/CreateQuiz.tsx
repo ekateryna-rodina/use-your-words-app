@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Quiz, WordWithId } from "../../types";
+import { QuestionType, Quiz, WordWithId } from "../../types";
 import request from "../../utils/request";
 
 type CreateQuizProps = {
@@ -8,7 +8,33 @@ type CreateQuizProps = {
 const CreateQuiz = ({ words }: CreateQuizProps) => {
   const [quiz, setQuiz] = useState<null | Quiz>(null);
   const baseURL = "http://localhost:8080/api";
-  const createQuestionsURL = `${baseURL}/questions`;
+  const [createQuestionsURL, recreateQuestionURL] = [
+    `${baseURL}/questions`,
+    `${baseURL}/question`,
+  ];
+
+  const regenerateNewQuestion = (
+    wordId: string,
+    questionType: QuestionType
+  ) => {
+    request(
+      recreateQuestionURL,
+      {
+        wordId,
+        quizWordIds: Array.from(
+          new Set(
+            quiz?.questions
+              .filter((q) => q.wordId !== wordId)
+              .map((q) => q.wordId)
+          )
+        ),
+        questionType,
+      },
+      "GET"
+    )
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     if (!words.length) return;
 
@@ -17,9 +43,7 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
       .catch((err) => console.log(err));
     // eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    console.log(quiz);
-  }, [quiz]);
+
   return (
     <>
       {quiz ? (
@@ -79,7 +103,13 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
                     q.answer
                   )}
                 </td>
-                <td></td>
+                <td>
+                  <button
+                    onClick={() => regenerateNewQuestion(q.wordId, q.__type)}
+                  >
+                    Regenerate question
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

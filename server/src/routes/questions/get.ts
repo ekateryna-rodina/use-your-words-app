@@ -17,16 +17,12 @@ router.get(
 );
 
 router.get(
-  "/api/questions/",
-  validate(validateQuestionsInput),
+  "/api/question/",
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("hh");
-    if (!req.query.wordId) return;
-    console.log("hh", req.query);
     const { wordId, quizWordIds, questionType } = req.query;
     const question = await generateQuestion(
       wordId as string,
-      quizWordIds as string[],
+      (quizWordIds as string).split(","),
       questionType as QuestionType
     );
     res.status(200).json({ question });
