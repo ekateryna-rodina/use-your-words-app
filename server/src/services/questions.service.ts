@@ -73,7 +73,7 @@ export const generateQuestion = async (
     const newQuestion = QuestionsFactory(
       questionType,
       items.filter((i) => i.id === wordId)[0] as ExistingWord,
-      items.filter((w: ExistingWord) => w.id != wordId)
+      items.filter((w: ExistingWord) => w.id !== wordId)
     );
     return newQuestion;
   } catch (error) {
