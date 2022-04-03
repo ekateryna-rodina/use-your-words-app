@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
 import ApiError from "../error/apiError";
 import db from "../models";
-import { BaseQuestion, QuestionType } from "../types/Question";
+import { BaseQuestion, QuestionType, Quiz } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 import { mapToWords } from "../utils/mapToObject";
 import QuestionsFactory from "./questionsFactory";
@@ -53,7 +53,7 @@ export const generateQuestion = async (
   quizWordIds: string[],
   questionType: QuestionType
 ) => {
-  if (!wordId || !questionType) return;
+  if (!wordId || !questionType) return null;
   try {
     const itemDtos = await db.Word.findAll({
       where: {
@@ -79,6 +79,13 @@ export const generateQuestion = async (
   } catch (error) {
     throw new ApiError(500, error.message);
   }
+};
+
+export const postQuizQuestions = (quiz: Quiz) => {
+  if (!quiz.name || !quiz.questions.length) return null;
+  try {
+    console.log(quiz);
+  } catch (err) {}
 };
 
 export { generateQuizQuestions };

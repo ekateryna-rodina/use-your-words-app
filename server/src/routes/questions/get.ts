@@ -1,14 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import { generateQuestions } from "../../controllers/questions.controller";
 import validate from "../../middleware/validate";
-import { validateQuestionsInput } from "../../schema/questions";
+import { validateGetQuestionsInput } from "../../schema/questions";
 import { generateQuestion } from "../../services/questions.service";
 import { QuestionType } from "../../types/Question";
 const router = express.Router();
 
 router.get(
   "/api/questions",
-  validate(validateQuestionsInput),
+  validate(validateGetQuestionsInput),
   async (req: Request, res: Response, next: NextFunction) => {
     const wordIds = (req.query.wordIds as string).split(",");
     const quiz = await generateQuestions(wordIds);
@@ -29,4 +29,4 @@ router.get(
   }
 );
 
-export { router as questionsRouter };
+export { router as getQuestionsRouter };
