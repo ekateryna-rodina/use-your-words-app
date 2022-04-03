@@ -7,7 +7,7 @@ import apiErrorHandler from "./middleware/validationErrorHandler";
 import db from "./models";
 import { getPartOfSpeechRouter } from "./routes/partOfSpeech/get";
 import { getQuestionsRouter } from "./routes/questions/get";
-import { postQuestionsRouter } from "./routes/questions/post";
+import { postQuizRouter } from "./routes/quiz/post";
 import { deleteWordsRouter } from "./routes/vocabulary/delete";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
@@ -40,7 +40,7 @@ app.use(deleteWordsRouter);
 app.use(getWordsApiRouter);
 app.use(getPartOfSpeechRouter);
 app.use(getQuestionsRouter);
-app.use(postQuestionsRouter);
+app.use(postQuizRouter);
 
 // middleware
 app.use(apiErrorHandler);

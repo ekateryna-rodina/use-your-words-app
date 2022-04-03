@@ -12,7 +12,7 @@ const validationErrorHandler_1 = __importDefault(require("./middleware/validatio
 const models_1 = __importDefault(require("./models"));
 const get_1 = require("./routes/partOfSpeech/get");
 const get_2 = require("./routes/questions/get");
-const post_1 = require("./routes/questions/post");
+const post_1 = require("./routes/quiz/post");
 const delete_1 = require("./routes/vocabulary/delete");
 const get_3 = require("./routes/vocabulary/get");
 const post_2 = require("./routes/vocabulary/post");
@@ -41,7 +41,7 @@ app.use(delete_1.deleteWordsRouter);
 app.use(get_4.getWordsApiRouter);
 app.use(get_1.getPartOfSpeechRouter);
 app.use(get_2.getQuestionsRouter);
-app.use(post_1.postQuestionsRouter);
+app.use(post_1.postQuizRouter);
 app.use(validationErrorHandler_1.default);
 (0, init_1.runSeed)();
 models_1.default.sequelize.sync().then(() => {

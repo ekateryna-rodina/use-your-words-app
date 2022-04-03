@@ -10,9 +10,10 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
   const [quiz, setQuiz] = useState<null | Quiz>(null);
   const [quizName, setQuizName] = useState<string>("");
   const baseURL = "http://localhost:8080/api";
-  const [createQuestionsURL, recreateQuestionURL] = [
+  const [createQuestionsURL, recreateQuestionURL, createQuizURL] = [
     `${baseURL}/questions`,
     `${baseURL}/question`,
+    `${baseURL}/quiz`,
   ];
 
   const regenerateNewQuestion = (
@@ -38,7 +39,7 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
       .catch((err) => console.log(err));
   };
   const saveQuizQuestions = () => {
-    request(createQuestionsURL, { ...quiz }, "POST")
+    request(createQuizURL, { ...quiz }, "POST")
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };

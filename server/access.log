@@ -1560,3 +1560,4 @@
 ::1 - - [03/Apr/2022:19:09:02 +0000] "POST /api/questions HTTP/1.1" 200 2
 ::1 - - [03/Apr/2022:19:11:15 +0000] "POST /api/questions HTTP/1.1" 200 2
 ::1 - - [03/Apr/2022:19:15:37 +0000] "POST /api/questions HTTP/1.1" 200 83
+::1 - - [03/Apr/2022:19:28:40 +0000] "GET /api/questions?wordIds=5279ebc4-5e35-43e1-9583-379514f20a85%2Cffb233fc-c60f-4d20-b6b5-9f53009b9374%2C98970280-ae02-4edd-9a03-3b6b59b22a29%2C3f2a2f0b-a643-414c-b28d-f10af7c3d5a7 HTTP/1.1" 200 9430

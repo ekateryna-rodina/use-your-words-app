@@ -1,16 +1,16 @@
 import express, { NextFunction, Request, Response } from "express";
-import { saveQuizQuestions } from "../../controllers/questions.controller";
+import { saveQuizQuestions } from "../../controllers/quiz.controller";
 import { Quiz } from "../../types/Question";
 const router = express.Router();
 
 router.post(
-  "/api/questions",
+  "/api/quiz",
   //   validate(validateSaveQuestionsInput),
   async (req: Request, res: Response, next: NextFunction) => {
     const data = req.body as Quiz;
     const quiz = await saveQuizQuestions(data);
-    res.status(200).json({ quiz });
+    res.status(200).json(quiz);
   }
 );
 
-export { router as postQuestionsRouter };
+export { router as postQuizRouter };
