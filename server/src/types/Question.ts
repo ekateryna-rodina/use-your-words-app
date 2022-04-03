@@ -1,16 +1,16 @@
 // TODO: move to a package
 export enum QuestionType {
-  FillGap = "Fill the gap",
-  Pronounce = "Pronounce the word",
-  TypeWordByPronunciation = "Type the word you heard",
-  TypeWordByMeaning = "What a word does match the meaning",
-  ChooseMeaningByWord = "Given a word. What is the closest meaning?",
-  ChooseWordByMeaning = "Given a meaning. What is the closest word?",
-  ConnectWordsWithMeanings = "Connect meanings with words",
-  ChooseSynonymByWord = "What is the synonym to the word?",
-  ChooseAntonymByWord = "What is the antonym to the word?",
-  ChooseWordBySynonym = "What is the word associated with the synonym?",
-  ChooseWordByAntonym = "What is the word associated with the antonym?",
+  FillGap,
+  Pronounce,
+  TypeWordByPronunciation,
+  TypeWordByMeaning,
+  ChooseMeaningByWord,
+  ChooseWordByMeaning,
+  ConnectWordsWithMeanings,
+  ChooseSynonymByWord,
+  ChooseAntonymByWord,
+  ChooseWordBySynonym,
+  ChooseWordByAntonym,
 }
 
 export type BaseQuestion = {

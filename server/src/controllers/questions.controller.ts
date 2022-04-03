@@ -29,8 +29,8 @@ export async function generateQuizQuestion(
 
 export async function saveQuizQuestions(data: Quiz) {
   try {
-    const question = await postQuizQuestions(data);
-    return question;
+    const quizQuestions = await postQuizQuestions(data);
+    return quizQuestions;
   } catch (error) {
     throw new Error(error);
   }

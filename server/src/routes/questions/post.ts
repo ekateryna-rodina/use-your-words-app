@@ -7,7 +7,6 @@ router.post(
   "/api/questions",
   //   validate(validateSaveQuestionsInput),
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
     const data = req.body as Quiz;
     const quiz = await saveQuizQuestions(data);
     res.status(200).json({ quiz });

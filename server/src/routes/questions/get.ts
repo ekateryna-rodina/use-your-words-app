@@ -23,7 +23,7 @@ router.get(
     const question = await generateQuestion(
       wordId as string,
       (quizWordIds as string).split(","),
-      questionType as QuestionType
+      QuestionType[questionType as keyof typeof QuestionType]
     );
     res.status(200).json({ question });
   }

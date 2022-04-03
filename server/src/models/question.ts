@@ -48,15 +48,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
         },
       },
       question: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
       answer: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
       options: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: true,
       },
       type: {
