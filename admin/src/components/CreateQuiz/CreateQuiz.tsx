@@ -37,6 +37,11 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };
+  const saveQuizQuestions = () => {
+    request(createQuestionsURL, { ...quiz }, "POST")
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     if (!words.length) return;
 
@@ -63,6 +68,7 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
                 onChange={(e) => setQuizName(e.target.value)}
               />
             </label>
+            <button onClick={saveQuizQuestions}>Save quiz</button>
           </div>
           <table style={{ width: "100%", height: "100%" }}>
             <thead>

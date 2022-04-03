@@ -12,9 +12,10 @@ const validationErrorHandler_1 = __importDefault(require("./middleware/validatio
 const models_1 = __importDefault(require("./models"));
 const get_1 = require("./routes/partOfSpeech/get");
 const get_2 = require("./routes/questions/get");
+const post_1 = require("./routes/questions/post");
 const delete_1 = require("./routes/vocabulary/delete");
 const get_3 = require("./routes/vocabulary/get");
-const post_1 = require("./routes/vocabulary/post");
+const post_2 = require("./routes/vocabulary/post");
 const update_1 = require("./routes/vocabulary/update");
 const get_4 = require("./routes/wordsApi/get");
 const init_1 = require("./seeders/init");
@@ -34,12 +35,13 @@ app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 dotenv_1.default.config();
 app.use(get_3.getWordsRouter);
-app.use(post_1.postWordsRouter);
+app.use(post_2.postWordsRouter);
 app.use(update_1.putWordsRouter);
 app.use(delete_1.deleteWordsRouter);
 app.use(get_4.getWordsApiRouter);
 app.use(get_1.getPartOfSpeechRouter);
-app.use(get_2.questionsRouter);
+app.use(get_2.getQuestionsRouter);
+app.use(post_1.postQuestionsRouter);
 app.use(validationErrorHandler_1.default);
 (0, init_1.runSeed)();
 models_1.default.sequelize.sync().then(() => {
