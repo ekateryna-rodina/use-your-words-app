@@ -1,3 +1,4 @@
+import { BaseQuestion, QuestionType, Quiz } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 
 export function mapToWords(dtos: any[]): ExistingWord[] {
@@ -56,4 +57,42 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
     words.push(result);
   }
   return words as ExistingWord[];
+}
+
+export function mapToQuizzes(dtos: any[]) {
+  if (!dtos || !dtos.length) return [];
+  const quizzes: Quiz[] = [];
+  for (let dto of dtos) {
+    const questions: (BaseQuestion & { __type: QuestionType })[] = [];
+    dto.dataValues.Questions.forEach((question: { dataValues: any }) => {
+      const parsedQuestion = Object.keys(question.dataValues).reduce<
+        BaseQuestion & { __type: QuestionType }
+      >((acc, curr: string) => {
+        if (curr === "type") {
+          acc["__type"] = question.dataValues[curr];
+          return acc;
+        }
+        // try to parse to object or array
+        try {
+          let value = JSON.parse(question.dataValues[curr]);
+          acc[curr] = value;
+          return acc;
+        } catch (error) {
+          acc[curr] = question.dataValues[curr];
+          return acc;
+        }
+      }, {} as BaseQuestion & { __type: QuestionType });
+
+      questions.push(parsedQuestion);
+    });
+
+    const quiz: Quiz = {
+      id: dto.id,
+      name: dto.name,
+      questions,
+    };
+    quizzes.push(quiz);
+  }
+  console.log(quizzes);
+  return quizzes;
 }

@@ -14,6 +14,7 @@ export enum QuestionType {
 }
 
 export type BaseQuestion = {
+  id?: string;
   wordId: string;
   question: string | { words: string[]; meanings: string[] };
   answer?: string | string[] | Record<string, string>;
@@ -67,5 +68,5 @@ export type ChooseWordByAntonymQuestion = BaseQuestion & {
 export type Quiz = {
   id: string;
   name: string;
-  questions: [];
+  questions: (BaseQuestion & { __type: QuestionType })[];
 };

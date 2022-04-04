@@ -1,7 +1,18 @@
 import db from "../models";
 import { QuestionType, Quiz } from "../types/Question";
+import { mapToQuizzes } from "../utils/mapToObject";
 
-const postQuizQuestions = (quiz: Quiz) => {
+const fetchQuizQuestions = async () => {
+  try {
+    const quizDtos = await db.Quiz.findAll({
+      include: [{ model: db.Question }],
+    });
+    const quizzes = mapToQuizzes(quizDtos);
+    return quizzes;
+  } catch (error) {}
+};
+
+const postQuizQuestions = async (quiz: Quiz) => {
   if (!quiz.name || !quiz.questions.length) return null;
   let quizId;
   // save the quiz first
@@ -47,4 +58,4 @@ const postQuizQuestions = (quiz: Quiz) => {
     });
 };
 
-export { postQuizQuestions };
+export { postQuizQuestions, fetchQuizQuestions };
