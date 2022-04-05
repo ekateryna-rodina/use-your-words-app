@@ -93,6 +93,6 @@ export function mapToQuizzes(dtos: any[]) {
     };
     quizzes.push(quiz);
   }
-  console.log(quizzes);
+
   return quizzes;
 }
