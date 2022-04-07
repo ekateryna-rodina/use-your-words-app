@@ -1,9 +1,12 @@
 import React from "react";
+import { QuizzesHeader } from "../components/QuizzesHeader";
 
 const Quizzes: React.FC = (props) => {
-  return <div>Quizzes</div>;
+  return (
+    <>
+      <QuizzesHeader />
+    </>
+  );
 };
-
-Quizzes.propTypes = {};
 
 export default Quizzes;

@@ -8,7 +8,7 @@ import {
 } from "../routes/index";
 
 const AppRouter = () => {
-  const auth = false;
+  const auth = true;
   return (
     <Routes>
       {auth ? (
