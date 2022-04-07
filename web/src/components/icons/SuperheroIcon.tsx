@@ -4,8 +4,8 @@ import { IconProps } from ".";
 const SuperheroIcon = ({ fill }: IconProps) => {
   return (
     <svg
-      width="15"
-      height="15"
+      width="25"
+      height="25"
       viewBox="0 0 35 35"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

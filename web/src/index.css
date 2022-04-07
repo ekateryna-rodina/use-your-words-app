@@ -8,11 +8,14 @@
     --gray-color: #F8F8F8;
     --light-color: #FEF4FF;
     --red-color: #DE214F;
+    --dark-color: #37233A;
   }
 
 body, html, #root {
-    width: 100%;
+    width: 100%; 
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 *, *::after, *::before {
@@ -23,5 +26,18 @@ body, html, #root {
     @apply flex items-center justify-around gap-[2px] w-fit;
 }
 .icon-with-score-container span{
-    @apply text-[10px] text-dark-800 dark:text-light;
+    @apply text-[12px] text-dark-800 mx-2 dark:text-light sm:text-[12px] md:text-[14px];
+}
+.header, .mobile-menu{
+    @apply flex flex-row justify-around items-center py-2 border-gray-800 bg-white dark:bg-dark-800 dark:border-light;
+}
+.header {
+    @apply border-b-[2px];
+}
+.mobile-menu{
+    @apply border-t-[2px];
+}
+/* Work around for layout white space mobile view problem in Chrome  */
+.dark{
+    background: var(--dark-color)
 }

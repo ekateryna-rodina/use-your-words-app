@@ -10,7 +10,7 @@ import WorldRank from "../WorldRank/WorldRank";
 const QuizzesHeader = () => {
   return (
     <>
-      <div className="flex flex-row justify-around py-4 bg-white dark:bg-dark-800">
+      <div className="header">
         <QuizRing color="purple" size="sm" contentText="1/325" />
         <ActiveDays />
         <SuccessLevel level={SuccessLevels.FromImprovedToMaster} />

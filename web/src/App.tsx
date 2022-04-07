@@ -9,9 +9,9 @@ function App() {
     root.classList.toggle("dark", isDark);
   }, [isDark]);
   return (
-    <>
+    <div className="h-full">
       <AppRouter />
-    </>
+    </div>
   );
 }
 
