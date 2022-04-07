@@ -2,10 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-.theme-light {
+:root {
+    --green-color: #2EC0A6;
+    --yellow-color: #D1AA3F;
+    --gray-color: #F8F8F8;
+    --light-color: #FEF4FF;
+    --red-color: #DE214F;
+  }
 
+body, html, #root {
+    width: 100%;
+    height: 100%;
 }
 
-.theme-dark {
+*, *::after, *::before {
+    box-sizing: border-box;
+}
 
+.icon-with-score-container{
+    @apply flex items-center justify-around gap-[2px] w-fit;
+}
+.icon-with-score-container span{
+    @apply text-[10px] text-dark-800 dark:text-light;
 }

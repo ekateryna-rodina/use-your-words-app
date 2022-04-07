@@ -1,4 +1,6 @@
+import { FillColor } from "../../types";
+
 export type IconProps = {
-  fill?: string;
+  fill?: FillColor;
   stroke?: string;
 };

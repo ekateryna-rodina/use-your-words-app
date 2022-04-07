@@ -12,7 +12,7 @@ const Switcher = () => {
   };
   return (
     <div className="flex flex-row items-center">
-      <SunIcon fill={isDark ? "fill-white" : "fill-gray-300"} />
+      <SunIcon fill={isDark ? "fill-light" : "fill-gray-300"} />
       <input
         type="checkbox"
         id="toggle"
@@ -28,7 +28,7 @@ const Switcher = () => {
           ></div>
         </div>
       </label>
-      <MoonIcon fill={isDark ? "fill-white" : "fill-gray-300"} />
+      <MoonIcon fill={isDark ? "fill-light" : "fill-gray-300"} />
     </div>
   );
 };
