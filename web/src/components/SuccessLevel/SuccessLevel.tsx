@@ -4,6 +4,7 @@ import StarIcon from "../icons/StarIcon";
 
 type SuccessLevelProps = {
   level: SuccessLevels;
+  score?: number;
 };
 const ColorMap: Record<SuccessLevels, FillColor | [FillColor, FillColor]> = {
   [SuccessLevels.Novice]: "fill-gray-300",
@@ -12,11 +13,11 @@ const ColorMap: Record<SuccessLevels, FillColor | [FillColor, FillColor]> = {
   [SuccessLevels.FromImprovedToMaster]: ["fill-yellow", "fill-green"],
   [SuccessLevels.Master]: "fill-green",
 };
-const SuccessLevel = ({ level }: SuccessLevelProps) => {
+const SuccessLevel = ({ level, score }: SuccessLevelProps) => {
   return (
     <div className="icon-with-score-container">
       <StarIcon fill={ColorMap[level]} />
-      <span>{446}</span>
+      {score ? <span>{score}</span> : <></>}
     </div>
   );
 };

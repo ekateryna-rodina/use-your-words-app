@@ -1,11 +1,26 @@
 import React from "react";
+import { useAppSelector } from "../app/hooks";
 import { MobileMenu } from "../components/MobileMenu";
+import { QuizSection } from "../components/QuizSection";
 import { QuizzesHeader } from "../components/QuizzesHeader";
+import { Quiz } from "../types";
 
 const Quizzes: React.FC = (props) => {
+  const { quizzes } = useAppSelector((state) => state.quizzes);
   return (
     <div className="h-full relative bg-white dark:bg-dark-800">
       <QuizzesHeader />
+
+      {quizzes.map((q: Quiz, index) => (
+        <>
+          <QuizSection
+            {...q}
+            buttonPosition={(index + 1) % 2 === 0 ? "right" : "left"}
+          />
+          <div className="border-x-8 border-gray-300" />
+        </>
+      ))}
+
       <MobileMenu />
     </div>
   );

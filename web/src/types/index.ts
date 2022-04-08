@@ -20,3 +20,11 @@ export enum MenuItem {
   History,
   User,
 }
+
+export type Quiz = {
+  quizId: string;
+  quizNumber: number;
+  words: string[];
+  isEnabled: boolean;
+  successLevel: SuccessLevels;
+};
