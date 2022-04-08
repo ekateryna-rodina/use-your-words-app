@@ -42,3 +42,7 @@ body, html, #root {
 .dark{
     background: var(--dark-color)
 }
+.quizzes-container{
+    overflow-y: auto;
+    height: calc(100% - 7rem);
+}

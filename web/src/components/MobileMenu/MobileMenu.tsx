@@ -4,6 +4,7 @@ import { MenuItem } from "../../types";
 import HistoryIcon from "../icons/HistoryIcon";
 import HomeIcon from "../icons/HomeIcon";
 import UserProfileIcon from "../icons/UserProfileIcon";
+import { Switcher } from "../Switcher";
 
 const MobileMenu = () => {
   const { active } = useAppSelector((state) => state.menu);
@@ -40,6 +41,7 @@ const MobileMenu = () => {
         }
         isFocused={active === MenuItem.User}
       />
+      <Switcher />
     </div>
   );
 };

@@ -11,15 +11,18 @@ const Quizzes: React.FC = (props) => {
     <div className="h-full relative bg-white dark:bg-dark-800">
       <QuizzesHeader />
 
-      {quizzes.map((q: Quiz, index) => (
-        <>
-          <QuizSection
-            {...q}
-            buttonPosition={(index + 1) % 2 === 0 ? "right" : "left"}
-          />
-          <div className="border-x-8 border-gray-300" />
-        </>
-      ))}
+      <div className="quizzes-container">
+        {quizzes.map((q: Quiz, index) => (
+          <>
+            <QuizSection
+              {...q}
+              buttonPosition={(index + 1) % 2 === 0 ? "right" : "left"}
+              withDivider={index === quizzes.length - 1 ? false : true}
+            />
+            <div className="border-x-8 border-gray-300" />
+          </>
+        ))}
+      </div>
 
       <MobileMenu />
     </div>
