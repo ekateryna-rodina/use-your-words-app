@@ -13,14 +13,14 @@ const Quizzes: React.FC = (props) => {
 
       <div className="quizzes-container">
         {quizzes.map((q: Quiz, index) => (
-          <>
+          <div key={q.quizId}>
             <QuizSection
               {...q}
               buttonPosition={(index + 1) % 2 === 0 ? "right" : "left"}
               withDivider={index === quizzes.length - 1 ? false : true}
             />
             <div className="border-x-8 border-gray-300" />
-          </>
+          </div>
         ))}
       </div>
 

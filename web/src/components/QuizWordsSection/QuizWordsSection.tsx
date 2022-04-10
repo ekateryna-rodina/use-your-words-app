@@ -12,7 +12,7 @@ const QuizWordsSection = ({ words }: QuizWordsSectionProps) => {
       </h6>
       <div className="flex flex-wrap gap-2 justify-center">
         {words.map((w) => (
-          <QuizWord>{w}</QuizWord>
+          <QuizWord key={w}>{w}</QuizWord>
         ))}
       </div>
     </>
