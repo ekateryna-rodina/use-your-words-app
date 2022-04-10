@@ -9,6 +9,8 @@
     --light-color: #FEF4FF;
     --red-color: #DE214F;
     --dark-color: #37233A;
+    --white-color: #FFFFFF;
+    --dark-gray-color: #AAAAAA;
   }
 
 body, html, #root {
@@ -42,6 +44,7 @@ body, html, #root {
 .dark{
     background: var(--dark-color)
 }
+
 .quizzes-container{
     overflow-y: auto;
     height: calc(100% - 7rem);

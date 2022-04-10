@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import activeQuizMenuReducer from "../features/activeQuizMenu/activequizmenu-slice";
 import { apiSlice } from "../features/app-api-slice";
 import menuReducer from "../features/menu/menu-slice";
 import modalReducer from "../features/modal/modal-slice";
@@ -11,6 +12,7 @@ export const store = configureStore({
     theme: themeReducer,
     menu: menuReducer,
     quizzes: quizzesReducer,
+    activeQuizMenu: activeQuizMenuReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
