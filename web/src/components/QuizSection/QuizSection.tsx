@@ -1,4 +1,5 @@
 import React from "react";
+import { useAppSelector } from "../../app/hooks";
 import { Quiz } from "../../types";
 import { CircularProgressWithText } from "../CircularProgressWithText";
 import LearnIcon from "../icons/LearnIcon";
@@ -23,6 +24,7 @@ const QuizSection = ({
   const border = withDivider
     ? " border-b-[1px] border-gray-300 border-opacity-30 dark:border-opacity-10"
     : "";
+  const { isDark } = useAppSelector((state) => state.theme);
   return (
     <div
       className={`w-5/6 mx-auto flex flex-row justify-center items-center py-4 ${border}`}
@@ -38,7 +40,7 @@ const QuizSection = ({
         />
         <div className="flex justify-center items-center gap-2">
           <SquareButton handler={() => null} isPrimary={false}>
-            <LearnIcon fill="fill-gray-300" />
+            <LearnIcon fill={isDark ? "fill-light" : "fill-gray-300"} />
           </SquareButton>
           <SquareButton handler={() => null} isPrimary={true}>
             <PracticeIcon fill="fill-light" />
