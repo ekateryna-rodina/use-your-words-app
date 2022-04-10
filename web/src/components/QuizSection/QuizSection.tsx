@@ -1,8 +1,10 @@
 import React from "react";
 import { Quiz } from "../../types";
-import { CircularProgress } from "../CircularProgress";
-import { QuizActionModal } from "../QuizActionModal";
+import { CircularProgressWithText } from "../CircularProgressWithText";
+import LearnIcon from "../icons/LearnIcon";
+import PracticeIcon from "../icons/PracticeIcon";
 import { QuizWordsSection } from "../QuizWordsSection";
+import SquareButton from "../SquareButton.style";
 type QuizSectionProps = Quiz & {
   buttonPosition: "left" | "right";
   withDivider: boolean;
@@ -18,9 +20,6 @@ const QuizSection = ({
 }: QuizSectionProps) => {
   const buttonOrder = buttonPosition === "right" ? "order-1" : "order-2";
   const wordsOrder = buttonPosition === "right" ? "order-2" : "order-1";
-  // const successLevelPosition =
-  //   buttonPosition === "right" ? "left-0" : "right-0";
-  const space = buttonPosition === "right" ? "ml-8" : "mr-8";
   const border = withDivider
     ? " border-b-[1px] border-gray-300 border-opacity-30 dark:border-opacity-10"
     : "";
@@ -28,23 +27,23 @@ const QuizSection = ({
     <div
       className={`w-5/6 mx-auto flex flex-row justify-center items-center py-4 ${border}`}
     >
-      <div className={`relative flex-2 ${wordsOrder} ${space}`}>
+      <div className={`relative flex-2 ${wordsOrder}`}>
         <QuizWordsSection words={words} />
-        <QuizActionModal quizId={quizId} />
       </div>
       <div className={`relative flex-1 ${buttonOrder}`}>
-        <CircularProgress progress={33} />
-        {/* <QuizRingWithProgress
-          color={buttonPosition === "right" ? "purple" : "green"}
+        <CircularProgressWithText
+          progress={15}
+          text={`Byte ${quizNumber}`}
           size="lg"
-          contentText={`Byte ${quizNumber}`}
-          styleClass="m-auto"
-          clickedId={quizId}
-        /> */}
-
-        {/* <div className={`absolute -bottom-6 ${successLevelPosition}`}>
-          <SuccessLevel level={successLevel} />
-        </div> */}
+        />
+        <div className="flex justify-center items-center gap-2">
+          <SquareButton handler={() => null} isPrimary={false}>
+            <LearnIcon fill="fill-gray-300" />
+          </SquareButton>
+          <SquareButton handler={() => null} isPrimary={true}>
+            <PracticeIcon fill="fill-light" />
+          </SquareButton>
+        </div>
       </div>
     </div>
   );

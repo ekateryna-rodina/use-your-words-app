@@ -3,6 +3,8 @@ import { Quiz, SuccessLevels } from "../../types";
 
 type QuizzesState = {
   quizzes: Quiz[];
+  total: number;
+  completed: number;
 };
 
 const initialState: QuizzesState = {
@@ -24,7 +26,7 @@ const initialState: QuizzesState = {
     {
       quizId: "3",
       quizNumber: 3,
-      words: ["word1", "word2", "word3", "word4", "word5"],
+      words: ["word1", "word2word2", "word2word2", "word2word2", "word5"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
     },
@@ -50,6 +52,8 @@ const initialState: QuizzesState = {
       successLevel: SuccessLevels.Novice,
     },
   ],
+  total: 6,
+  completed: 2,
 };
 
 const quizzesSlice = createSlice({
