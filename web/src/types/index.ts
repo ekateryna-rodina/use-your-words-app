@@ -13,7 +13,8 @@ export type FillColor =
   | "fill-gray-800"
   | "fill-light"
   | "fill-red"
-  | "fill-purple";
+  | "fill-purple"
+  | "fill-dark-500";
 
 export enum MenuItem {
   Home,

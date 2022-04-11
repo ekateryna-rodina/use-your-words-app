@@ -1,5 +1,6 @@
 import React from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { toggle } from "../../features/modal/modal-slice";
 import { Quiz } from "../../types";
 import { CircularProgressWithText } from "../CircularProgressWithText";
 import LearnIcon from "../icons/LearnIcon";
@@ -25,6 +26,10 @@ const QuizSection = ({
     ? " border-b-[1px] border-gray-300 border-opacity-30 dark:border-opacity-10"
     : "";
   const { isDark } = useAppSelector((state) => state.theme);
+  const dispatch = useAppDispatch();
+  const learnQuizWordsHandler = () => {
+    dispatch(toggle(true));
+  };
   return (
     <div
       className={`w-5/6 mx-auto flex flex-row justify-center items-center py-4 ${border}`}
@@ -34,12 +39,12 @@ const QuizSection = ({
       </div>
       <div className={`relative flex-1 ${buttonOrder}`}>
         <CircularProgressWithText
-          progress={15}
+          progress={89}
           text={`Byte ${quizNumber}`}
           size="lg"
         />
         <div className="flex justify-center items-center gap-2">
-          <SquareButton handler={() => null} isPrimary={false}>
+          <SquareButton handler={learnQuizWordsHandler} isPrimary={false}>
             <LearnIcon fill={isDark ? "fill-light" : "fill-gray-300"} />
           </SquareButton>
           <SquareButton handler={() => null} isPrimary={true}>

@@ -1,6 +1,8 @@
 import React from "react";
 import { useAppSelector } from "../app/hooks";
 import { MobileMenu } from "../components/MobileMenu";
+import Modal from "../components/Modal/Modal";
+import { Overlay } from "../components/Overlay";
 import { QuizSection } from "../components/QuizSection";
 import { QuizzesHeader } from "../components/QuizzesHeader";
 import { Quiz } from "../types";
@@ -25,6 +27,8 @@ const Quizzes: React.FC = (props) => {
       </div>
 
       <MobileMenu />
+      <Overlay />
+      <Modal />
     </div>
   );
 };

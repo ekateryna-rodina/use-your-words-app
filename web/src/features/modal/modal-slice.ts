@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalState {
   isOpen: boolean;
+  currentQuiz: number | null;
 }
 
 const initialState: ModalState = {
   isOpen: false,
+  currentQuiz: null,
 };
 
 const modalSlice = createSlice({

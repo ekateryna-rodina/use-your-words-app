@@ -1,0 +1,30 @@
+.accordion {
+    @apply w-full max-w-xs h-fit;
+}
+.collapsible {
+    @apply w-full h-fit;
+}
+.content {
+    @apply overflow-hidden;
+}
+.heading {
+    @apply bg-gray-200 rounded-md cursor-pointer font-semibold dark:bg-gradient-to-r dark:from-dark-500 dark:to-dark-700;
+}
+.heading .container {
+    @apply flex justify-between items-center py-1 text-gray-800 dark:text-light;
+}
+.content {
+   max-height: 0;
+	-webkit-transition: max-height 0.8s;
+	-moz-transition: max-height 0.8s;
+	transition: max-height 0.8s;
+
+    @apply text-sm text-dark-800 leading-normal text-justify transition-all ease-in-out duration-300 dark:text-light;
+    
+}
+.content.active{
+    max-height: 30rem;
+}
+.container {
+    @apply my-1;
+}
