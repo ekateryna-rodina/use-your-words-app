@@ -14,7 +14,7 @@ const WordsAccordion = ({ items }: WordsAccordionProps) => {
     undefined
   );
   return (
-    <div className="accordion">
+    <div className="accordion overflow-y-auto max-h-50">
       {items.map((item: WordWithId) => (
         <Collapsible
           key={item.id}
@@ -22,8 +22,9 @@ const WordsAccordion = ({ items }: WordsAccordionProps) => {
           active={active}
           setActive={setActive}
           isMultiActive={false}
+          titleStyle={"text-dark-800 dark:text-light"}
         >
-          <div>
+          <div className="">
             <div className="flex justify-between items-center my-2">
               <span className="list-item-title">How to pronounce:</span>
               <PlaySound fileUrl={item.fileUrl} />

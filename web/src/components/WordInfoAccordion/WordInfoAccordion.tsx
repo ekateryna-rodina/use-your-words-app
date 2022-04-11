@@ -22,6 +22,7 @@ const WordInfoAccordion = ({ word }: WordInfoAccordionProps) => {
             active={active}
             setActive={setActive}
             isMultiActive={true}
+            titleStyle={"text-gray-800 dark:text-dark-800"}
           >
             <List
               items={(word[k as keyof typeof word] as []).map(

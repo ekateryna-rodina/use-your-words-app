@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { toggle } from "../../features/modal/modal-slice";
+import { setHeader, toggle } from "../../features/modal/modal-slice";
+import { setLearnQuizId } from "../../features/quizzes/quizzes-slice";
 import { Quiz } from "../../types";
 import { CircularProgressWithText } from "../CircularProgressWithText";
 import LearnIcon from "../icons/LearnIcon";
@@ -28,6 +29,8 @@ const QuizSection = ({
   const { isDark } = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
   const learnQuizWordsHandler = () => {
+    dispatch(setLearnQuizId(quizId));
+    dispatch(setHeader(`Byte ${quizNumber}`));
     dispatch(toggle(true));
   };
   return (
@@ -35,7 +38,7 @@ const QuizSection = ({
       className={`w-5/6 mx-auto flex flex-row justify-center items-center py-4 ${border}`}
     >
       <div className={`relative flex-2 ${wordsOrder}`}>
-        <QuizWordsSection words={words} />
+        <QuizWordsSection words={Object.keys(words)} />
       </div>
       <div className={`relative flex-1 ${buttonOrder}`}>
         <CircularProgressWithText

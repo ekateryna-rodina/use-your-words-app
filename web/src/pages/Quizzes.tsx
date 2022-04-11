@@ -18,6 +18,7 @@ const Quizzes: React.FC = (props) => {
           <div key={q.quizId}>
             <QuizSection
               {...q}
+              words={q.words}
               buttonPosition={(index + 1) % 2 === 0 ? "right" : "left"}
               withDivider={index === quizzes.length - 1 ? false : true}
             />

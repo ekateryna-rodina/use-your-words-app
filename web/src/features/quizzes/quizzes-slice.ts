@@ -5,6 +5,7 @@ type QuizzesState = {
   quizzes: Quiz[];
   total: number;
   completed: number;
+  learnCurrentId: string | null;
 };
 
 const initialState: QuizzesState = {
@@ -12,48 +13,835 @@ const initialState: QuizzesState = {
     {
       quizId: "1",
       quizNumber: 1,
-      words: ["word1", "word2word22", "word367663", "word4word24", "word55"],
       isEnabled: true,
       successLevel: SuccessLevels.Improved,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
     {
       quizId: "2",
       quizNumber: 2,
-      words: ["word12", "word2word23", "word367664", "word4word25", "word56"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
     {
       quizId: "3",
       quizNumber: 3,
-      words: ["word14", "word2word25", "word2word24", "word2word22", "word57"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
     {
       quizId: "4",
       quizNumber: 4,
-      words: ["word1", "word2", "word3", "word4", "word5"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
     {
       quizId: "5",
       quizNumber: 5,
-      words: ["word1", "word2", "word3", "word4", "word5"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
     {
       quizId: "6",
       quizNumber: 6,
-      words: ["word1", "word2", "word3", "word4", "word5"],
       isEnabled: false,
       successLevel: SuccessLevels.Novice,
+      words: {
+        word1: {
+          id: "1",
+          word: "word1",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word2word22: {
+          id: "2",
+          word: "word2word22",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word367663: {
+          id: "3",
+          word: "word367663",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word4word24: {
+          id: "4",
+          word: "word4word24",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+        word55: {
+          id: "5",
+          word: "word55",
+          fileUrl: "file",
+          meanings: [
+            { id: "1", value: "mean1" },
+            { id: "2", value: "mean2" },
+          ],
+          partOfSpeech: [
+            { id: "1", value: "adjec" },
+            { id: "2", value: "noun" },
+          ],
+          phrases: [
+            { id: "1", value: "11er" },
+            { id: "2", value: "22errr" },
+          ],
+
+          synonyms: [
+            { id: "1", value: "11ere" },
+            { id: "2", value: "22wf" },
+          ],
+          antonyms: [
+            { id: "1", value: "11dfs" },
+            { id: "2", value: "22efwe" },
+          ],
+        },
+      },
     },
   ],
   total: 6,
   completed: 2,
+  learnCurrentId: null,
 };
 
 const quizzesSlice = createSlice({
@@ -63,8 +851,11 @@ const quizzesSlice = createSlice({
     init(state, action: PayloadAction<[]>) {
       state.quizzes = action.payload;
     },
+    setLearnQuizId(state, action: PayloadAction<string>) {
+      state.learnCurrentId = action.payload;
+    },
   },
 });
 
-export const { init } = quizzesSlice.actions;
+export const { init, setLearnQuizId } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

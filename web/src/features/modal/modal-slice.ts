@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ModalState {
   isOpen: boolean;
-  currentQuiz: number | null;
+  header: string;
 }
 
 const initialState: ModalState = {
   isOpen: false,
-  currentQuiz: null,
+  header: "",
 };
 
 const modalSlice = createSlice({
@@ -17,8 +17,11 @@ const modalSlice = createSlice({
     toggle(state, action: PayloadAction<boolean>) {
       state.isOpen = action.payload;
     },
+    setHeader(state, action: PayloadAction<string>) {
+      state.header = action.payload;
+    },
   },
 });
 
-export const { toggle } = modalSlice.actions;
+export const { toggle, setHeader } = modalSlice.actions;
 export default modalSlice.reducer;

@@ -11,6 +11,7 @@ type CollapsibleProps = {
   setActive: (title: string | string[] | undefined) => void;
   isMultiActive: boolean;
   children?: React.ReactNode;
+  titleStyle?: string;
 };
 
 const Collapsible = ({
@@ -19,6 +20,7 @@ const Collapsible = ({
   setActive,
   children,
   isMultiActive,
+  titleStyle,
 }: CollapsibleProps) => {
   const activeClass =
     active === title || (Array.isArray(active) && active.includes(title))
@@ -36,7 +38,7 @@ const Collapsible = ({
     <div className="collapsible">
       <div className="heading noSelect">
         <div className="container w-11/12 mx-auto">
-          <div>{title}</div>
+          <div className={titleStyle}>{title}</div>
           <Button
             handler={handler}
             className={"w-5 h-5 bg-transparent focus:outline-none"}

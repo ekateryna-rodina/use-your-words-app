@@ -1,3 +1,5 @@
+import { WordWithId } from "use-your-words-common";
+
 export enum SuccessLevels {
   Novice,
   FromNoviceToImproved,
@@ -26,7 +28,7 @@ export enum MenuItem {
 export type Quiz = {
   quizId: string;
   quizNumber: number;
-  words: string[];
+  words: Record<string, WordWithId>;
   isEnabled: boolean;
   successLevel: SuccessLevels;
 };
