@@ -64,3 +64,12 @@ body, html, #root {
 .noSelect:focus {
     outline: none !important;
 }
+.accordion {
+    @apply w-full max-w-xs;
+}
+.list-item-title{
+    @apply text-sm text-dark-800 dark:text-dark-500;
+}
+.list-item-content{
+    @apply text-sm font-light text-dark-800 dark:text-light;
+}
