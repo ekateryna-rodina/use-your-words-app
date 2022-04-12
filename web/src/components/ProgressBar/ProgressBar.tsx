@@ -7,7 +7,7 @@ type ProgressBarProps = {
 
 const ProgressBar = ({ progress }: ProgressBarProps) => {
   const ColorsMap = [
-    [0, 33, "var(--dark-gray-color)"],
+    [0, 33, "var(--gray-700-color)"],
     [34, 67, "var(--yellow-color)"],
     [68, 100, "var(--green-color)"],
   ];

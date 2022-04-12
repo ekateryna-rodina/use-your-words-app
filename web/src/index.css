@@ -10,7 +10,11 @@
     --red-color: #DE214F;
     --dark-color: #37233A;
     --white-color: #FFFFFF;
-    --dark-gray-color: #AAAAAA;
+    --gray-200-color:#F8F8F8;
+    --gray-300-color: #d1d5db;    ;
+    --gray-700-color: #AAAAAA;
+    --dark-500-color: #734B79;
+    --dark-700-color: #523457;
   }
 
 body, html, #root {
@@ -20,11 +24,10 @@ body, html, #root {
     padding: 0;
     overflow: hidden;
 }
-
 *, *::after, *::before {
     box-sizing: border-box;
+    scrollbar-color: var(--gray-300-color) var(--gray-200-color);
 }
-
 *::focus{
     outline:none; 
 }
@@ -37,6 +40,9 @@ body, html, #root {
 *::-webkit-scrollbar-thumb {
     border-radius: 20px;
     @apply bg-gray-300 dark:bg-dark-700;
+}
+.dark *{
+    scrollbar-color: var(--dark-700-color) var(--dark-500-color);
 }
 .icon-with-score-container{
     @apply flex items-center justify-around gap-[2px] w-fit;
