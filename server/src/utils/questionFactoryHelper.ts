@@ -1,3 +1,4 @@
+import { QuestionType } from "use-your-words-common";
 import {
   ChooseAntonymByWordQuestion,
   ChooseMeaningByWordQuestion,
@@ -8,7 +9,6 @@ import {
   ConnectWordsWithMeaningsQuestion,
   FillGapQuestion,
   PronounceQuestion,
-  QuestionType,
   TypeWordByMeaningQuestion,
   TypeWordByPronunciationQuestion,
 } from "../types/Question";

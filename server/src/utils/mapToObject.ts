@@ -1,4 +1,5 @@
-import { BaseQuestion, QuestionType, Quiz } from "../types/Question";
+import { QuestionType } from "use-your-words-common";
+import { BaseQuestion, Quiz } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 
 export function mapToWords(dtos: any[]): ExistingWord[] {

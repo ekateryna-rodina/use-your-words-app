@@ -1,6 +1,6 @@
 "use strict";
 import { ENUM, Model } from "sequelize";
-import { QuestionType } from "../types/Question";
+import { QuestionType } from "use-your-words-common";
 interface QuestionAttributes {
   id: string;
   wordId: string;

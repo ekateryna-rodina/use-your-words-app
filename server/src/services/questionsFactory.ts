@@ -1,4 +1,5 @@
-import { BaseQuestion, QuestionType } from "../types/Question";
+import { QuestionType } from "use-your-words-common";
+import { BaseQuestion } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 import {
   createChooseAntonymByWordQuestion,

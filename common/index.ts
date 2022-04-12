@@ -9,3 +9,17 @@ export type Word = {
 };
 
 export type WordWithId = Word & { id: string };
+
+export enum QuestionType {
+  FillGap,
+  Pronounce,
+  TypeWordByPronunciation,
+  TypeWordByMeaning,
+  ChooseMeaningByWord,
+  ChooseWordByMeaning,
+  ConnectWordsWithMeanings,
+  ChooseSynonymByWord,
+  ChooseAntonymByWord,
+  ChooseWordBySynonym,
+  ChooseWordByAntonym,
+}

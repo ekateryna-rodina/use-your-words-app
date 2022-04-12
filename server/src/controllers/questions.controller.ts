@@ -1,8 +1,8 @@
+import { QuestionType } from "use-your-words-common";
 import {
   generateQuestion,
   generateQuizQuestions,
 } from "../services/questions.service";
-import { QuestionType } from "../types/Question";
 
 export async function generateQuestions(wordIds: string[]) {
   try {

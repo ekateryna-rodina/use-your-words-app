@@ -25,3 +25,16 @@ export declare type Word = {
 export declare type WordWithId = Word & {
     id: string;
 };
+export declare enum QuestionType {
+    FillGap = 0,
+    Pronounce = 1,
+    TypeWordByPronunciation = 2,
+    TypeWordByMeaning = 3,
+    ChooseMeaningByWord = 4,
+    ChooseWordByMeaning = 5,
+    ConnectWordsWithMeanings = 6,
+    ChooseSynonymByWord = 7,
+    ChooseAntonymByWord = 8,
+    ChooseWordBySynonym = 9,
+    ChooseWordByAntonym = 10
+}

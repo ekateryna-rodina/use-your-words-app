@@ -1,5 +1,6 @@
+import { QuestionType } from "use-your-words-common";
 import db from "../models";
-import { QuestionType, Quiz } from "../types/Question";
+import { Quiz } from "../types/Question";
 import { mapToQuizzes } from "../utils/mapToObject";
 
 const fetchQuizQuestions = async () => {

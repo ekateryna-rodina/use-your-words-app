@@ -1,17 +1,4 @@
-// TODO: move to a package
-export enum QuestionType {
-  FillGap,
-  Pronounce,
-  TypeWordByPronunciation,
-  TypeWordByMeaning,
-  ChooseMeaningByWord,
-  ChooseWordByMeaning,
-  ConnectWordsWithMeanings,
-  ChooseSynonymByWord,
-  ChooseAntonymByWord,
-  ChooseWordBySynonym,
-  ChooseWordByAntonym,
-}
+import { QuestionType } from "use-your-words-common";
 
 export type BaseQuestion = {
   id?: string;

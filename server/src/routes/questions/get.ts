@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
+import { QuestionType } from "use-your-words-common";
 import { generateQuestions } from "../../controllers/questions.controller";
 import validate from "../../middleware/validate";
 import { validateGetQuestionsInput } from "../../schema/questions";
 import { generateQuestion } from "../../services/questions.service";
-import { QuestionType } from "../../types/Question";
 const router = express.Router();
 
 router.get(
