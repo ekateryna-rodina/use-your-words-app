@@ -32,3 +32,30 @@ export type Quiz = {
   isEnabled: boolean;
   successLevel: SuccessLevels;
 };
+// PRACTICE
+export enum ChallengeResults {
+  None,
+  Success,
+  Failure,
+}
+export type QuizChallengesResult = Record<
+  string,
+  {
+    result: ChallengeResults;
+    dateUpdated: Date;
+  }
+>;
+export type UpdateQuizChallenge = {
+  quizId: string;
+  challengeId: string;
+  result: ChallengeResults;
+  dateUpdated: Date;
+};
+export type QuizResult = {
+  progress: number;
+  challenges: QuizChallengesResult;
+};
+export type QuizProgress = {
+  quizId: string;
+  progress: number;
+};

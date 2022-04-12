@@ -3,6 +3,7 @@ import activeQuizMenuReducer from "../features/activeQuizMenu/activequizmenu-sli
 import { apiSlice } from "../features/app-api-slice";
 import menuReducer from "../features/menu/menu-slice";
 import modalReducer from "../features/modal/modal-slice";
+import practiceReducer from "../features/practice/practice-slice";
 import quizzesReducer from "../features/quizzes/quizzes-slice";
 import themeReducer from "../features/theme/theme-slice";
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     menu: menuReducer,
     quizzes: quizzesReducer,
     activeQuizMenu: activeQuizMenuReducer,
+    practice: practiceReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
