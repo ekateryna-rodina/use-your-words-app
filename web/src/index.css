@@ -50,14 +50,14 @@ body, html, #root {
 .icon-with-score-container span{
     @apply text-[12px] text-dark-800 mx-2 dark:text-light sm:text-[12px] md:text-[14px];
 }
-.header, .mobile-menu{
-    @apply flex flex-row justify-around items-center py-2 border-gray-300 bg-white dark:bg-dark-800 dark:border-dark-500;
+.header, .mobile-menu, .practice-menu{
+    @apply min-h-[4rem] flex flex-row justify-around items-center py-2 border-gray-300 bg-white dark:bg-dark-800 dark:border-dark-500;
 }
 .header {
     @apply border-b-[2px];
 }
-.mobile-menu{
-    @apply border-t-[2px];
+.mobile-menu, .practice-menu{
+    @apply border-t-[2px] absolute bottom-0 left-0 right-0;
 }
 /* Work around for layout white space mobile view problem in Chrome  */
 .dark{
@@ -66,18 +66,6 @@ body, html, #root {
 .quizzes-container{
     height: calc(100% - 7rem);
     @apply mx-2 overflow-y-auto;
-}
-.noSelect {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.noSelect:focus {
-    outline: none !important;
 }
 .accordion {
     @apply w-full max-w-xs max-h-screen;
@@ -90,4 +78,20 @@ body, html, #root {
 }
 .modal-container{
     @apply w-full h-[92%] mt-12 overflow-y-auto px-4;
+}
+/* buttons */
+.square-pressable {
+    @apply flex justify-center items-center w-7 h-7 my-1 rounded-sm shadow-md;
+}
+.noSelect {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.noSelect:focus {
+    outline: none !important;
 }

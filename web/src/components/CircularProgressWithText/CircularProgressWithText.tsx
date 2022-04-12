@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../../app/hooks";
+import { ColorsMap } from "../../constants";
 
 type Size = "sm" | "lg";
 type CircleProps = {
@@ -101,11 +102,7 @@ const CircularProgressWithText = ({
   size,
 }: CircularProgressWithTextProps) => {
   const { isDark } = useAppSelector((state) => state.theme);
-  const ColorsMap = [
-    [0, 33, "#2EC0A6"],
-    [34, 67, "#D1AA3F"],
-    [68, 100, "#BB2AD2"],
-  ];
+
   let currentColor: string = ColorsMap.filter(
     (m) => progress >= m[0] && progress <= m[1]
   )[0][2] as string;

@@ -10,7 +10,7 @@ const MobileMenu = () => {
   const { active } = useAppSelector((state) => state.menu);
   const { isDark } = useAppSelector((state) => state.theme);
   return (
-    <div className={`mobile-menu absolute bottom-0 left-0 right-0`}>
+    <div className={`mobile-menu`}>
       <HomeIcon
         fill={
           active === MenuItem.Home

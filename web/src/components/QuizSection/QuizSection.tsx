@@ -8,6 +8,7 @@ import LearnIcon from "../icons/LearnIcon";
 import PracticeIcon from "../icons/PracticeIcon";
 import { QuizWordsSection } from "../QuizWordsSection";
 import SquareButton from "../SquareButton.style";
+import SquareLink from "../SquareLink.style";
 type QuizSectionProps = Quiz & {
   buttonPosition: "left" | "right";
   withDivider: boolean;
@@ -50,9 +51,9 @@ const QuizSection = ({
           <SquareButton handler={learnQuizWordsHandler} isPrimary={false}>
             <LearnIcon fill={isDark ? "fill-light" : "fill-gray-300"} />
           </SquareButton>
-          <SquareButton handler={() => null} isPrimary={true}>
+          <SquareLink to={`/practice/${quizId}`}>
             <PracticeIcon fill="fill-light" />
-          </SquareButton>
+          </SquareLink>
         </div>
       </div>
     </div>

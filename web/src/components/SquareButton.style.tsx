@@ -10,10 +10,7 @@ const SquareButton: React.FC<SquareButtonProps> = (props) => {
   const { handler, isPrimary, children } = props;
   const color = isPrimary ? "bg-green" : "transparent";
   return (
-    <Button
-      handler={handler}
-      className={`flex justify-center items-center w-7 h-7 my-1 rounded-sm shadow-md ${color}`}
-    >
+    <Button handler={handler} className={`square-pressable ${color}`}>
       {children}
     </Button>
   );
