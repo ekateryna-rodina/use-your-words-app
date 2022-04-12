@@ -1,4 +1,3 @@
-import { QuestionType } from "use-your-words-common";
 import {
   ChooseAntonymByWordQuestion,
   ChooseMeaningByWordQuestion,
@@ -9,9 +8,10 @@ import {
   ConnectWordsWithMeaningsQuestion,
   FillGapQuestion,
   PronounceQuestion,
+  QuestionType,
   TypeWordByMeaningQuestion,
   TypeWordByPronunciationQuestion,
-} from "../types/Question";
+} from "use-your-words-common";
 import { ExistingWord, Value } from "../types/Word";
 import { getRandom, randomize } from "./listHelper";
 

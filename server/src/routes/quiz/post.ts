@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
+import { Quiz } from "use-your-words-common";
 import { saveQuizQuestions } from "../../controllers/quiz.controller";
-import { Quiz } from "../../types/Question";
 const router = express.Router();
 
 router.post(

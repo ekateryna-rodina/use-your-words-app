@@ -1,8 +1,8 @@
+import { Quiz } from "use-your-words-common";
 import {
   fetchQuizQuestions,
   postQuizQuestions,
 } from "../services/quiz.service";
-import { Quiz } from "../types/Question";
 
 export async function saveQuizQuestions(data: Quiz) {
   try {

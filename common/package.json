@@ -1,6 +1,6 @@
 {
   "name": "use-your-words-common",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Common types for UseYourWords application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

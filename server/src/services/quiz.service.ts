@@ -1,6 +1,5 @@
-import { QuestionType } from "use-your-words-common";
+import { QuestionType, Quiz } from "use-your-words-common";
 import db from "../models";
-import { Quiz } from "../types/Question";
 import { mapToQuizzes } from "../utils/mapToObject";
 
 const fetchQuizQuestions = async () => {
@@ -14,14 +13,14 @@ const fetchQuizQuestions = async () => {
 };
 
 const postQuizQuestions = async (quiz: Quiz) => {
-  if (!quiz.name || !quiz.questions.length) return null;
+  if (!quiz.name || !quiz.challenges.length) return null;
   let quizId;
   // save the quiz first
   return db.Quiz.create({ name: quiz.name })
     .then((response: { dataValues: { id: string; name: string } }) => {
       quizId = response.dataValues.id;
 
-      for (const question of quiz.questions) {
+      for (const question of quiz.challenges) {
         const stringified = Object.keys(question).reduce(
           (acc: Partial<Quiz & { type: string }>, curr: string) => {
             if (curr === "__type") {

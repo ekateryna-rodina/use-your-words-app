@@ -1,5 +1,4 @@
-import { QuestionType } from "use-your-words-common";
-import { BaseQuestion, Quiz } from "../types/Question";
+import { BaseQuestion, QuestionType, Quiz } from "use-your-words-common";
 import { ExistingWord } from "../types/Word";
 
 export function mapToWords(dtos: any[]): ExistingWord[] {
@@ -64,7 +63,7 @@ export function mapToQuizzes(dtos: any[]) {
   if (!dtos || !dtos.length) return [];
   const quizzes: Quiz[] = [];
   for (let dto of dtos) {
-    const questions: (BaseQuestion & { __type: QuestionType })[] = [];
+    const challenges: (BaseQuestion & { __type: QuestionType })[] = [];
     dto.dataValues.Questions.forEach((question: { dataValues: any }) => {
       const parsedQuestion = Object.keys(question.dataValues).reduce<
         BaseQuestion & { __type: QuestionType }
@@ -84,13 +83,13 @@ export function mapToQuizzes(dtos: any[]) {
         }
       }, {} as BaseQuestion & { __type: QuestionType });
 
-      questions.push(parsedQuestion);
+      challenges.push(parsedQuestion);
     });
 
     const quiz: Quiz = {
       id: dto.id,
       name: dto.name,
-      questions,
+      challenges,
     };
     quizzes.push(quiz);
   }

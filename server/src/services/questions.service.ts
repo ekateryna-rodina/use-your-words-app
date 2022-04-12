@@ -1,8 +1,7 @@
 import { Op } from "sequelize";
-import { QuestionType } from "use-your-words-common";
+import { BaseQuestion, QuestionType } from "use-your-words-common";
 import ApiError from "../error/apiError";
 import db from "../models";
-import { BaseQuestion } from "../types/Question";
 import { ExistingWord } from "../types/Word";
 import { mapToWords } from "../utils/mapToObject";
 import QuestionsFactory from "./questionsFactory";
