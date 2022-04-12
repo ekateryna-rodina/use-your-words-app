@@ -25,7 +25,7 @@ const Modal: React.FC = (children) => {
         <h1 className="absolute left-10 top-4 text-green">
           {header.toUpperCase()}
         </h1>
-        <div className="w-[90%] mx-auto mt-12">
+        <div className="modal-container">
           <LearnQuizWords />
         </div>
       </div>

@@ -28,7 +28,16 @@ body, html, #root {
 *::focus{
     outline:none; 
 }
-
+*::-webkit-scrollbar {
+    width: 2px;
+}
+*::-webkit-scrollbar-track {
+    @apply bg-gray-200 dark:bg-dark-500;
+}
+*::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    @apply bg-gray-300 dark:bg-dark-700;
+}
 .icon-with-score-container{
     @apply flex items-center justify-around gap-[2px] w-fit;
 }
@@ -36,7 +45,7 @@ body, html, #root {
     @apply text-[12px] text-dark-800 mx-2 dark:text-light sm:text-[12px] md:text-[14px];
 }
 .header, .mobile-menu{
-    @apply flex flex-row justify-around items-center py-2 border-gray-800 bg-white dark:bg-dark-800 dark:border-light;
+    @apply flex flex-row justify-around items-center py-2 border-gray-300 bg-white dark:bg-dark-800 dark:border-dark-500;
 }
 .header {
     @apply border-b-[2px];
@@ -49,8 +58,8 @@ body, html, #root {
     background: var(--dark-color)
 }
 .quizzes-container{
-    overflow-y: auto;
     height: calc(100% - 7rem);
+    @apply mx-2 overflow-y-auto;
 }
 .noSelect {
     -webkit-tap-highlight-color: transparent;
@@ -65,11 +74,14 @@ body, html, #root {
     outline: none !important;
 }
 .accordion {
-    @apply w-full max-w-xs;
+    @apply w-full max-w-xs max-h-screen;
 }
 .list-item-title{
     @apply text-sm text-dark-800 dark:text-dark-500;
 }
 .list-item-content{
     @apply text-sm font-light text-dark-800 dark:text-light;
+}
+.modal-container{
+    @apply w-full h-[92%] mt-12 overflow-y-auto px-4;
 }

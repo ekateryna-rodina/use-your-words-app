@@ -14,7 +14,7 @@ const WordsAccordion = ({ items }: WordsAccordionProps) => {
     undefined
   );
   return (
-    <div className="accordion overflow-y-auto max-h-50">
+    <div className="accordion">
       {items.map((item: WordWithId) => (
         <Collapsible
           key={item.id}
@@ -24,20 +24,18 @@ const WordsAccordion = ({ items }: WordsAccordionProps) => {
           isMultiActive={false}
           titleStyle={"text-dark-800 dark:text-light"}
         >
-          <div className="">
-            <div className="flex justify-between items-center my-2">
-              <span className="list-item-title">How to pronounce:</span>
-              <PlaySound fileUrl={item.fileUrl} />
-            </div>
-            <List
-              title="Used as parts of speech:"
-              items={item.partOfSpeech.map(
-                (p) => (p as { id?: string; value: string }).value
-              )}
-              direction="horizonal"
-            />
-            <WordInfoAccordion word={item} />
+          <div className="flex justify-between items-center my-2">
+            <span className="list-item-title">How to pronounce:</span>
+            <PlaySound fileUrl={item.fileUrl} />
           </div>
+          <List
+            title="Used as parts of speech:"
+            items={item.partOfSpeech.map(
+              (p) => (p as { id?: string; value: string }).value
+            )}
+            direction="horizonal"
+          />
+          <WordInfoAccordion word={item} />
         </Collapsible>
       ))}
     </div>

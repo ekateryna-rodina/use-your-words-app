@@ -20,7 +20,7 @@
     @apply text-sm text-dark-800 leading-normal text-justify dark:text-light;
 }
 .content.active{
-    max-height: 30rem;
+    max-height: 100rem;
 }
 .container {
     @apply my-1;
