@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BaseQuestion, QuestionType } from "use-your-words-common";
 import {
   ChallengeResults,
   QuizProgress,
@@ -7,14 +8,45 @@ import {
 } from "../../types";
 
 interface PracticeState {
-  currentQuizId: string;
-  challenges: []; // type
+  currentQuizId: string | null;
+  currentChallengeId: string | null;
+  currentQuizChallenges: Record<
+    string,
+    BaseQuestion & { __type: QuestionType }
+  >;
   quizzesResult: Record<string, QuizResult>;
 }
 
 const initialState: PracticeState = {
-  currentQuizId: "",
-  challenges: [], // type and fetch with rtk query
+  currentQuizId: null,
+  currentChallengeId: "1",
+  currentQuizChallenges: {
+    "1": {
+      wordId: "1",
+      question: "question 1",
+      __type: QuestionType.ChooseAntonymByWord,
+    },
+    "2": {
+      wordId: "2",
+      question: "question 2",
+      __type: QuestionType.ChooseAntonymByWord,
+    },
+    "3": {
+      wordId: "3",
+      question: "question 3",
+      __type: QuestionType.ChooseAntonymByWord,
+    },
+    "4": {
+      wordId: "4",
+      question: "question 4",
+      __type: QuestionType.ChooseAntonymByWord,
+    },
+    "5": {
+      wordId: "5",
+      question: "question 5",
+      __type: QuestionType.ChooseAntonymByWord,
+    },
+  }, // type and fetch with rtk query
   quizzesResult: {
     1: {
       progress: 2,
@@ -40,8 +72,11 @@ const practiceSlice = createSlice({
   name: "practice",
   initialState,
   reducers: {
-    setCurrentQuiz(state, action: PayloadAction<string>) {
+    setCurrentQuiz(state, action: PayloadAction<string | null>) {
       state.currentQuizId = action.payload;
+    },
+    setCurrentChallenge(state, action: PayloadAction<string | null>) {
+      state.currentChallengeId = action.payload;
     },
     updateResult(state, action: PayloadAction<UpdateQuizChallenge>) {
       const { quizId, challengeId, result, dateUpdated } = action.payload;
@@ -56,6 +91,10 @@ const practiceSlice = createSlice({
   },
 });
 
-export const { setCurrentQuiz, updateResult, setQuizProgress } =
-  practiceSlice.actions;
+export const {
+  setCurrentQuiz,
+  updateResult,
+  setQuizProgress,
+  setCurrentChallenge,
+} = practiceSlice.actions;
 export default practiceSlice.reducer;

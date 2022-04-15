@@ -59,3 +59,8 @@ export type QuizProgress = {
   quizId: string;
   progress: number;
 };
+export enum PracticeCardPosition {
+  Front,
+  Middle,
+  Back,
+}

@@ -15,7 +15,8 @@ const PracticeHeader = () => {
         <CloseIcon fill={isDark ? "fill-dark-500" : "fill-gray-300"} />
       </Button>
 
-      <ProgressBar progress={30} />
+      <ProgressBar progress={32} title="Quiz progress" />
+      <ProgressBar progress={78} title="Daily progress" />
     </div>
   );
 };
