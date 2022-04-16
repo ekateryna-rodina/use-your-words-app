@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { BaseQuestion, QuestionType } from "use-your-words-common";
+import { QuestionType } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setCurrentChallengeIndex } from "../../features/practice/practice-slice";
 import {
@@ -9,6 +9,15 @@ import {
 } from "../../features/practiceActions/practiceactions-slice";
 import { PracticeCardPosition } from "../../types";
 import Card from "../Card.style";
+
+const Challenge: React.FC<PortalProps> = (props) => {
+  return ReactDOM.createPortal(props.children, props.target);
+};
+
+export interface PortalProps {
+  target: Element;
+  children: React.ReactNode;
+}
 
 const CardsCarousel = () => {
   const { isNext, isSkip, isHint } = useAppSelector(
@@ -28,24 +37,18 @@ const CardsCarousel = () => {
   const [refsArray, setRefsArray] = useState<
     React.MutableRefObject<HTMLDivElement | null>[]
   >([frontRef, middleRef, backRef]);
-  const initChallenges = (
-    startIndex: number,
-    endIndex: number
-  ): (BaseQuestion & { __type: QuestionType })[] => {
-    return Object.keys(currentQuizChallenges)
-      .slice(startIndex, endIndex)
-      .map((id) => currentQuizChallenges[id]);
-  };
-  const [challenges, setShallenges] = useState<
-    (BaseQuestion & { __type: QuestionType })[]
-  >(initChallenges(0, 3));
-  console.log(challenges);
 
-  const renderChallenge = (index: number): React.ReactNode => {
-    if (index === null) return <></>;
+  const [challengeIdx, setChallengeIdx] = useState<number[]>([0, 1, 2]);
+
+  const renderChallenge = (
+    index: number,
+    parent: React.MutableRefObject<HTMLDivElement | null>
+  ): React.ReactNode => {
+    if (index === null || !parent?.current) {
+      return <></>;
+    }
     const currentChallenge =
       currentQuizChallenges[currentQuizChallengeIds[index]];
-    console.log("curre", currentChallenge);
     const { __type, question } = currentChallenge;
 
     switch (__type) {
@@ -76,29 +79,30 @@ const CardsCarousel = () => {
     }
   };
 
-  // const updateStyles = () => {
-  //   const frontTo = (ref: React.MutableRefObject<HTMLDivElement | null>, index: number) => {
-  //     ref.current?.classList.add("next");
-  //     setTimeout(() => {
-  //       ref.current?.classList.add("back", "hidden");
-  //       ref.current?.classList.remove("front", "next");
-  //       ref.current?.classList.remove("hidden");
-  //       const newChild = renderChallenge(index);
-  //       const newChildNode = document.createElement(newChild);
-  //       ref.current!.appendChild(newChildNode)
-  //     }, 1000);
-  //   };
   const updateStyles = () => {
     const frontTo = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
-      const newChallengeIndex = 2;
       ref.current?.classList.add("next");
-      const newChild = renderChallenge(newChallengeIndex);
-      ReactDOM.createPortal(newChild, ref.current as HTMLDivElement);
-      setTimeout(() => {
-        ref.current?.classList.add("back", "hidden");
-        ref.current?.classList.remove("front", "next");
-        ref.current?.classList.remove("hidden");
-      }, 1000);
+      const nextChallengeIndex = (currentChallengeIndex ?? 0) + 3;
+      if (nextChallengeIndex < currentQuizChallengeIds.length) {
+        setTimeout(() => {
+          ref.current?.classList.add("back", "hidden");
+          ref.current?.classList.remove("front", "next");
+          ref.current?.classList.remove("hidden");
+          ref.current?.removeChild(ref.current?.children[0]);
+          const newChallengeNode = renderChallenge(
+            nextChallengeIndex,
+            ref as React.MutableRefObject<HTMLDivElement>
+          );
+
+          ReactDOM.render(
+            <Challenge
+              target={ref.current as Element}
+              children={newChallengeNode}
+            />,
+            ref.current
+          );
+        }, 1000);
+      }
     };
     const middleTo = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
       ref.current?.classList.add("front");
@@ -129,41 +133,34 @@ const CardsCarousel = () => {
     // eslint-disable-next-line
   }, [isNext]);
   useEffect(() => {
-    setShallenges(
-      initChallenges(
-        currentChallengeIndex ?? 0,
-        (currentChallengeIndex ?? 0) + 3
-      )
-    );
-    console.log(currentChallengeIndex);
+    setChallengeIdx((oldIdx) => {
+      const newIdx = [...oldIdx];
+      return newIdx;
+    });
+
     //eslint-disable-next-line
   }, [currentChallengeIndex]);
+
   return (
     <div className="front-card-container">
       <div className="w-full h-full relative">
-        <Card
-          ref={frontRef}
-          position={PracticeCardPosition.Front}
-          frontCardRef={refsArray[0]}
-          middleCardRed={refsArray[1]}
-        >
-          {/* {renderChallenge(0)} */}
+        <Card ref={frontRef} position={PracticeCardPosition.Front}>
+          {renderChallenge(
+            0,
+            frontRef as MutableRefObject<HTMLDivElement | null>
+          )}
         </Card>
-        <Card
-          ref={middleRef}
-          position={PracticeCardPosition.Middle}
-          frontCardRef={refsArray[0]}
-          middleCardRed={refsArray[1]}
-        >
-          {/* {renderChallenge(1)} */}
+        <Card ref={middleRef} position={PracticeCardPosition.Middle}>
+          {renderChallenge(
+            1,
+            middleRef as MutableRefObject<HTMLDivElement | null>
+          )}
         </Card>
-        <Card
-          ref={backRef}
-          position={PracticeCardPosition.Back}
-          frontCardRef={refsArray[0]}
-          middleCardRed={refsArray[1]}
-        >
-          {/* {renderChallenge(2)} */}
+        <Card ref={backRef} position={PracticeCardPosition.Back}>
+          {renderChallenge(
+            2,
+            backRef as MutableRefObject<HTMLDivElement | null>
+          )}
         </Card>
       </div>
     </div>
