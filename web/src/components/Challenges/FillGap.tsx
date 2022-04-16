@@ -19,7 +19,10 @@ const FillGap = ({ phrase, answer }: FillGapProps) => {
             p === answer ? (
               <div key={p} className="relative w-fit h-fit inline">
                 <span className="invisible px-4 py-2">{p}</span>
-                <input type="text" className="absolute inset-0 px-2" />
+                <input
+                  type="text"
+                  className="absolute inset-0 px-2 py-2 h-[1.9rem] -mt-1"
+                />
               </div>
             ) : (
               <span className="dark:text-light" key={p}>
