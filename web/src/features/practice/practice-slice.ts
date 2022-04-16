@@ -9,7 +9,8 @@ import {
 
 interface PracticeState {
   currentQuizId: string | null;
-  currentChallengeId: string | null;
+  currentChallengeIndex: number | null;
+  currentQuizChallengeIds: string[];
   currentQuizChallenges: Record<
     string,
     BaseQuestion & { __type: QuestionType }
@@ -19,7 +20,8 @@ interface PracticeState {
 
 const initialState: PracticeState = {
   currentQuizId: null,
-  currentChallengeId: "1",
+  currentChallengeIndex: 0,
+  currentQuizChallengeIds: ["1", "2", "3", "4", "5"],
   currentQuizChallenges: {
     "1": {
       wordId: "1",
@@ -75,8 +77,8 @@ const practiceSlice = createSlice({
     setCurrentQuiz(state, action: PayloadAction<string | null>) {
       state.currentQuizId = action.payload;
     },
-    setCurrentChallenge(state, action: PayloadAction<string | null>) {
-      state.currentChallengeId = action.payload;
+    setCurrentChallengeIndex(state, action: PayloadAction<number | null>) {
+      state.currentChallengeIndex = action.payload;
     },
     updateResult(state, action: PayloadAction<UpdateQuizChallenge>) {
       const { quizId, challengeId, result, dateUpdated } = action.payload;
@@ -95,6 +97,6 @@ export const {
   setCurrentQuiz,
   updateResult,
   setQuizProgress,
-  setCurrentChallenge,
+  setCurrentChallengeIndex,
 } = practiceSlice.actions;
 export default practiceSlice.reducer;

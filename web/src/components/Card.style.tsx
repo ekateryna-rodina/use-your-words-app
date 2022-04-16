@@ -3,6 +3,8 @@ import { PracticeCardPosition } from "../types";
 
 type CardProps = {
   position: PracticeCardPosition;
+  frontCardRef: React.MutableRefObject<HTMLDivElement | null>;
+  middleCardRed: React.MutableRefObject<HTMLDivElement | null>;
   children?: React.ReactNode;
 };
 
@@ -14,13 +16,14 @@ const StyleMap: Record<PracticeCardPosition, Class> = {
 };
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
-  const { position, children } = props;
+  const { position, children, frontCardRef, middleCardRed } = props;
   const [styleClass] = useState<"front" | "middle" | "back">(
     StyleMap[position]
   );
   return (
     <div ref={ref} className={`card ${styleClass}`}>
-      {styleClass === "front" ? children : <></>}
+      {children}
+      {/* {frontCardRef === ref || middleCardRed === ref ? children : <></>} */}
     </div>
   );
 });

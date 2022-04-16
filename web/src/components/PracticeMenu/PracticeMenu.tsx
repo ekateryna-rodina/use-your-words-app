@@ -9,9 +9,7 @@ import RectangleButton from "../RectangleButton.style";
 const PracticeMenu = () => {
   const dispatch = useAppDispatch();
   const { isAnswered } = useAppSelector((state) => state.practiceActions);
-  const { currentQuizChallenges, currentChallengeId } = useAppSelector(
-    (state) => state.practice
-  );
+  const { currentQuizChallenges } = useAppSelector((state) => state.practice);
 
   const nextHandler = () => {
     dispatch(setNext(true));
