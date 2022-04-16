@@ -9,6 +9,7 @@ import {
 } from "../../features/practiceActions/practiceactions-slice";
 import { PracticeCardPosition } from "../../types";
 import Card from "../Card.style";
+import FillGap from "../Challenges/FillGap";
 
 const Challenge: React.FC<PortalProps> = (props) => {
   return ReactDOM.createPortal(props.children, props.target);
@@ -49,11 +50,13 @@ const CardsCarousel = () => {
     }
     const currentChallenge =
       currentQuizChallenges[currentQuizChallengeIds[index]];
-    const { __type, question } = currentChallenge;
+    const { __type, question, answer } = currentChallenge;
 
     switch (__type) {
       case QuestionType.FillGap:
-        return <span>{question}</span>;
+        return (
+          <FillGap phrase={question as string} answer={answer as string} />
+        );
       case QuestionType.Pronounce:
         return <span>{question}</span>;
       case QuestionType.TypeWordByPronunciation:

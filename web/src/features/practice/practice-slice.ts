@@ -25,8 +25,9 @@ const initialState: PracticeState = {
   currentQuizChallenges: {
     "1": {
       wordId: "1",
-      question: "question 1",
-      __type: QuestionType.ChooseAntonymByWord,
+      question: "Fill the gap by entering [thisword] in this sentence",
+      answer: "thisword",
+      __type: QuestionType.FillGap,
     },
     "2": {
       wordId: "2",
