@@ -10,6 +10,7 @@ import {
 import { PracticeCardPosition } from "../../types";
 import Card from "../Card.style";
 import FillGap from "../Challenges/FillGap";
+import Pronounce from "../Challenges/Pronounce";
 
 const Challenge: React.FC<PortalProps> = (props) => {
   return ReactDOM.createPortal(props.children, props.target);
@@ -58,7 +59,7 @@ const CardsCarousel = () => {
           <FillGap phrase={question as string} answer={answer as string} />
         );
       case QuestionType.Pronounce:
-        return <span>{question}</span>;
+        return <Pronounce fileUrl={question as string} />;
       case QuestionType.TypeWordByPronunciation:
         return <span>{question}</span>;
       case QuestionType.TypeWordByMeaning:
