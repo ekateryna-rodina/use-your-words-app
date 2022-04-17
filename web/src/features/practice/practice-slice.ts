@@ -25,9 +25,9 @@ const initialState: PracticeState = {
   currentQuizChallenges: {
     "1": {
       wordId: "1",
-      question: "Fill [thisword] the gap by entering in this sentence",
-      answer: "answer",
-      __type: QuestionType.TypeWordByPronunciation,
+      question: "This is a meaning. What the word is connected to it?",
+      answer: "answeranswerans",
+      __type: QuestionType.TypeWordByMeaning,
     },
     "2": {
       wordId: "2",

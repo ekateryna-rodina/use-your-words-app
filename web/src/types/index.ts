@@ -69,7 +69,7 @@ export const ChallengeTitles: Record<QuestionType, string> = {
   [QuestionType.FillGap]: "Fill a gap in the sentence",
   [QuestionType.Pronounce]: "Pronounce this word",
   [QuestionType.TypeWordByPronunciation]: "What the word do you hear?",
-  [QuestionType.TypeWordByMeaning]: "What word is this?",
+  [QuestionType.TypeWordByMeaning]: "What a word is this?",
   [QuestionType.ChooseMeaningByWord]: "Choose correct definition for this word",
   [QuestionType.ChooseWordByMeaning]: "Choose correct word for this definition",
   [QuestionType.ConnectWordsWithMeanings]: "Connect definitions with words",

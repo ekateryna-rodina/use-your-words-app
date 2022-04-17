@@ -73,21 +73,16 @@ const LetterInput = ({ answer }: LetterInputProps) => {
   const [userAnswer, setUserAnswer] = useState<string[]>(
     answer.split("").map((l) => "")
   );
-  //   const refs = answer.split("").map((_, i) => createRef<HTMLInputElement>());
-  //   useEffect(() => {
-  //     refs.forEach((r) => console.log(r.current?.value));
-  //   }, [refs]);
   return (
-    <form className="flex justify-center items-center gap-2">
+    <form className="flex justify-center items-center gap-2 flex-wrap">
       {answer.split("").map((l, i) => (
         <Letter
-          key={l}
+          key={l + i}
           index={i}
           focusedIndex={focusedLetterIdx}
           setFocusedIdx={setFocusedIdx}
           setUserAnswer={setUserAnswer}
           userAnswer={userAnswer}
-          //   ref={refs[i]}
         />
       ))}
     </form>
