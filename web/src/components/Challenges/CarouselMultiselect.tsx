@@ -11,6 +11,7 @@ const CarouselMultiselect = ({
   correctAnswer,
 }: CarouselMultiselectProps) => {
   const [currentIdx, setCurrentIdx] = useState<number>(0);
+  const [userAnswer, setUserAnswer] = useState<string>("");
   const flexButtons = `${
     currentIdx > 0 && currentIdx < options.length - 1
       ? "justify-between"
@@ -23,13 +24,14 @@ const CarouselMultiselect = ({
       <div className="relative">
         {options.map((o, i) => (
           <Option
-            styles={`absolute ease-in-out duration-200 ${
+            styles={`absolute transition-transform ease-in-out duration-200 ${
               currentIdx === i
                 ? "translate-x-[0%] delay-200"
                 : "translate-x-[110%]"
             }`}
             option={options[currentIdx]}
-            onSelect={() => null}
+            setUserAnswer={setUserAnswer}
+            userAnswer={userAnswer}
           />
         ))}
       </div>

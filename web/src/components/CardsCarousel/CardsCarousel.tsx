@@ -10,8 +10,10 @@ import {
 import { PracticeCardPosition } from "../../types";
 import Card from "../Card.style";
 import ChooseMeaningByWord from "../Challenges/ChooseMeaningByWord";
+import ConnectChallenge from "../Challenges/ConnectChallenge";
 import FillGap from "../Challenges/FillGap";
 import Pronounce from "../Challenges/Pronounce";
+import SimpleMultiselectChallenge from "../Challenges/SimpleMultiselectChallenge";
 import TypeWordByMeaning from "../Challenges/TypeWordByMeaning";
 import TypeWordByPronunciation from "../Challenges/TypeWordByPronunciation";
 
@@ -86,17 +88,62 @@ const CardsCarousel = () => {
           />
         );
       case QuestionType.ChooseWordByMeaning:
-        return <span>{question}</span>;
+        return (
+          <SimpleMultiselectChallenge
+            title={__type}
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       case QuestionType.ConnectWordsWithMeanings:
-        return <span>{question}</span>;
+        return (
+          <ConnectChallenge
+            question={
+              question as {
+                words: string[];
+                [k: string]: string[];
+              }
+            }
+            answer={answer as Record<string, string>}
+          />
+        );
       case QuestionType.ChooseSynonymByWord:
-        return <span>{question}</span>;
+        return (
+          <SimpleMultiselectChallenge
+            title={__type}
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       case QuestionType.ChooseAntonymByWord:
-        return <span>{question}</span>;
+        return (
+          <SimpleMultiselectChallenge
+            title={__type}
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       case QuestionType.ChooseWordBySynonym:
-        return <span>{question}</span>;
+        return (
+          <SimpleMultiselectChallenge
+            title={__type}
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       case QuestionType.ChooseWordByAntonym:
-        return <span>{question}</span>;
+        return (
+          <SimpleMultiselectChallenge
+            title={__type}
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       default:
         return <></>;
     }

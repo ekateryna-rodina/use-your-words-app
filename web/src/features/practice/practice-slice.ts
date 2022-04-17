@@ -21,7 +21,7 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["1", "2", "3", "4", "5"],
+  currentQuizChallengeIds: ["5", "2", "3", "4", "1"],
   currentQuizChallenges: {
     "1": {
       wordId: "1",
@@ -37,23 +37,47 @@ const initialState: PracticeState = {
     },
     "2": {
       wordId: "2",
-      question: "question 2",
-      __type: QuestionType.ChooseAntonymByWord,
+      question:
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans Thisisaword",
+      answer: "answeranswerans",
+      options: ["answeranswerans", "anwer", "anweranweranwer", "anwer"],
+      __type: QuestionType.ChooseWordByMeaning,
     },
     "3": {
       wordId: "3",
-      question: "question 3",
+      question: "Qord ",
+      answer: "antonym 1",
+      options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
       __type: QuestionType.ChooseAntonymByWord,
     },
     "4": {
       wordId: "4",
-      question: "question 4",
+      question: "Qord ",
+      answer: "antonym 1",
+      options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
       __type: QuestionType.ChooseAntonymByWord,
     },
     "5": {
       wordId: "5",
-      question: "question 5",
-      __type: QuestionType.ChooseAntonymByWord,
+      question: {
+        words: ["word 1", "word 2", "word 3", "word 4", "word 5"],
+        meanings: [
+          "meaning 1 meaning 1meaning 1meaning 1meaning 1meaning 1",
+          "meaning 2 meaning 2meaning 2meaning 2meaning 2meaning 2",
+          "meaning 3 meaning 3meaning 3meaning 3meaning 3meaning 3",
+          "meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
+          "meaning 5 meaning 5 meaning 5 meaning 5",
+        ],
+      },
+      answer: {
+        "word 1": "meaning 1 meaning 1meaning 1meaning 1meaning 1meaning 1",
+        "word 2": "meaning 2 meaning 2meaning 2meaning 2meaning 2meaning 2",
+        "word 3": "meaning 3 meaning 3meaning 3meaning 3meaning 3meaning 3",
+        "word 4":
+          "meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
+        "word 5": "meaning 5 meaning 5 meaning 5 meaning 5",
+      },
+      __type: QuestionType.ConnectWordsWithMeanings,
     },
   }, // type and fetch with rtk query
   quizzesResult: {
