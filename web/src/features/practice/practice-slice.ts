@@ -26,7 +26,8 @@ const initialState: PracticeState = {
     "1": {
       wordId: "1",
       question: "Fill [thisword] the gap by entering in this sentence",
-      __type: QuestionType.Pronounce,
+      answer: "answer",
+      __type: QuestionType.TypeWordByPronunciation,
     },
     "2": {
       wordId: "2",

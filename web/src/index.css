@@ -181,3 +181,6 @@ body, html, #root {
     @apply leading-8;
     
 }
+.challenge .challenge_answer{
+    @apply my-4;
+}
