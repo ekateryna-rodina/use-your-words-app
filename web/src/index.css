@@ -4,6 +4,7 @@
 
 :root {
     --green-color: #2EC0A6;
+    --purple-color: #BB2AD2;
     --yellow-color: #D1AA3F;
     --gray-color: #F8F8F8;
     --light-color: #FEF4FF;
@@ -42,6 +43,18 @@ body, html, #root {
 *::-webkit-scrollbar-thumb {
     border-radius: 20px;
     @apply bg-gray-300 dark:bg-dark-700;
+}
+/* BUTTONS */
+button{
+    transition: 300ms ease-in-out;
+    -webkit-transition: 300ms ease-in-out;
+    -moz-transition: 300ms ease-in-out;
+    -ms-transition: 300ms ease-in-out;
+    -o-transition: 300ms ease-in-out;
+}
+button:hover{
+    border-color: var(--purple-color) !important;
+    color: var(--purple-color) !important;
 }
 .dark *{
     scrollbar-color: var(--dark-700-color) var(--dark-500-color);
@@ -178,9 +191,13 @@ body, html, #root {
     @apply outline-0;
 }
 .challenge .challenge__question{
-    @apply leading-8;
+    @apply leading-6;
     
 }
 .challenge .challenge_answer{
     @apply my-4;
+}
+/* MULTISELECT */
+.multiselect__button {
+    @apply text-gray-300 text-sm py-1 px-2 bg-transparent rounded-md border-[1px] border-gray-300 dark:border-dark-500 dark:text-dark-500;
 }

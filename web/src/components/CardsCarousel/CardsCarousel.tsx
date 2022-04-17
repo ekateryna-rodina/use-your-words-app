@@ -9,6 +9,7 @@ import {
 } from "../../features/practiceActions/practiceactions-slice";
 import { PracticeCardPosition } from "../../types";
 import Card from "../Card.style";
+import ChooseMeaningByWord from "../Challenges/ChooseMeaningByWord";
 import FillGap from "../Challenges/FillGap";
 import Pronounce from "../Challenges/Pronounce";
 import TypeWordByMeaning from "../Challenges/TypeWordByMeaning";
@@ -53,7 +54,7 @@ const CardsCarousel = () => {
     }
     const currentChallenge =
       currentQuizChallenges[currentQuizChallengeIds[index]];
-    const { __type, question, answer } = currentChallenge;
+    const { __type, question, answer, options } = currentChallenge;
 
     switch (__type) {
       case QuestionType.FillGap:
@@ -77,7 +78,13 @@ const CardsCarousel = () => {
           />
         );
       case QuestionType.ChooseMeaningByWord:
-        return <span>{question}</span>;
+        return (
+          <ChooseMeaningByWord
+            question={question as string}
+            answer={answer as string}
+            options={options as string[]}
+          />
+        );
       case QuestionType.ChooseWordByMeaning:
         return <span>{question}</span>;
       case QuestionType.ConnectWordsWithMeanings:

@@ -25,9 +25,15 @@ const initialState: PracticeState = {
   currentQuizChallenges: {
     "1": {
       wordId: "1",
-      question: "This is a meaning. What the word is connected to it?",
+      question: "Thisisaword",
       answer: "answeranswerans",
-      __type: QuestionType.TypeWordByMeaning,
+      options: [
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
+        "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
+        "anweranweranwer anweranwer anwer anwer",
+        "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
+      ],
+      __type: QuestionType.ChooseMeaningByWord,
     },
     "2": {
       wordId: "2",
