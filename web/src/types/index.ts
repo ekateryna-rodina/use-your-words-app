@@ -72,7 +72,7 @@ export const ChallengeTitles: Record<QuestionType, string> = {
   [QuestionType.TypeWordByMeaning]: "What a word is this?",
   [QuestionType.ChooseMeaningByWord]: "Choose correct definition for this word",
   [QuestionType.ChooseWordByMeaning]: "Choose correct word for this definition",
-  [QuestionType.ConnectWordsWithMeanings]: "Connect definitions with words",
+  [QuestionType.ConnectWordsWithMeanings]: "Connect words with definitions",
   [QuestionType.ChooseSynonymByWord]:
     "What is the closest synonym to this word?",
   [QuestionType.ChooseAntonymByWord]:
