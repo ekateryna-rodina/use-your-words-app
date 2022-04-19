@@ -201,3 +201,7 @@ button:hover{
 .multiselect__button {
     @apply text-gray-300 text-sm py-1 px-2 bg-transparent rounded-md border-[1px] border-gray-300 dark:border-dark-500 dark:text-dark-500;
 }
+/* DRAG AND DROP */
+.droparea{
+    @apply w-11/12 m-auto my-1 py-1 px-1 text-center rounded-sm overflow-hidden border;
+}

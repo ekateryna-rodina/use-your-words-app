@@ -62,11 +62,11 @@ const initialState: PracticeState = {
       question: {
         words: ["word 1", "word 2", "word 3", "word 4", "word 5"],
         meanings: [
-          "meaning 1 meaning 1meanigrng 1meaning 1meaning 1meaning 1",
+          "meaning 1 meaning 1mesrgrganigrng 1meaning 1meaning 1meaning 1",
           "meaning 2 meaning 2meaning 2meergraning 2meaning 2meaning 2",
-          "meaning 3 meaerning 3meaning 3meaning 3meaning 3meaning 3",
-          "meaning 4 meaning 4meaning 4meaning 4 meaniertgerng 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
-          "meaning 5 meaning 5 meanertering 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
+          "meaning 3 meaerning 3meagrening 3meaning 3maeaning 3meaning 3",
+          "meaning 4 meaning 4meaning 4meadning 4 meaniertgerng 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
+          "meaning 5 meaning 5 meanerteridng 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
         ],
       },
       answer: {

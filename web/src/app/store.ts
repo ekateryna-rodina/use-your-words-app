@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import activeQuizMenuReducer from "../features/activeQuizMenu/activequizmenu-slice";
 import { apiSlice } from "../features/app-api-slice";
+import challengedndReducer from "../features/challengednd/challengednd-slice";
 import menuReducer from "../features/menu/menu-slice";
 import modalReducer from "../features/modal/modal-slice";
 import practiceReducer from "../features/practice/practice-slice";
@@ -17,6 +18,7 @@ export const store = configureStore({
     activeQuizMenu: activeQuizMenuReducer,
     practice: practiceReducer,
     practiceActions: practiceActionsReducer,
+    challengednd: challengedndReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
