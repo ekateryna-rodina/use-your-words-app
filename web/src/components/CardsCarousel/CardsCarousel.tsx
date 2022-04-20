@@ -27,9 +27,7 @@ export interface PortalProps {
 }
 
 const CardsCarousel = () => {
-  const { isNext, isSkip, isHint } = useAppSelector(
-    (state) => state.practiceActions
-  );
+  const { isNext, isSkip } = useAppSelector((state) => state.practiceActions);
   const {
     currentQuizChallenges,
     currentQuizChallengeIds,
@@ -54,14 +52,18 @@ const CardsCarousel = () => {
     if (index === null || !parent?.current) {
       return <></>;
     }
-    const currentChallenge =
-      currentQuizChallenges[currentQuizChallengeIds[index]];
+    const currentChallengeId = currentQuizChallengeIds[index];
+    const currentChallenge = currentQuizChallenges[currentChallengeId];
     const { __type, question, answer, options } = currentChallenge;
 
     switch (__type) {
       case QuestionType.FillGap:
         return (
-          <FillGap phrase={question as string} answer={answer as string} />
+          <FillGap
+            phrase={question as string}
+            answer={answer as string}
+            challengeId={currentChallengeId}
+          />
         );
       case QuestionType.Pronounce:
         return <Pronounce fileUrl={question as string} />;

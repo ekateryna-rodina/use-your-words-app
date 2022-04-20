@@ -21,8 +21,15 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["5", "2", "3", "4", "1"],
+  currentQuizChallengeIds: ["10", "5", "2", "3", "4", "1"],
+
   currentQuizChallenges: {
+    "10": {
+      wordId: "10",
+      question: "This iss a [word] you have to insert in this phrase",
+      answer: "word",
+      __type: QuestionType.FillGap,
+    },
     "1": {
       wordId: "1",
       question: "Thisisaword",

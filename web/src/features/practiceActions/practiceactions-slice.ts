@@ -5,6 +5,7 @@ interface PracticeActionsState {
   isSkip: boolean;
   isHint: boolean;
   isAnswered: boolean;
+  isHintAvailable: boolean;
 }
 
 const initialState: PracticeActionsState = {
@@ -12,6 +13,7 @@ const initialState: PracticeActionsState = {
   isSkip: false,
   isHint: false,
   isAnswered: false,
+  isHintAvailable: true,
 };
 
 const practiceActionsSlice = createSlice({
@@ -30,9 +32,12 @@ const practiceActionsSlice = createSlice({
     setAnswered(state, action: PayloadAction<boolean>) {
       state.isAnswered = action.payload;
     },
+    setHintIsAvailable(state, action: PayloadAction<boolean>) {
+      state.isHintAvailable = action.payload;
+    },
   },
 });
 
-export const { setNext, setSkip, setHint, setAnswered } =
+export const { setNext, setSkip, setHint, setAnswered, setHintIsAvailable } =
   practiceActionsSlice.actions;
 export default practiceActionsSlice.reducer;

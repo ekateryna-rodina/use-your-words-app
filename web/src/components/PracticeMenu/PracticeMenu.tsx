@@ -2,13 +2,16 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setAnswered,
+  setHint,
   setNext,
 } from "../../features/practiceActions/practiceactions-slice";
 import RectangleButton from "../RectangleButton.style";
 
 const PracticeMenu = () => {
   const dispatch = useAppDispatch();
-  const { isAnswered } = useAppSelector((state) => state.practiceActions);
+  const { isAnswered, isHintAvailable } = useAppSelector(
+    (state) => state.practiceActions
+  );
   const { currentQuizChallenges } = useAppSelector((state) => state.practice);
 
   const nextHandler = () => {
@@ -17,12 +20,20 @@ const PracticeMenu = () => {
   const answerHandler = () => {
     dispatch(setAnswered(true));
   };
+  const hintHandler = () => {
+    if (!isHintAvailable) return;
+    dispatch(setHint(true));
+  };
   return (
     <div className="practice-menu px-4 flex justify-start items-center">
       <RectangleButton handler={() => null} isPrimary={false}>
         <span className="practice-button-value">Skip</span>
       </RectangleButton>
-      <RectangleButton handler={() => null} isPrimary={false}>
+      <RectangleButton
+        handler={hintHandler}
+        isPrimary={false}
+        isDisabled={!isHintAvailable}
+      >
         <span className="practice-button-value">Hint</span>
       </RectangleButton>
       <div className="ml-auto">

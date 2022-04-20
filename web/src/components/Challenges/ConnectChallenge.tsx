@@ -53,11 +53,8 @@ const Draggable = ({ word }: DraggableProps) => {
 };
 
 const Droppable = ({ meaning }: DroppableProps) => {
-  const { answered, unanswered } = useAppSelector(
-    (state) => state.challengednd
-  );
+  const { answered } = useAppSelector((state) => state.challengednd);
   const dispatch = useAppDispatch();
-  // const canAcceptAnswer = () => !Object.values(answered).includes(meaning);
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: DropTypes.WORD,

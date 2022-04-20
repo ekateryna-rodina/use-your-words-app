@@ -8,6 +8,13 @@ export enum SuccessLevels {
   Master,
 }
 
+export enum HintType {
+  None,
+  ShowFirstLetter,
+  ShowTranscription,
+  ExcludeWrong,
+}
+
 export type FillColor =
   | "fill-green"
   | "fill-yellow"
@@ -81,4 +88,18 @@ export const ChallengeTitles: Record<QuestionType, string> = {
     "What is the closest word to this synonym?",
   [QuestionType.ChooseWordByAntonym]:
     "What is the closest word to this antonym?",
+};
+
+export const ChallengeHints: Record<QuestionType, HintType> = {
+  [QuestionType.FillGap]: HintType.ShowFirstLetter,
+  [QuestionType.Pronounce]: HintType.ShowTranscription,
+  [QuestionType.TypeWordByPronunciation]: HintType.ShowFirstLetter,
+  [QuestionType.TypeWordByMeaning]: HintType.ShowFirstLetter,
+  [QuestionType.ChooseMeaningByWord]: HintType.ExcludeWrong,
+  [QuestionType.ChooseWordByMeaning]: HintType.ExcludeWrong,
+  [QuestionType.ConnectWordsWithMeanings]: HintType.None,
+  [QuestionType.ChooseSynonymByWord]: HintType.ExcludeWrong,
+  [QuestionType.ChooseAntonymByWord]: HintType.ExcludeWrong,
+  [QuestionType.ChooseWordBySynonym]: HintType.ExcludeWrong,
+  [QuestionType.ChooseWordByAntonym]: HintType.ExcludeWrong,
 };
