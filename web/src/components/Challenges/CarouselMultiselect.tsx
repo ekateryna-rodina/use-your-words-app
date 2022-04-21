@@ -26,6 +26,7 @@ const CarouselMultiselect = ({
       <div className="relative">
         {options.map((o, i) => (
           <Option
+            key={o}
             styles={`absolute transition-transform ease-in-out duration-200 ${
               currentIdx === i
                 ? "translate-x-[0%] delay-200"
