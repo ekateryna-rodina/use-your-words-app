@@ -26,3 +26,13 @@ export const getValueWithHint = (answer: string, value: string) => {
   }
   return newValue;
 };
+
+export const getDisabledOptions = (
+  answer: string,
+  options: string[]
+): string[] => {
+  const wrongOptions = options
+    .filter((o) => o !== answer)
+    .sort(() => 0.5 - Math.random());
+  return wrongOptions.splice(0, 2);
+};

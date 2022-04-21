@@ -4,11 +4,13 @@ import Option from "./Option";
 type CarouselMultiselectProps = {
   options: string[];
   correctAnswer: string;
+  hintOptions: string[];
 };
 
 const CarouselMultiselect = ({
   options,
   correctAnswer,
+  hintOptions,
 }: CarouselMultiselectProps) => {
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   const [userAnswer, setUserAnswer] = useState<string>("");
@@ -32,6 +34,7 @@ const CarouselMultiselect = ({
             option={options[currentIdx]}
             setUserAnswer={setUserAnswer}
             userAnswer={userAnswer}
+            hintOptions={hintOptions}
           />
         ))}
       </div>

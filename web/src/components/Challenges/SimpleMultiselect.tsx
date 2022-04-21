@@ -3,12 +3,14 @@ import Option from "./Option";
 
 type SimpleMultiselectProps = {
   options: string[];
-  correctAnswer: string;
+  answer: string;
+  hintOptions: string[];
 };
 
 const SimpleMultiselect = ({
   options,
-  correctAnswer,
+  answer,
+  hintOptions,
 }: SimpleMultiselectProps) => {
   const [userAnswer, setUserAnswer] = useState<string>("");
   return (
@@ -19,6 +21,7 @@ const SimpleMultiselect = ({
           option={o}
           setUserAnswer={setUserAnswer}
           userAnswer={userAnswer}
+          hintOptions={hintOptions}
         />
       ))}
     </div>

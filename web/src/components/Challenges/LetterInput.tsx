@@ -21,34 +21,27 @@ const Letter = ({
 }: LetterProps) => {
   const ref = useRef<HTMLInputElement | null>(null);
   const [backSpace, left, right] = ["Backspace", "ArrowLeft", "ArrowRight"];
-  const focusHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === backSpace || e.code === left || e.code === right) return;
-    setFocusedIdx(focusedIndex + 1);
-  };
   const backLeftRightHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (focusedIndex === 0) return;
-
     if (e.code === left) {
       setFocusedIdx(focusedIndex - 1);
       return;
     }
-
     if (e.code === right) {
       if (focusedIndex === userAnswer.length - 1) return;
       setFocusedIdx(focusedIndex + 1);
       return;
     }
-
     if (backSpace === e.code) {
       // focus to previous input
       setFocusedIdx(focusedIndex - 1);
     }
   };
   useEffect(() => {
-    if (index === focusedIndex || userAnswer.length === index) {
+    if (index === focusedIndex) {
       ref.current?.focus();
     }
-  }, [index, focusedIndex, ref, userAnswer]);
+  }, [index, focusedIndex, ref]);
   return (
     <div className="relative w-[2rem] h-[2rem] bg-gray-200 dark:bg-dark-700">
       <input
@@ -61,7 +54,6 @@ const Letter = ({
           setUserAnswer(newState);
         }}
         value={userAnswer[index] ?? ""}
-        onKeyUp={focusHandler}
         onKeyDown={backLeftRightHandler}
         maxLength={1}
         ref={ref}
@@ -76,6 +68,13 @@ const LetterInput = ({
   setUserAnswer,
 }: LetterInputProps) => {
   const [focusedLetterIdx, setFocusedIdx] = useState<number>(0);
+  useEffect(() => {
+    const focusedIndex = !userAnswer[0]
+      ? 0
+      : userAnswer.filter((l) => l).length;
+    console.log(userAnswer, focusedIndex);
+    setFocusedIdx(focusedIndex);
+  }, [userAnswer]);
   return (
     <form className="flex justify-center items-center gap-2 flex-wrap">
       {answer.split("").map((l, i) => (

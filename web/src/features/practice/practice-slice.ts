@@ -21,7 +21,7 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["11", "7", "10", "5", "2", "3", "4", "1"],
+  currentQuizChallengeIds: ["1", "11", "7", "10", "5", "2", "4", "3"],
 
   currentQuizChallenges: {
     "11": {
@@ -51,7 +51,7 @@ const initialState: PracticeState = {
       options: [
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
         "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
-        "anweranweranwer anweranwer anwer anwer",
+        "answeranswerans",
         "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
       ],
       __type: QuestionType.ChooseMeaningByWord,

@@ -42,7 +42,11 @@ const TypeWordByPronunciation = ({
     if (isCurrent && isHint) {
       const valueWithHint = getValueWithHint(answer, userAnswer.join(""));
       console.log(answer, userAnswer.join(""), valueWithHint);
-      setUserAnswer(valueWithHint.split(""));
+      setUserAnswer(
+        Array(answer.length)
+          .fill("")
+          .map((l, i) => valueWithHint[i] ?? "")
+      );
       setShowTrancription(true);
       resetHint();
     }

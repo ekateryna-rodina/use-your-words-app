@@ -56,6 +56,9 @@ button:hover{
     border-color: var(--purple-color) !important;
     color: var(--purple-color) !important;
 }
+button:focus{
+    outline-color: var(--purple-color) !important;
+}
 .dark *{
     scrollbar-color: var(--dark-700-color) var(--dark-500-color);
 }

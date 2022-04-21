@@ -97,6 +97,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ChooseWordByMeaning:
@@ -106,6 +107,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ConnectWordsWithMeanings:
@@ -127,6 +129,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ChooseAntonymByWord:
@@ -136,6 +139,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ChooseWordBySynonym:
@@ -145,6 +149,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ChooseWordByAntonym:
@@ -154,6 +159,7 @@ const CardsCarousel = () => {
             question={question as string}
             answer={answer as string}
             options={options as string[]}
+            challengeId={currentChallengeId}
           />
         );
       default:
