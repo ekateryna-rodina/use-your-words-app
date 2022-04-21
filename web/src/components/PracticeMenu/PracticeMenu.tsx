@@ -12,7 +12,6 @@ const PracticeMenu = () => {
   const { isAnswered, isHintAvailable } = useAppSelector(
     (state) => state.practiceActions
   );
-  const { currentQuizChallenges } = useAppSelector((state) => state.practice);
 
   const nextHandler = () => {
     dispatch(setNext(true));

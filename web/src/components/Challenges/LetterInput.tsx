@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 type LetterInputProps = {
   answer: string;
+  setUserAnswer: (answer: string[]) => void;
+  userAnswer: string[];
 };
 type LetterProps = {
   index: number;
@@ -43,10 +45,10 @@ const Letter = ({
     }
   };
   useEffect(() => {
-    if (index === focusedIndex) {
+    if (index === focusedIndex || userAnswer.length === index) {
       ref.current?.focus();
     }
-  }, [index, focusedIndex, ref]);
+  }, [index, focusedIndex, ref, userAnswer]);
   return (
     <div className="relative w-[2rem] h-[2rem] bg-gray-200 dark:bg-dark-700">
       <input
@@ -58,7 +60,7 @@ const Letter = ({
           newState[index] = value;
           setUserAnswer(newState);
         }}
-        value={userAnswer[index]}
+        value={userAnswer[index] ?? ""}
         onKeyUp={focusHandler}
         onKeyDown={backLeftRightHandler}
         maxLength={1}
@@ -68,11 +70,12 @@ const Letter = ({
   );
 };
 
-const LetterInput = ({ answer }: LetterInputProps) => {
+const LetterInput = ({
+  answer,
+  userAnswer,
+  setUserAnswer,
+}: LetterInputProps) => {
   const [focusedLetterIdx, setFocusedIdx] = useState<number>(0);
-  const [userAnswer, setUserAnswer] = useState<string[]>(
-    answer.split("").map((l) => "")
-  );
   return (
     <form className="flex justify-center items-center gap-2 flex-wrap">
       {answer.split("").map((l, i) => (

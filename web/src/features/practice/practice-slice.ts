@@ -21,14 +21,28 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["10", "5", "2", "3", "4", "1"],
+  currentQuizChallengeIds: ["11", "7", "10", "5", "2", "3", "4", "1"],
 
   currentQuizChallenges: {
+    "11": {
+      wordId: "10",
+      question: "This iss pronunciation",
+      answer: "word",
+      transcription: "transcription",
+      __type: QuestionType.TypeWordByPronunciation,
+    },
     "10": {
       wordId: "10",
       question: "This iss a [word] you have to insert in this phrase",
       answer: "word",
       __type: QuestionType.FillGap,
+    },
+    "7": {
+      wordId: "10",
+      question: "This iss a [word] you have to insert in this phrase",
+      answer: "word",
+      transcription: "transcription",
+      __type: QuestionType.Pronounce,
     },
     "1": {
       wordId: "1",

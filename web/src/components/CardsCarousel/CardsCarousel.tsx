@@ -54,7 +54,8 @@ const CardsCarousel = () => {
     }
     const currentChallengeId = currentQuizChallengeIds[index];
     const currentChallenge = currentQuizChallenges[currentChallengeId];
-    const { __type, question, answer, options } = currentChallenge;
+    const { __type, question, answer, options, transcription } =
+      currentChallenge;
 
     switch (__type) {
       case QuestionType.FillGap:
@@ -66,12 +67,21 @@ const CardsCarousel = () => {
           />
         );
       case QuestionType.Pronounce:
-        return <Pronounce fileUrl={question as string} />;
+        return (
+          <Pronounce
+            fileUrl={question as string}
+            challengeId={currentChallengeId}
+            transcription={transcription as string}
+            word={answer as string}
+          />
+        );
       case QuestionType.TypeWordByPronunciation:
         return (
           <TypeWordByPronunciation
             fileUrl={question as string}
             answer={answer as string}
+            challengeId={currentChallengeId}
+            transcription={transcription as string}
           />
         );
       case QuestionType.TypeWordByMeaning:

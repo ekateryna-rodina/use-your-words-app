@@ -6,6 +6,7 @@ import {
   setHintIsAvailable,
 } from "../../features/practiceActions/practiceactions-slice";
 import { ChallengeTitles } from "../../types";
+import { getValueWithHint } from "../../utils/challenges";
 
 type FillGapProps = {
   challengeId: string;
@@ -31,36 +32,8 @@ const FillGap = ({ challengeId, phrase, answer }: FillGapProps) => {
     dispatch(setHint(false));
   };
   const setHintValue = () => {
-    // if no user input
-    if (!value) {
-      setValue(answer[0]);
-      return;
-    } else if (value === answer) {
-      // if full and correct answer
-      return;
-    } else if (answer.startsWith(value)) {
-      // if partial and correct
-      const newValue = `${value}${answer.slice(
-        value.length,
-        value.length + 1
-      )}`;
-      setValue(newValue);
-      return;
-    }
-
-    // fix one mistake
-    const letters = value.split("");
-    const wrongIndices = letters.reduce((acc: number[], curr, idx) => {
-      if (curr !== answer[idx]) {
-        acc.push(idx);
-      }
-      return acc;
-    }, []);
-    if (wrongIndices[0]) {
-      const newValue = [...value.split("")];
-      newValue[wrongIndices[0]] = answer[wrongIndices[0]];
-      setValue(newValue.join(""));
-    }
+    const newValue = getValueWithHint(answer, value);
+    setValue(newValue);
   };
   useEffect(() => {
     if (isCurrent && isHint) {

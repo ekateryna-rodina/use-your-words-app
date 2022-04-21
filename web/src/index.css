@@ -204,3 +204,7 @@ button:hover{
 .droparea{
     @apply w-11/12 m-auto my-1 py-1 px-1 text-center rounded-sm overflow-hidden border;
 }
+/* TEXT */
+.transcription{
+    @apply mt-2 text-green text-sm text-center;
+}

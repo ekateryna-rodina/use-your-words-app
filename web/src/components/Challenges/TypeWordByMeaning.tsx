@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { QuestionType } from "use-your-words-common";
 import { ChallengeTitles } from "../../types";
 import LetterInput from "./LetterInput";
@@ -9,6 +9,9 @@ type TypeWordByMeaningProps = {
 };
 
 const TypeWordByMeaning = ({ meaning, answer }: TypeWordByMeaningProps) => {
+  const [userAnswer, setUserAnswer] = useState<string[]>(
+    answer.split("").map((l) => "")
+  );
   return (
     <div className="challenge">
       <div className="container">
@@ -17,7 +20,7 @@ const TypeWordByMeaning = ({ meaning, answer }: TypeWordByMeaningProps) => {
           {meaning}
         </div>
         <div className="challenge_answer">
-          <LetterInput answer={answer} />
+          <LetterInput {...{ userAnswer, setUserAnswer, answer }} />
         </div>
       </div>
     </div>
