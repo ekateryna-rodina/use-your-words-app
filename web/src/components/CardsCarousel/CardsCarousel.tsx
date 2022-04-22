@@ -179,7 +179,15 @@ const CardsCarousel = () => {
           ref.current?.classList.add("back", "hidden");
           ref.current?.classList.remove("front", "next");
           ref.current?.classList.remove("hidden");
-          ref.current?.removeChild(ref.current?.children[0]);
+          console.log(
+            ref,
+            ref.current?.children,
+            ref.current?.children.length,
+            ref.current?.children[0]
+          );
+          // (ref.current as Element).innerHTML = "";
+          ReactDOM.unmountComponentAtNode(ref.current?.children[0] as Element);
+          console.log("removved");
           const newChallengeNode = renderChallenge(
             nextChallengeIndex,
             ref as React.MutableRefObject<HTMLDivElement>
@@ -187,11 +195,11 @@ const CardsCarousel = () => {
 
           ReactDOM.render(
             <Provider store={store}>
-              <Challenge
+              {/* <Challenge
                 target={ref.current as Element}
                 children={newChallengeNode}
-              />
-              ,
+              /> */}
+              <div>any</div>
             </Provider>,
             ref.current
           );

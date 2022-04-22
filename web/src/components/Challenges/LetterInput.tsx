@@ -83,7 +83,7 @@ const LetterInput = ({
     const focusedIndex = !userAnswer[0]
       ? 0
       : userAnswer.filter((l) => l).length;
-    console.log(userAnswer, focusedIndex);
+
     setFocusedIdx(focusedIndex);
   }, [userAnswer]);
   return (

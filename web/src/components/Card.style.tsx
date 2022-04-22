@@ -17,7 +17,7 @@ const StyleMap: Record<PracticeCardPosition, Class> = {
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   const { position, children } = props;
-  console.log(ref);
+
   const [styleClass] = useState<"front" | "middle" | "back">(
     StyleMap[position]
   );

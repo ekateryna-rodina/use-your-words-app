@@ -21,8 +21,18 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["1", "2", "3", "4", "5", "6"],
-  // currentQuizChallengeIds: ["1", "11", "7", "10", "5", "2", "4", "3"],
+  currentQuizChallengeIds: ["1", "2", "3", "4", "5", "6", "7"],
+  // FillGap = 0,
+  // Pronounce = 1,
+  // TypeWordByPronunciation = 2,
+  // TypeWordByMeaning = 3,
+  // ChooseMeaningByWord = 4,
+  // ChooseWordByMeaning = 5,
+  // ConnectWordsWithMeanings = 6,
+  // ChooseSynonymByWord = 7,
+  // ChooseAntonymByWord = 8,
+  // ChooseWordBySynonym = 9,
+  // ChooseWordByAntonym = 10
 
   currentQuizChallenges: {
     "1": {
@@ -88,11 +98,12 @@ const initialState: PracticeState = {
       transcription: "transcription",
       __type: QuestionType.TypeWordByPronunciation,
     },
-    // "10": {
-    //   wordId: "10",
-    //   question: "This iss a [word] you have to insert in this phrase",
-    //   answer: "word",
-    //   __type: QuestionType.FillGap,
+    "7": {
+      wordId: "10",
+      question: "This iss a [word] you have to insert in this phrase",
+      answer: "word",
+      __type: QuestionType.FillGap,
+    },
     // },
     // "7": {
     //   wordId: "10",
