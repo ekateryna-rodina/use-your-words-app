@@ -36,9 +36,11 @@ export function useHint<
           props.options as string[]
         );
       case QuestionType.FillGap:
+      case QuestionType.TypeWordByPronunciation:
         return getValueWithHint(props.answer as string, props.value as string);
       case QuestionType.Pronounce:
         return props.transcription;
+
       default:
         return null;
     }
@@ -51,12 +53,6 @@ export function useHint<
   }, [currentChallengeIndex, currentQuizChallengeIds, props]);
   // reset hint is avilable on every new challange
   useEffect(() => {
-    if (!isCurrent) return;
-    dispatch(setHintIsAvailable(true));
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    console.log(isHint, isCurrent, QuestionType[type]);
     if (isCurrent && isHint) {
       const hintData = getHintData();
       if (!hintData) return;

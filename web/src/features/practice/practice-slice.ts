@@ -21,29 +21,10 @@ interface PracticeState {
 const initialState: PracticeState = {
   currentQuizId: null,
   currentChallengeIndex: 0,
-  currentQuizChallengeIds: ["1", "11", "7", "10", "5", "2", "4", "3"],
+  currentQuizChallengeIds: ["1", "2", "3", "4", "5", "6"],
+  // currentQuizChallengeIds: ["1", "11", "7", "10", "5", "2", "4", "3"],
 
   currentQuizChallenges: {
-    "11": {
-      wordId: "10",
-      question: "This iss pronunciation",
-      answer: "word",
-      transcription: "transcription",
-      __type: QuestionType.TypeWordByPronunciation,
-    },
-    "10": {
-      wordId: "10",
-      question: "This iss a [word] you have to insert in this phrase",
-      answer: "word",
-      __type: QuestionType.FillGap,
-    },
-    "7": {
-      wordId: "10",
-      question: "This iss a [word] you have to insert in this phrase",
-      answer: "word",
-      transcription: "transcription",
-      __type: QuestionType.Pronounce,
-    },
     "1": {
       wordId: "1",
       question: "Thisisaword",
@@ -57,6 +38,42 @@ const initialState: PracticeState = {
       __type: QuestionType.ChooseMeaningByWord,
     },
     "2": {
+      wordId: "1",
+      question: "Thisisaword",
+      answer: "answeranswerans",
+      options: [
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
+        "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
+        "answeranswerans",
+        "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
+      ],
+      __type: QuestionType.ChooseMeaningByWord,
+    },
+    "3": {
+      wordId: "1",
+      question: "Thisisaword",
+      answer: "answeranswerans",
+      options: [
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
+        "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
+        "answeranswerans",
+        "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
+      ],
+      __type: QuestionType.ChooseMeaningByWord,
+    },
+    "4": {
+      wordId: "1",
+      question: "Thisisaword",
+      answer: "answeranswerans",
+      options: [
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
+        "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
+        "answeranswerans",
+        "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
+      ],
+      __type: QuestionType.ChooseMeaningByWord,
+    },
+    "5": {
       wordId: "2",
       question:
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans Thisisaword",
@@ -64,43 +81,64 @@ const initialState: PracticeState = {
       options: ["answeranswerans", "anrgewer", "anweranweranwer", "anwer"],
       __type: QuestionType.ChooseWordByMeaning,
     },
-    "3": {
-      wordId: "3",
-      question: "Qord ",
-      answer: "antonym 1",
-      options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
-      __type: QuestionType.ChooseAntonymByWord,
+    "6": {
+      wordId: "10",
+      question: "This iss pronunciation",
+      answer: "word",
+      transcription: "transcription",
+      __type: QuestionType.TypeWordByPronunciation,
     },
-    "4": {
-      wordId: "4",
-      question: "Qord ",
-      answer: "antonym 1",
-      options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
-      __type: QuestionType.ChooseAntonymByWord,
-    },
-    "5": {
-      wordId: "5",
-      question: {
-        words: ["word 1", "word 2", "word 3", "word 4", "word 5"],
-        meanings: [
-          "meaning 1 meaning 1mesrgrganigrng 1meaning 1meaning 1meaning 1",
-          "meaning 2 meaning 2meaning 2meergraning 2meaning 2meaning 2",
-          "meaning 3 meaerning 3meagrening 3meaning 3maeaning 3meaning 3",
-          "meaning 4 meaning 4meaning 4meadning 4 meaniertgerng 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
-          "meaning 5 meaning 5 meanerteridng 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
-        ],
-      },
-      answer: {
-        "word 1": "meaning 1 meaning 1meaning 1meaning 1meaning 1meaning 1",
-        "word 2": "meaning 2 meaning 2meaning 2meaning 2meaning 2meaning 2",
-        "word 3": "meaning 3 meaning 3meaning 3meaning 3meaning 3meaning 3",
-        "word 4":
-          "meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
-        "word 5":
-          "meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
-      },
-      __type: QuestionType.ConnectWordsWithMeanings,
-    },
+    // "10": {
+    //   wordId: "10",
+    //   question: "This iss a [word] you have to insert in this phrase",
+    //   answer: "word",
+    //   __type: QuestionType.FillGap,
+    // },
+    // "7": {
+    //   wordId: "10",
+    //   question: "This iss a [word] you have to insert in this phrase",
+    //   answer: "word",
+    //   transcription: "transcription",
+    //   __type: QuestionType.Pronounce,
+    // },
+
+    // "3": {
+    //   wordId: "3",
+    //   question: "Qord ",
+    //   answer: "antonym 1",
+    //   options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
+    //   __type: QuestionType.ChooseAntonymByWord,
+    // },
+    // "4": {
+    //   wordId: "4",
+    //   question: "Qord ",
+    //   answer: "antonym 1",
+    //   options: ["antonym 1", "antonym 2", "antonym 3", "antonym 4"],
+    //   __type: QuestionType.ChooseAntonymByWord,
+    // },
+    // "5": {
+    //   wordId: "5",
+    //   question: {
+    //     words: ["word 1", "word 2", "word 3", "word 4", "word 5"],
+    //     meanings: [
+    //       "meaning 1 meaning 1mesrgrganigrng 1meaning 1meaning 1meaning 1",
+    //       "meaning 2 meaning 2meaning 2meergraning 2meaning 2meaning 2",
+    //       "meaning 3 meaerning 3meagrening 3meaning 3maeaning 3meaning 3",
+    //       "meaning 4 meaning 4meaning 4meadning 4 meaniertgerng 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
+    //       "meaning 5 meaning 5 meanerteridng 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
+    //     ],
+    //   },
+    //   answer: {
+    //     "word 1": "meaning 1 meaning 1meaning 1meaning 1meaning 1meaning 1",
+    //     "word 2": "meaning 2 meaning 2meaning 2meaning 2meaning 2meaning 2",
+    //     "word 3": "meaning 3 meaning 3meaning 3meaning 3meaning 3meaning 3",
+    //     "word 4":
+    //       "meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4meaning 4 meaning 4meaning 4meaning 4 meaning 4 meaning 4meaning 4meaning 4",
+    //     "word 5":
+    //       "meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5 meaning 5",
+    //   },
+    //   __type: QuestionType.ConnectWordsWithMeanings,
+    // },
   }, // type and fetch with rtk query
   quizzesResult: {
     1: {

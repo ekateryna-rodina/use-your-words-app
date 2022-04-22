@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setAnswered,
   setHint,
+  setHintIsAvailable,
   setNext,
 } from "../../features/practiceActions/practiceactions-slice";
 import RectangleButton from "../RectangleButton.style";
@@ -15,6 +16,7 @@ const PracticeMenu = () => {
 
   const nextHandler = () => {
     dispatch(setNext(true));
+    dispatch(setHintIsAvailable(true));
   };
   const answerHandler = () => {
     dispatch(setAnswered(true));

@@ -6,9 +6,14 @@ import LetterInput from "./LetterInput";
 type TypeWordByMeaningProps = {
   meaning: string;
   answer: string;
+  challengeId: string;
 };
 
-const TypeWordByMeaning = ({ meaning, answer }: TypeWordByMeaningProps) => {
+const TypeWordByMeaning = ({
+  meaning,
+  answer,
+  challengeId,
+}: TypeWordByMeaningProps) => {
   const [userAnswer, setUserAnswer] = useState<string[]>(
     answer.split("").map((l) => "")
   );
@@ -20,7 +25,9 @@ const TypeWordByMeaning = ({ meaning, answer }: TypeWordByMeaningProps) => {
           {meaning}
         </div>
         <div className="challenge_answer">
-          <LetterInput {...{ userAnswer, setUserAnswer, answer }} />
+          <LetterInput
+            {...{ userAnswer, setUserAnswer, answer, challengeId }}
+          />
         </div>
       </div>
     </div>

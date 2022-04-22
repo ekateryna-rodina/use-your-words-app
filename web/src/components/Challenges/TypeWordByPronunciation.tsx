@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { QuestionType } from "use-your-words-common";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  setHint,
-  setHintIsAvailable,
-} from "../../features/practiceActions/practiceactions-slice";
+import { useHint } from "../../hooks/useHint";
 import { ChallengeTitles } from "../../types";
-import { getValueWithHint } from "../../utils/challenges";
 import { PlaySound } from "../PlaySound";
 import LetterInput from "./LetterInput";
 
@@ -22,36 +17,26 @@ const TypeWordByPronunciation = ({
   challengeId,
   transcription,
 }: TypeWordByPronunciationProps) => {
-  const { isHint } = useAppSelector((state) => state.practiceActions);
-  const { currentChallengeIndex, currentQuizChallengeIds } = useAppSelector(
-    (state) => state.practice
-  );
   const [showTranscription, setShowTrancription] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
-  const isCurrent =
-    currentChallengeIndex !== null &&
-    challengeId === currentQuizChallengeIds[currentChallengeIndex];
+
   const [userAnswer, setUserAnswer] = useState<string[]>(
     answer.split("").map((l) => "")
   );
-  const resetHint = () => {
-    dispatch(setHintIsAvailable(false));
-    dispatch(setHint(false));
-  };
+  const hintData = useHint(
+    { answer, value: userAnswer.join(""), challengeId },
+    QuestionType.TypeWordByPronunciation
+  );
   useEffect(() => {
-    if (isCurrent && isHint) {
-      const valueWithHint = getValueWithHint(answer, userAnswer.join(""));
-      console.log(answer, userAnswer.join(""), valueWithHint);
-      setUserAnswer(
-        Array(answer.length)
-          .fill("")
-          .map((l, i) => valueWithHint[i] ?? "")
-      );
-      setShowTrancription(true);
-      resetHint();
-    }
+    if (!hintData) return;
+    setUserAnswer(
+      Array(answer.length)
+        .fill("")
+        .map((l, i) => hintData[i] ?? "")
+    );
+    setShowTrancription(true);
+
     // eslint-disable-next-line
-  }, [isCurrent, isHint]);
+  }, [hintData]);
   return (
     <div className="challenge">
       <div className="container">
@@ -60,7 +45,9 @@ const TypeWordByPronunciation = ({
           <PlaySound fileUrl={fileUrl} />
         </div>
         <div className="challenge_answer">
-          <LetterInput {...{ answer, userAnswer, setUserAnswer }} />
+          <LetterInput
+            {...{ answer, userAnswer, setUserAnswer, challengeId }}
+          />
           {showTranscription ? (
             <div className="transcription">{transcription}</div>
           ) : (

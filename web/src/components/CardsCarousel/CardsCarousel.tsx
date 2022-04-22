@@ -1,7 +1,9 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { QuestionType } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { store } from "../../app/store";
 import { setCurrentChallengeIndex } from "../../features/practice/practice-slice";
 import {
   setAnswered,
@@ -89,6 +91,7 @@ const CardsCarousel = () => {
           <TypeWordByMeaning
             meaning={question as string}
             answer={answer as string}
+            challengeId={currentChallengeId}
           />
         );
       case QuestionType.ChooseMeaningByWord:
@@ -183,10 +186,13 @@ const CardsCarousel = () => {
           );
 
           ReactDOM.render(
-            <Challenge
-              target={ref.current as Element}
-              children={newChallengeNode}
-            />,
+            <Provider store={store}>
+              <Challenge
+                target={ref.current as Element}
+                children={newChallengeNode}
+              />
+              ,
+            </Provider>,
             ref.current
           );
         }, 1000);

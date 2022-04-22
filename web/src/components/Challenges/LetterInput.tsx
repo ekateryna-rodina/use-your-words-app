@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
 
 type LetterInputProps = {
   answer: string;
   setUserAnswer: (answer: string[]) => void;
   userAnswer: string[];
+  challengeId: string;
 };
 type LetterProps = {
   index: number;
@@ -11,6 +13,7 @@ type LetterProps = {
   setFocusedIdx: (index: any) => void;
   setUserAnswer: (answer: string[]) => void;
   userAnswer: string[];
+  challengeId: string;
 };
 const Letter = ({
   index,
@@ -18,8 +21,15 @@ const Letter = ({
   setFocusedIdx,
   setUserAnswer,
   userAnswer,
+  challengeId,
 }: LetterProps) => {
   const ref = useRef<HTMLInputElement | null>(null);
+  const { currentChallengeIndex, currentQuizChallengeIds } = useAppSelector(
+    (state) => state.practice
+  );
+  const isCurrent =
+    currentChallengeIndex !== null &&
+    challengeId === currentQuizChallengeIds[currentChallengeIndex];
   const [backSpace, left, right] = ["Backspace", "ArrowLeft", "ArrowRight"];
   const backLeftRightHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (focusedIndex === 0) return;
@@ -38,10 +48,10 @@ const Letter = ({
     }
   };
   useEffect(() => {
-    if (index === focusedIndex) {
+    if (isCurrent && index === focusedIndex) {
       ref.current?.focus();
     }
-  }, [index, focusedIndex, ref]);
+  }, [index, focusedIndex, ref, isCurrent]);
   return (
     <div className="relative w-[2rem] h-[2rem] bg-gray-200 dark:bg-dark-700">
       <input
@@ -66,6 +76,7 @@ const LetterInput = ({
   answer,
   userAnswer,
   setUserAnswer,
+  challengeId,
 }: LetterInputProps) => {
   const [focusedLetterIdx, setFocusedIdx] = useState<number>(0);
   useEffect(() => {
@@ -85,6 +96,7 @@ const LetterInput = ({
           setFocusedIdx={setFocusedIdx}
           setUserAnswer={setUserAnswer}
           userAnswer={userAnswer}
+          challengeId={challengeId}
         />
       ))}
     </form>
