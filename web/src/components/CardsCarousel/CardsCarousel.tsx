@@ -249,6 +249,7 @@ const CardsCarousel = () => {
         clearTimeout(timer);
       }
     };
+    // eslint-disable-next-line
   }, []);
   const getIndexByRef = (ref: React.MutableRefObject<HTMLDivElement>) => {
     return refIndexData?.get(ref) ?? 0;
