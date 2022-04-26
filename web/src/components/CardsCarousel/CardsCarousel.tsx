@@ -101,6 +101,7 @@ const Challenge = React.memo(
                   [k: string]: string[];
                 }
               }
+              challengeId={currentChallengeId}
               answer={answer as Record<string, string>}
             />
           );
@@ -151,7 +152,6 @@ const Challenge = React.memo(
     return <>{renderChallenge(currentChallengeIndex, parent)}</>;
   }
 );
-
 export interface PortalProps {
   target: Element;
   children: React.ReactNode;
@@ -174,6 +174,7 @@ const CardsCarousel = () => {
     React.MutableRefObject<HTMLDivElement | null>[]
   >([frontRef, middleRef, backRef]);
 
+  const [init, setInit] = useState<boolean>(false);
   const [refIndexData, setRefIndexData] = useState<WeakMap<
     React.MutableRefObject<HTMLDivElement>,
     number
@@ -222,11 +223,15 @@ const CardsCarousel = () => {
     // eslint-disable-next-line
   }, [swapBack]);
   useEffect(() => {
-    if (!frontRef || !middleRef || !backRef) return;
+    if (!refIndexData) return;
+    setInit(true);
+  }, [refIndexData]);
+  useEffect(() => {
+    if (!frontRef && !middleRef && !backRef) return;
     const initRefIndexData = new WeakMap();
     initRefIndexData.set(frontRef, 0);
-    initRefIndexData.set(frontRef, 1);
-    initRefIndexData.set(frontRef, 2);
+    initRefIndexData.set(middleRef, 1);
+    initRefIndexData.set(backRef, 2);
     setRefIndexData(initRefIndexData);
   }, [frontRef, middleRef, backRef]);
   useEffect(() => {
@@ -254,6 +259,16 @@ const CardsCarousel = () => {
   const getIndexByRef = (ref: React.MutableRefObject<HTMLDivElement>) => {
     return refIndexData?.get(ref) ?? 0;
   };
+  const renderChallenge = (ref: React.MutableRefObject<HTMLDivElement>) => {
+    return (
+      <Challenge
+        currentChallengeIndex={getIndexByRef(
+          ref as MutableRefObject<HTMLDivElement>
+        )}
+        parent={ref as MutableRefObject<HTMLDivElement>}
+      />
+    );
+  };
   return (
     <div className="front-card-container">
       <div className="w-full h-full relative">
@@ -261,34 +276,31 @@ const CardsCarousel = () => {
           ref={frontRef as React.MutableRefObject<HTMLDivElement>}
           position={PracticeCardPosition.Front}
         >
-          <Challenge
-            currentChallengeIndex={getIndexByRef(
-              frontRef as MutableRefObject<HTMLDivElement>
-            )}
-            parent={frontRef as MutableRefObject<HTMLDivElement>}
-          />
+          {init ? (
+            renderChallenge(frontRef as MutableRefObject<HTMLDivElement>)
+          ) : (
+            <></>
+          )}
         </Card>
         <Card
           ref={middleRef as React.MutableRefObject<HTMLDivElement>}
           position={PracticeCardPosition.Middle}
         >
-          <Challenge
-            currentChallengeIndex={getIndexByRef(
-              middleRef as MutableRefObject<HTMLDivElement>
-            )}
-            parent={middleRef as MutableRefObject<HTMLDivElement | null>}
-          />
+          {init ? (
+            renderChallenge(middleRef as MutableRefObject<HTMLDivElement>)
+          ) : (
+            <></>
+          )}
         </Card>
         <Card
           ref={backRef as React.MutableRefObject<HTMLDivElement>}
           position={PracticeCardPosition.Back}
         >
-          <Challenge
-            currentChallengeIndex={getIndexByRef(
-              backRef as MutableRefObject<HTMLDivElement>
-            )}
-            parent={backRef as MutableRefObject<HTMLDivElement | null>}
-          />
+          {init ? (
+            renderChallenge(backRef as MutableRefObject<HTMLDivElement>)
+          ) : (
+            <></>
+          )}
         </Card>
       </div>
     </div>

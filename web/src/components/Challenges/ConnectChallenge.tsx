@@ -7,6 +7,7 @@ import {
   setAnswered,
   setUnanswered,
 } from "../../features/challengednd/challengednd-slice";
+import { setHintIsAvailable } from "../../features/practiceActions/practiceactions-slice";
 import { ChallengeTitles } from "../../types";
 
 type ConnectChallengeType = {
@@ -15,6 +16,7 @@ type ConnectChallengeType = {
     [k: string]: string[];
   };
   answer: Record<string, string>;
+  challengeId: string;
 };
 type DraggableProps = {
   word: string;
@@ -103,9 +105,16 @@ const Droppable = ({ meaning }: DroppableProps) => {
     </div>
   );
 };
-const ConnectChallenge = ({ question, answer }: ConnectChallengeType) => {
+const ConnectChallenge = ({
+  question,
+  answer,
+  challengeId,
+}: ConnectChallengeType) => {
   const dispatch = useAppDispatch();
   const { unanswered } = useAppSelector((state) => state.challengednd);
+  const { currentChallengeIndex, currentQuizChallengeIds } = useAppSelector(
+    (state) => state.practice
+  );
   const resetHandler = () => {
     dispatch(reset(question.words));
   };
@@ -113,6 +122,15 @@ const ConnectChallenge = ({ question, answer }: ConnectChallengeType) => {
     dispatch(setUnanswered(question.words));
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    if (
+      currentChallengeIndex !== null &&
+      challengeId === currentQuizChallengeIds[currentChallengeIndex]
+    ) {
+      dispatch(setHintIsAvailable(false));
+    }
+    // eslint-disable-next-line
+  }, [currentChallengeIndex, currentQuizChallengeIds, challengeId]);
   return (
     <div className="challenge">
       <div className="container">

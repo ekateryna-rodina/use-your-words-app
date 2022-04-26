@@ -24,11 +24,12 @@ export function useHint<
   const [isCurrent, setIsCurrent] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const resetHint = () => {
-    dispatch(setHintIsAvailable(false));
+    dispatch(setHintIsAvailable(true));
     dispatch(setHint(false));
   };
 
   function getHintData() {
+    // if (!isHint || !isCurrent) return null;
     switch (type) {
       case QuestionType.ChooseMeaningByWord:
         return getDisabledOptions(
@@ -46,20 +47,35 @@ export function useHint<
     }
   }
   useEffect(() => {
-    setIsCurrent(
+    const isCurrent =
       currentChallengeIndex !== null &&
-        props.challengeId === currentQuizChallengeIds[currentChallengeIndex]
-    );
-  }, [currentChallengeIndex, currentQuizChallengeIds, props]);
+      props.challengeId === currentQuizChallengeIds[currentChallengeIndex];
+    setIsCurrent(isCurrent);
+  }, [currentChallengeIndex, props.challengeId, currentQuizChallengeIds]);
+  useEffect(() => {
+    if (!isCurrent) {
+      return;
+    }
+    resetHint(); // set isHint available/set is hint to false
+    // eslint-disable-next-line
+  }, [isCurrent]);
   // reset hint is avilable on every new challange
   useEffect(() => {
+    if (!isHint) {
+      setHintData(null);
+      return;
+    }
+
+    const isCurrent =
+      currentChallengeIndex !== null &&
+      props.challengeId === currentQuizChallengeIds[currentChallengeIndex];
     if (isCurrent && isHint) {
       const hintData = getHintData();
       if (!hintData) return;
       setHintData(hintData);
-      resetHint(); // set isHint available/set is hint to false
+      dispatch(setHintIsAvailable(false));
     }
     // eslint-disable-next-line
-  }, [isCurrent, isHint]);
-  return hintData;
+  }, [isHint]);
+  return isCurrent ? hintData : null;
 }

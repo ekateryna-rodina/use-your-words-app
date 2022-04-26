@@ -40,7 +40,7 @@ const initialState: PracticeState = {
   currentQuizChallenges: {
     "1": {
       wordId: "1",
-      question: "Thisisaword",
+      question: "Thisisaword1",
       answer: "answeranswerans",
       options: [
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
@@ -52,7 +52,7 @@ const initialState: PracticeState = {
     },
     "2": {
       wordId: "1",
-      question: "Thisisaword",
+      question: "Thisisaword2",
       answer: "answeranswerans",
       options: [
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
@@ -63,8 +63,8 @@ const initialState: PracticeState = {
       __type: QuestionType.ChooseMeaningByWord,
     },
     "3": {
-      wordId: "1",
-      question: "Thisisaword",
+      wordId: "3",
+      question: "Thisisaword3",
       answer: "answeranswerans",
       options: [
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
@@ -75,15 +75,10 @@ const initialState: PracticeState = {
       __type: QuestionType.ChooseMeaningByWord,
     },
     "4": {
-      wordId: "1",
-      question: "Thisisaword",
-      answer: "answeranswerans",
-      options: [
-        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
-        "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",
-        "answeranswerans",
-        "anwe ranw eranwer a nwer anwer anwer anwer answ eransw eransan sweranswerans",
-      ],
+      wordId: "4",
+      question: "Thisisaword4",
+      answer: "hhj",
+      options: ["hhj", "anwer ", "answeranmeaning", "anwe"],
       __type: QuestionType.ChooseMeaningByWord,
     },
     "5": {
@@ -110,6 +105,7 @@ const initialState: PracticeState = {
     "8": {
       wordId: "10",
       question: "dd",
+      answer: "fg",
       transcription: "transcription",
       __type: QuestionType.Pronounce,
     },

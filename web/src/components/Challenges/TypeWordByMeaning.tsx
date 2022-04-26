@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { QuestionType } from "use-your-words-common";
+import { useHint } from "../../hooks/useHint";
 import { ChallengeTitles } from "../../types";
 import LetterInput from "./LetterInput";
 
@@ -17,6 +18,19 @@ const TypeWordByMeaning = ({
   const [userAnswer, setUserAnswer] = useState<string[]>(
     answer.split("").map((l) => "")
   );
+  const hintData = useHint(
+    { answer, value: userAnswer.join(""), challengeId },
+    QuestionType.TypeWordByPronunciation
+  );
+  useEffect(() => {
+    if (!hintData) return;
+    setUserAnswer(
+      Array(answer.length)
+        .fill("")
+        .map((l, i) => hintData[i] ?? "")
+    );
+    // eslint-disable-next-line
+  }, [hintData]);
   return (
     <div className="challenge">
       <div className="container">
