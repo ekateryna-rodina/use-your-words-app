@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import BackForwardNavigation from "./BackForwardNavigation";
 import Option from "./Option";
 
 type CarouselMultiselectProps = {
   options: string[];
   correctAnswer: string;
   hintOptions: string[];
+  challengeId: string;
 };
 
 const CarouselMultiselect = ({
   options,
   correctAnswer,
   hintOptions,
+  challengeId,
 }: CarouselMultiselectProps) => {
-  const [currentIdx, setCurrentIdx] = useState<number>(0);
   const [userAnswer, setUserAnswer] = useState<string>("");
-  const flexButtons = `${
-    currentIdx > 0 && currentIdx < options.length - 1
-      ? "justify-between"
-      : currentIdx > 0
-      ? "justify-start"
-      : "justify-end"
-  }`;
+  const [currentIdx, setCurrentIdx] = useState<number>(0);
+  useEffect(() => {
+    setCurrentIdx(0);
+  }, [challengeId]);
   return (
     <>
       <div className="relative">
@@ -39,32 +38,7 @@ const CarouselMultiselect = ({
           />
         ))}
       </div>
-      <div className="absolute bottom-1/3 left-0 right-0 ">
-        <div
-          className={`w-11/12 mx-auto px-4 flex flex-row ${flexButtons} items-center`}
-        >
-          {currentIdx > 0 ? (
-            <button
-              className="multiselect__button"
-              onClick={() => setCurrentIdx(currentIdx - 1)}
-            >
-              Previous
-            </button>
-          ) : (
-            <></>
-          )}
-          {currentIdx < options.length - 1 ? (
-            <button
-              className="multiselect__button"
-              onClick={() => setCurrentIdx(currentIdx + 1)}
-            >
-              Next
-            </button>
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
+      <BackForwardNavigation {...{ currentIdx, setCurrentIdx, challengeId }} />
     </>
   );
 };

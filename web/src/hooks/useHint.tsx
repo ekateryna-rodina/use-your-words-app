@@ -29,7 +29,7 @@ export function useHint<
   };
 
   function getHintData() {
-    // if (!isHint || !isCurrent) return null;
+    if (!isHint || !isCurrent) return null;
     switch (type) {
       case QuestionType.ChooseMeaningByWord:
         return getDisabledOptions(
@@ -41,7 +41,6 @@ export function useHint<
         return getValueWithHint(props.answer as string, props.value as string);
       case QuestionType.Pronounce:
         return props.transcription;
-
       default:
         return null;
     }
@@ -65,7 +64,6 @@ export function useHint<
       setHintData(null);
       return;
     }
-
     const isCurrent =
       currentChallengeIndex !== null &&
       props.challengeId === currentQuizChallengeIds[currentChallengeIndex];

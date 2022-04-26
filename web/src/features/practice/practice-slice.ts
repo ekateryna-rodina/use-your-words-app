@@ -27,6 +27,7 @@ const initialState: PracticeState = {
     "3",
     "4",
     "5",
+    "15",
     "6",
     "7",
     "8",
@@ -82,6 +83,14 @@ const initialState: PracticeState = {
       __type: QuestionType.ChooseMeaningByWord,
     },
     "5": {
+      wordId: "2",
+      question:
+        "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans Thisisaword",
+      answer: "answeranswerans",
+      options: ["answeranswerans", "anrgewer", "anweranweranwer", "anwer"],
+      __type: QuestionType.ChooseWordByMeaning,
+    },
+    "15": {
       wordId: "2",
       question:
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans Thisisaword",

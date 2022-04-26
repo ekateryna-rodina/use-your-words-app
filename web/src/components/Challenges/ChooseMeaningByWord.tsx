@@ -39,6 +39,7 @@ const ChooseMeaningByWord = ({
             options={options}
             correctAnswer={answer}
             hintOptions={hintOptions}
+            challengeId={challengeId}
           />
         </div>
       </div>
