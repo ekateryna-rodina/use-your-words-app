@@ -42,7 +42,8 @@ const initialState: PracticeState = {
     "1": {
       wordId: "1",
       question: "Thisisaword1",
-      answer: "answeranswerans",
+      answer:
+        "answeranswerans answerans werans answe ranswer ans answera nswerans answ eranswerans",
       options: [
         "answeranswerans answerans werans answe ranswer ans answera  nswerans answ eranswerans",
         "anwer anwera nwer anweranwer anwer anwer answeranswerans answ eranswerans",

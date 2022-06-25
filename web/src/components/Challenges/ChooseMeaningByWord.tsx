@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { QuestionType } from "use-your-words-common";
+import { useAnswerResult } from "../../hooks/useAnswerResult";
 import { useHint } from "../../hooks/useHint";
 import { ChallengeTitles } from "../../types";
 import CarouselMultiselect from "./CarouselMultiselect";
@@ -18,10 +19,13 @@ const ChooseMeaningByWord = ({
   challengeId,
 }: ChooseMeaningByWordProps) => {
   const [hintOptions, setHintOptions] = useState<string[]>([]);
+  const [userAnswer, setUserAnswer] = useState<string>("");
   const hintData = useHint(
     { answer, options, challengeId },
     QuestionType.ChooseMeaningByWord
   );
+
+  useAnswerResult({ userAnswer, challengeId });
   useEffect(() => {
     if (!hintData) return;
     setHintOptions(hintData as string[]);
@@ -40,6 +44,7 @@ const ChooseMeaningByWord = ({
             correctAnswer={answer}
             hintOptions={hintOptions}
             challengeId={challengeId}
+            {...{ userAnswer, setUserAnswer }}
           />
         </div>
       </div>

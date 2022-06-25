@@ -240,6 +240,9 @@ const CardsCarousel = () => {
     dispatch(setCurrentChallengeIndex((currentChallengeIndex ?? 0) + 1));
     dispatch(setNext(false));
     dispatch(setAnswered(false));
+    // dispatch(
+    //   setAnsweredResult({ result: ChallengeResults.None, correctAnswer: null })
+    // );
     setRefsArray((oldArray) => {
       const newArray = [...oldArray];
       const first = newArray.shift();

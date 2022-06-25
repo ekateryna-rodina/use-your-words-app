@@ -62,19 +62,19 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
 export function mapToQuizzes(dtos: any[]) {
   if (!dtos || !dtos.length) return [];
   const quizzes: Quiz[] = [];
-  for (let dto of dtos) {
+  for (const dto of dtos) {
     const challenges: (BaseQuestion & { __type: QuestionType })[] = [];
     dto.dataValues.Questions.forEach((question: { dataValues: any }) => {
       const parsedQuestion = Object.keys(question.dataValues).reduce<
         BaseQuestion & { __type: QuestionType }
       >((acc, curr: string) => {
         if (curr === "type") {
-          acc["__type"] = question.dataValues[curr];
+          acc.__type = question.dataValues[curr];
           return acc;
         }
         // try to parse to object or array
         try {
-          let value = JSON.parse(question.dataValues[curr]);
+          const value = JSON.parse(question.dataValues[curr]);
           acc[curr] = value;
           return acc;
         } catch (error) {

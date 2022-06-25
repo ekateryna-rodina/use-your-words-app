@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChallengeResults } from "../../types";
 
 interface PracticeActionsState {
   isNext: boolean;
@@ -6,6 +7,8 @@ interface PracticeActionsState {
   isHint: boolean;
   isAnswered: boolean;
   isHintAvailable: boolean;
+  result: ChallengeResults;
+  correctAnswer: string | null;
 }
 
 const initialState: PracticeActionsState = {
@@ -14,6 +17,8 @@ const initialState: PracticeActionsState = {
   isHint: false,
   isAnswered: false,
   isHintAvailable: true,
+  result: ChallengeResults.None,
+  correctAnswer: null,
 };
 
 const practiceActionsSlice = createSlice({
@@ -35,9 +40,27 @@ const practiceActionsSlice = createSlice({
     setHintIsAvailable(state, action: PayloadAction<boolean>) {
       state.isHintAvailable = action.payload;
     },
+    setAnsweredResult(
+      state,
+      action: PayloadAction<{
+        result: ChallengeResults;
+      }>
+    ) {
+      state.result = action.payload.result;
+    },
+    setCorrectAnswer(state, action: PayloadAction<string | null>) {
+      state.correctAnswer = action.payload;
+    },
   },
 });
 
-export const { setNext, setSkip, setHint, setAnswered, setHintIsAvailable } =
-  practiceActionsSlice.actions;
+export const {
+  setNext,
+  setSkip,
+  setHint,
+  setAnswered,
+  setHintIsAvailable,
+  setAnsweredResult,
+  setCorrectAnswer,
+} = practiceActionsSlice.actions;
 export default practiceActionsSlice.reducer;

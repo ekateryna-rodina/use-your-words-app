@@ -9,7 +9,9 @@ const fetchQuizQuestions = async () => {
     });
     const quizzes = mapToQuizzes(quizDtos);
     return quizzes;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const postQuizQuestions = async (quiz: Quiz) => {
@@ -39,11 +41,13 @@ const postQuizQuestions = async (quiz: Quiz) => {
           {}
         );
 
-        db.Question.create(stringified).then((response) => {
-          const QuestionId = response.dataValues.id;
-          const QuizId = quizId;
-          db.QuizQuestion.create({ QuestionId, QuizId });
-        });
+        db.Question.create(stringified).then(
+          (r: { dataValues: { id: any } }) => {
+            const QuestionId = r.dataValues.id;
+            const QuizId = quizId;
+            db.QuizQuestion.create({ QuestionId, QuizId });
+          }
+        );
       }
       return {
         quiz: {

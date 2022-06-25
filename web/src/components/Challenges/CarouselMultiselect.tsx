@@ -7,15 +7,17 @@ type CarouselMultiselectProps = {
   correctAnswer: string;
   hintOptions: string[];
   challengeId: string;
+  userAnswer: string;
+  setUserAnswer: (answer: string) => void;
 };
-
 const CarouselMultiselect = ({
   options,
   correctAnswer,
   hintOptions,
   challengeId,
+  userAnswer,
+  setUserAnswer,
 }: CarouselMultiselectProps) => {
-  const [userAnswer, setUserAnswer] = useState<string>("");
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   useEffect(() => {
     setCurrentIdx(0);
