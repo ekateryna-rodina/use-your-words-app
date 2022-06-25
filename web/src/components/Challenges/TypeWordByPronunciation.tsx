@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { QuestionType } from "use-your-words-common";
+import { useAnswerResult } from "../../hooks/useAnswerResult";
 import { useHint } from "../../hooks/useHint";
 import { ChallengeTitles } from "../../types";
 import { PlaySound } from "../PlaySound";
@@ -22,6 +23,7 @@ const TypeWordByPronunciation = ({
   const [userAnswer, setUserAnswer] = useState<string[]>(
     answer.split("").map((l) => "")
   );
+  useAnswerResult({ userAnswer: userAnswer.join(""), challengeId });
   const hintData = useHint(
     { answer, value: userAnswer.join(""), challengeId },
     QuestionType.TypeWordByPronunciation

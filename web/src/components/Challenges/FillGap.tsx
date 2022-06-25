@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
+import { useAnswerResult } from "../../hooks/useAnswerResult";
 import { useHint } from "../../hooks/useHint";
 import { ChallengeTitles } from "../../types";
 
@@ -25,7 +26,7 @@ const FillGap = ({ challengeId, phrase, answer }: FillGapProps) => {
   const ref = useRef<HTMLInputElement | null>(null);
   const regexp = /\[(\S*)\]/g;
   const parts = phrase.split(regexp);
-
+  useAnswerResult({ userAnswer: value, challengeId });
   useEffect(() => {
     if (!hintData) return;
     setValue(hintData as string);

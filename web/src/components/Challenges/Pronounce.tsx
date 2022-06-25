@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  setAnswered,
   setHint,
   setHintIsAvailable,
 } from "../../features/practiceActions/practiceactions-slice";
@@ -34,9 +35,12 @@ const Pronounce = ({
     dispatch(setHint(false));
   };
   useEffect(() => {
-    if (isCurrent && isHint) {
-      setTranscriptionHint(transcription);
-      resetHint();
+    if (isCurrent) {
+      dispatch(setAnswered(true));
+      if (isHint) {
+        setTranscriptionHint(transcription);
+        resetHint();
+      }
     }
     // eslint-disable-next-line
   }, [isCurrent, isHint]);
