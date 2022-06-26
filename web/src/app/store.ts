@@ -7,6 +7,7 @@ import modalReducer from "../features/modal/modal-slice";
 import practiceReducer from "../features/practice/practice-slice";
 import practiceActionsReducer from "../features/practiceActions/practiceactions-slice";
 import quizzesReducer from "../features/quizzes/quizzes-slice";
+import scoringReducer from "../features/scoring/scoring-slice";
 import themeReducer from "../features/theme/theme-slice";
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     practice: practiceReducer,
     practiceActions: practiceActionsReducer,
     challengednd: challengedndReducer,
+    scoring: scoringReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

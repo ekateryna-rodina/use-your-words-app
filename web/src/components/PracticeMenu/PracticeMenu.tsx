@@ -18,7 +18,6 @@ const PracticeMenu = () => {
   );
 
   const nextHandler = () => {
-    console.log("next");
     dispatch(
       setAnsweredResult({
         result: ChallengeResults.None,
