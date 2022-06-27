@@ -20,7 +20,7 @@ const PracticeHeader = () => {
       </Button>
 
       <ProgressBar
-        progress={Math.ceil(quizProgress[currentQuizId as string]) ?? 0}
+        progress={Math.ceil(quizProgress[currentQuizId as string] ?? 0)}
         title="Quiz progress"
       />
       <ProgressBar progress={Math.ceil(dailyProgress)} title="Daily progress" />

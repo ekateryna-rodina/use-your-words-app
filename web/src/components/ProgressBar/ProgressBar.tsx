@@ -21,7 +21,7 @@ const ProgressBar = ({ progress, title }: ProgressBarProps) => {
         className={`w-11/12 m-auto bg-gray-200 h-4 rounded-sm dark:bg-dark-700`}
       >
         <div
-          className="relative h-4 rounded-sm"
+          className="relative h-4 rounded-sm transition-all duration-75 ease-linear"
           style={{
             width: `${progress}%`,
             background: currentColorVar,
