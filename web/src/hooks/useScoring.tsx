@@ -7,7 +7,7 @@ import {
 import { ChallengeResults } from "../types";
 
 export function useScoring<
-  P extends { quizId: string; questionId: string; result: ChallengeResults }
+  P extends { quizId?: string; questionId?: string; result?: ChallengeResults }
 >(props: P) {
   const { quizId, questionId, result } = props;
   const dispatch = useAppDispatch();
@@ -21,7 +21,17 @@ export function useScoring<
     dispatch(setTotalScores(result));
   };
   useEffect(() => {
-    setScore(quizId, questionId, result);
+    if (
+      quizId === null ||
+      questionId === null ||
+      result === ChallengeResults.None
+    )
+      return;
+    setScore(
+      quizId as string,
+      questionId as string,
+      result as ChallengeResults
+    );
     // eslint-disable-next-line
   }, [quizId, questionId, result]);
 }

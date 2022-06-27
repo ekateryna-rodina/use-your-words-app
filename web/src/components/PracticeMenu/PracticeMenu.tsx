@@ -6,6 +6,7 @@ import {
   setHint,
   setNext,
 } from "../../features/practiceActions/practiceactions-slice";
+import { useScoring } from "../../hooks/useScoring";
 import { ChallengeResults } from "../../types";
 import FailureIcon from "../icons/FailureIcon";
 import SuccessIcon from "../icons/SuccessIcon";
@@ -16,6 +17,15 @@ const PracticeMenu = () => {
   const { isAnswered, isHintAvailable, result, correctAnswer } = useAppSelector(
     (state) => state.practiceActions
   );
+  const { currentQuizId, currentQuizChallengeIds, currentChallengeIndex } =
+    useAppSelector((state) => state.practice);
+  useScoring({
+    quizId: currentQuizId ?? undefined,
+    questionId: currentChallengeIndex
+      ? currentQuizChallengeIds[currentChallengeIndex]
+      : undefined,
+    result,
+  });
 
   const nextHandler = () => {
     dispatch(

@@ -19,7 +19,7 @@ interface PracticeState {
 }
 
 const initialState: PracticeState = {
-  currentQuizId: null,
+  currentQuizId: "1",
   currentChallengeIndex: 0,
   currentQuizChallengeIds: [
     "1",
