@@ -6,6 +6,10 @@ import { ProgressBar } from "../ProgressBar";
 
 const PracticeHeader = () => {
   const { isDark } = useAppSelector((state) => state.theme);
+  const { currentQuizId } = useAppSelector((state) => state.practice);
+  const { dailyProgress, quizProgress } = useAppSelector(
+    (state) => state.scoring
+  );
   const closePracticeHandler = () => {
     // how confirm window
   };
@@ -15,8 +19,11 @@ const PracticeHeader = () => {
         <CloseIcon fill={isDark ? "fill-dark-500" : "fill-gray-300"} />
       </Button>
 
-      <ProgressBar progress={32} title="Quiz progress" />
-      <ProgressBar progress={78} title="Daily progress" />
+      <ProgressBar
+        progress={Math.ceil(quizProgress[currentQuizId as string]) ?? 0}
+        title="Quiz progress"
+      />
+      <ProgressBar progress={Math.ceil(dailyProgress)} title="Daily progress" />
     </div>
   );
 };

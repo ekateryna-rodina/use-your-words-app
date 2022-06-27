@@ -16,6 +16,8 @@ type ScoringState = TotalToSuccessAnswered &
     activeDays: number;
     totalQuiz: number;
     totalQuizCompleted: number;
+    dailyProgress: number;
+    quizProgress: Record<string, number>;
   };
 
 const initialState: ScoringState = {
@@ -27,6 +29,8 @@ const initialState: ScoringState = {
   totalQuizCompleted: 0,
   totalAnswered: 0,
   totalSuccess: 0,
+  dailyProgress: 0,
+  quizProgress: {},
   scoresByQuiz: {
     1: {
       totalAnswered: 0,
@@ -68,8 +72,22 @@ const scoringSlice = createSlice({
           ? state.totalSuccess + 1
           : state.totalSuccess + 0;
     },
+    setDailyProgress(state, action: PayloadAction<number>) {
+      state.dailyProgress = action.payload;
+    },
+    setQuizProgress(
+      state,
+      action: PayloadAction<{ quizId: string; progress: number }>
+    ) {
+      state.quizProgress[action.payload.quizId] = action.payload.progress;
+    },
   },
 });
 
-export const { setQuestionQuizScores, setTotalScores } = scoringSlice.actions;
+export const {
+  setQuestionQuizScores,
+  setTotalScores,
+  setDailyProgress,
+  setQuizProgress,
+} = scoringSlice.actions;
 export default scoringSlice.reducer;

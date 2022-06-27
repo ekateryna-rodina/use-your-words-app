@@ -9,6 +9,7 @@ import practiceActionsReducer from "../features/practiceActions/practiceactions-
 import quizzesReducer from "../features/quizzes/quizzes-slice";
 import scoringReducer from "../features/scoring/scoring-slice";
 import themeReducer from "../features/theme/theme-slice";
+import userSettingsReducer from "../features/userSettings/usersettings-slice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     practiceActions: practiceActionsReducer,
     challengednd: challengedndReducer,
     scoring: scoringReducer,
+    userSettings: userSettingsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
