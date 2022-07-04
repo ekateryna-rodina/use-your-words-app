@@ -19,3 +19,6 @@ code {
 .bordered-tab {
   @apply py-[3px] border border-blue-300 border-t-0 border-l-0  border-r-0;
 }
+.count-label {
+  @apply inline-block ml-[3px] text-xs text-slate-300 w-[1.2rem] h-[1.2rem] border border-blue-300 rounded-full text-center;
+}

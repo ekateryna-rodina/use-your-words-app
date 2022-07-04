@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { WordWithId } from "../types";
+import { PartOfSpeech, WordWithId } from "../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -8,13 +8,18 @@ export const apiSlice = createApi({
   }),
   endpoints(builder) {
     return {
-      fetchVocabulary: builder.query<WordWithId[], void>({
+      fetchVocabulary: builder.query<{ words: WordWithId[] }, void>({
         query() {
-          return "/vocabulary";
+          return "/words";
+        },
+      }),
+      fetchPartsOfSpeech: builder.query<PartOfSpeech[], void>({
+        query() {
+          return "/partOfSpeech";
         },
       }),
     };
   },
 });
 
-export const { useFetchVocabularyQuery } = apiSlice;
+export const { useFetchVocabularyQuery, useFetchPartsOfSpeechQuery } = apiSlice;

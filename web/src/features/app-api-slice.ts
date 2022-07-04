@@ -7,7 +7,7 @@ export const apiSlice = createApi({
   }),
   endpoints(builder) {
     return {
-      fetchVocabulary: builder.query<WordWithId[], void>({
+      fetchVocabulary: builder.query<{ words: WordWithId[] }, void>({
         query() {
           return "/quizzes";
         },

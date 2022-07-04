@@ -5,9 +5,12 @@ import { CreateQuiz } from "../components/CreateQuiz";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
+import {
+  useFetchPartsOfSpeechQuery,
+  useFetchVocabularyQuery,
+} from "../features/app-api-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
 import { FormValue, PartOfSpeech, WordWithId } from "../types/";
-import request from "../utils/request";
 
 const Vocabulary = () => {
   const [words, setWords] = useState<WordWithId[] | null>(null);
@@ -17,39 +20,35 @@ const Vocabulary = () => {
   }>({ show: false });
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const [currentWord, setCurrentWord] = useState<WordWithId | undefined>();
-  const baseURL = "http://localhost:8080/api";
-  const wordURL = `${baseURL}/words`;
-  const partOfSpeechURL = `${baseURL}/partOfSpeech`;
+
+  // const partOfSpeechURL = `${baseURL}/partOfSpeech`;
   const [showCreateQuizModal, setShowCreateQuizModal] =
     useState<boolean>(false);
   const quizQuestionsLimitLength = 4;
   const dispatch = useAppDispatch();
+  const apiWordsResponse = useFetchVocabularyQuery();
+  const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
   useEffect(() => {
     dispatch(setActiveTab("vocabulary"));
-    const fetchVocabulary = async () => {
-      const response = await fetch(wordURL);
-      const { words } = await response.json();
-      setWords(words);
-    };
-    const fetchPartsOfSpeech = async () => {
-      const response = await fetch(partOfSpeechURL);
-      const parts = await response.json();
-      setPartsOfSpeech(parts);
-    };
-    fetchVocabulary().catch((err) => console.log(err));
-    fetchPartsOfSpeech().catch((err) => console.log(err));
     // eslint-disable-next-line
   }, []);
-
+  useEffect(() => {
+    if (apiWordsResponse.isLoading) return;
+    setWords(apiWordsResponse.data?.words ?? []);
+  }, [apiWordsResponse]);
+  useEffect(() => {
+    if (apiPartsOfSpeechResponse.isLoading) return;
+    setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []);
+  }, [apiPartsOfSpeechResponse]);
   useEffect(() => {
     if (!currentWord || !Object.keys(currentWord).length) return;
     setModal({ show: true });
   }, [currentWord]);
 
   const onDeleteHandler = (id: string) => {
-    request(wordURL, { id }, "DELETE")
-      .then((response) => console.log("success delete"))
-      .catch((err) => console.log(err));
+    // request(wordURL, { id }, "DELETE")
+    //   .then((response) => console.log("success delete"))
+    //   .catch((err) => console.log(err));
   };
 
   const toggleQuizList = (wordId: string) => {
