@@ -38,13 +38,18 @@ import { Word } from "../types/Word";
 //   return result;
 // };
 const cleanText = (text: string) => {
-  return text
-    .replace(/ \<b>/g, " ")
-    .replace(/<\/b>/g, "")
-    .replace(/ \./g, ".")
-    .replace(/ \,/g, ",")
-    .replace(/ \?/g, "?")
-    .replace(/ \!/g, "!");
+  if (!text) return "";
+  try {
+    return text
+      .replace(/ \<b>/g, " ")
+      .replace(/<\/b>/g, "")
+      .replace(/ \./g, ".")
+      .replace(/ \,/g, ",")
+      .replace(/ \?/g, "?")
+      .replace(/ \!/g, "!");
+  } catch (error) {
+    console.log(error, text);
+  }
 };
 const mapToWord = (obj) => {
   const result: Partial<Word> = {};
@@ -78,9 +83,11 @@ const mapToWord = (obj) => {
 export default async function fetchWordInfo(word: string) {
   try {
     const data = await fetchInfo(word);
+    console.log("data", data);
     const wordInfo: Partial<Word> = mapToWord(data);
     return wordInfo;
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 }

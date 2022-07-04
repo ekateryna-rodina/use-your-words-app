@@ -61,3 +61,5 @@ export type Quiz = {
   name?: string;
   questions: (BaseQuestion & { __type: QuestionType })[];
 };
+
+export type Tabs = "vocabulary" | "quizzes";

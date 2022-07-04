@@ -20,7 +20,7 @@ const app = express();
 app.set("etag", false);
 const port = process.env.PORT || 8080;
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:3001",
   credentials: true,
   optionSuccessStatus: 200,
 };
