@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "../app/hooks";
 import { AddEditWord } from "../components/AddEditWord";
 import { CreateQuiz } from "../components/CreateQuiz";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
+import { setActiveTab } from "../features/tabs/tabs-slice";
 import { FormValue, PartOfSpeech, WordWithId } from "../types/";
 import request from "../utils/request";
 
@@ -21,7 +23,9 @@ const Vocabulary = () => {
   const [showCreateQuizModal, setShowCreateQuizModal] =
     useState<boolean>(false);
   const quizQuestionsLimitLength = 4;
+  const dispatch = useAppDispatch();
   useEffect(() => {
+    dispatch(setActiveTab("vocabulary"));
     const fetchVocabulary = async () => {
       const response = await fetch(wordURL);
       const { words } = await response.json();
