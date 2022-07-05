@@ -1,11 +1,18 @@
+import { useAppDispatch } from "../../app/hooks";
+import { setSearch } from "../../features/search/search-slice";
 import AddIcon from "../icons/AddIcon";
 
 function SearchVocabulary() {
+  const dispatch = useAppDispatch();
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearch(e.currentTarget.value));
+  };
   return (
     <div className="flex justify-start items-center">
       <input
         placeholder="Search words...."
         className="px-[3px] border border-slate-300 h-8 focus:outline-none focus:drop-shadow-md"
+        onChange={searchHandler}
       />
       <button className="w-8 h-8 bg-blue-300 ml-[3px] flex justify-center items-center">
         <AddIcon />

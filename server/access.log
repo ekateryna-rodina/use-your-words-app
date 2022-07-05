@@ -1868,3 +1868,11 @@
 ::1 - - [05/Jul/2022:09:40:11 +0000] "GET /api/words HTTP/1.1" 200 26886
 ::1 - - [05/Jul/2022:09:43:20 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
 ::1 - - [05/Jul/2022:09:43:20 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [05/Jul/2022:10:23:14 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [05/Jul/2022:10:23:14 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [05/Jul/2022:10:23:15 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [05/Jul/2022:10:23:15 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [05/Jul/2022:10:35:02 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [05/Jul/2022:10:35:02 +0000] "GET /api/words HTTP/1.1" 200 26886
+::1 - - [05/Jul/2022:10:35:06 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [05/Jul/2022:10:35:06 +0000] "GET /api/words HTTP/1.1" 200 26886
