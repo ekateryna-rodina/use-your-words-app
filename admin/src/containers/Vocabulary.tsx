@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { AddEditWord } from "../components/AddEditWord";
 import { CreateQuiz } from "../components/CreateQuiz";
 import DeleteIcon from "../components/icons/DeleteIcon";
@@ -33,10 +33,27 @@ const Vocabulary = () => {
   const dispatch = useAppDispatch();
   const apiWordsResponse = useFetchVocabularyQuery();
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
+  const searchState = useAppSelector((state) => state.search);
   useEffect(() => {
     dispatch(setActiveTab("vocabulary"));
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    if (searchState.words.length > 0) {
+      const wordsFound = searchState.words.reduce(
+        (acc: WordWithId[], curr: string) => {
+          const foundForSingleTerm =
+            apiWordsResponse.data?.words.filter((w) =>
+              w.word.startsWith(curr)
+            ) ?? [];
+          return [...acc, ...foundForSingleTerm];
+        },
+        []
+      );
+      setWords(wordsFound);
+    }
+    // eslint-disable-next-line
+  }, [searchState]);
   useEffect(() => {
     if (apiWordsResponse.isLoading) return;
     setWords(apiWordsResponse.data?.words ?? []);

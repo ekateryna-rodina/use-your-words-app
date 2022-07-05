@@ -11,10 +11,10 @@ function SearchVocabulary() {
     <div className="flex justify-start items-center">
       <input
         placeholder="Search words...."
-        className="px-[3px] border border-slate-300 h-8 focus:outline-none focus:drop-shadow-md"
+        className="p-4 border border-slate-300 h-8 outlined"
         onChange={searchHandler}
       />
-      <button className="w-8 h-8 bg-blue-300 ml-[3px] flex justify-center items-center">
+      <button className="w-8 h-8 bg-blue-300 ml-[6px] flex justify-center items-center">
         <AddIcon />
       </button>
     </div>
