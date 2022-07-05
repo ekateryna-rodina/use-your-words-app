@@ -5,6 +5,7 @@ import { CreateQuiz } from "../components/CreateQuiz";
 import DeleteIcon from "../components/icons/DeleteIcon";
 import EditIcon from "../components/icons/EditIcon";
 import { PlaySound } from "../components/PlaySound";
+import { SearchVocabulary } from "../components/SearchVocabulary";
 import {
   useFetchPartsOfSpeechQuery,
   useFetchVocabularyQuery,
@@ -62,7 +63,8 @@ const Vocabulary = () => {
 
   return (
     <div>
-      <button onClick={() => setModal({ show: true })}>Add New</button>
+      {/* <button onClick={() => setModal({ show: true })}>Add New</button> */}
+      <SearchVocabulary />
       {!words ? (
         <span>no words</span>
       ) : (

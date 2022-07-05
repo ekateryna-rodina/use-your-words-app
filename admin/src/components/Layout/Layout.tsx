@@ -5,7 +5,7 @@ import { useFetchVocabularyQuery } from "../../features/app-api-slice";
 
 const Layout: React.FC = ({ children }) => {
   const { activeTab } = useAppSelector((state) => state.tabs);
-  const { data } = useFetchVocabularyQuery();
+  const { data, isLoading } = useFetchVocabularyQuery();
   return (
     <>
       <h2 className="text-lg">Admin panel</h2>
@@ -19,7 +19,12 @@ const Layout: React.FC = ({ children }) => {
           >
             Vocabulary
           </Link>
-          <div className="count-label">{data?.words.length}</div>
+
+          {isLoading ? (
+            <div className="loading">1</div>
+          ) : (
+            <div className="count-label">{data?.words.length}</div>
+          )}
         </li>
         <li>
           <Link

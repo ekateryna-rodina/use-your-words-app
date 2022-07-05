@@ -22,3 +22,8 @@ code {
 .count-label {
   @apply inline-block ml-[3px] text-xs text-slate-300 w-[1.2rem] h-[1.2rem] border border-blue-300 rounded-full text-center;
 }
+
+.loading {
+  @apply inline-block ml-[3px] text-xs text-center text-transparent animate-spin w-[1.2rem] h-[1.2rem] border-[1px] rounded-full border-t-amber-300 border-r-blue-300 border-b-rose-300 border-l-lime-300;
+}
+
