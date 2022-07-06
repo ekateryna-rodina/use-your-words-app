@@ -39,9 +39,10 @@ const Vocabulary = () => {
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
-    if (searchState.words.length > 0) {
+    if (searchState.words.filter((w) => w !== "").length > 0) {
       const wordsFound = searchState.words.reduce(
         (acc: WordWithId[], curr: string) => {
+          if (!curr) return acc;
           const foundForSingleTerm =
             apiWordsResponse.data?.words.filter((w) =>
               w.word.startsWith(curr)
@@ -50,7 +51,10 @@ const Vocabulary = () => {
         },
         []
       );
+      console.log(searchState.words, wordsFound);
       setWords(wordsFound);
+    } else {
+      setWords(apiWordsResponse?.data?.words ?? []);
     }
     // eslint-disable-next-line
   }, [searchState]);
