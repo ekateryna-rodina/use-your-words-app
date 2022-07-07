@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormValue } from "../../types";
 import ArrowDown from "../icons/ArrowDown";
 import ArrowUp from "../icons/ArrowUp";
@@ -16,6 +16,7 @@ const Collapsible = ({
   expanded,
   setExpanded,
 }: CollapsibleProps) => {
+  console.log("render", title);
   const [height, setHeight] = useState<string>("max-h-0");
   const expandHandler = () => {
     if (expanded.includes(title)) {
@@ -25,15 +26,17 @@ const Collapsible = ({
     }
   };
 
-  const ref = useRef(null);
+  //   const ref = useRef(null);
   useEffect(() => {
     let height = 0;
     if (expanded.includes(title)) {
-      height = (ref.current as any).scrollHeight;
+      //   height = (ref.current as any).scrollHeight;
+      height = 400;
     } else {
       height = 0;
     }
     setHeight(`max-h-[${height}px]`);
+    console.log(height);
     // eslint-disable-next-line
   }, [expanded]);
   return (
@@ -45,14 +48,10 @@ const Collapsible = ({
         </button>
       </div>
       <div
-        className={`overflow-hidden transition-height duration-150 ease-out ${height}`}
+        className={`overflow-hidden transition duration-150 ease-out ${height}`}
       >
-        <div
-          ref={ref}
-          className={`p-4 flex flex-col gap-2 ${
-            expanded.includes(title) ? "" : ""
-          }`}
-        >
+        {/* overflow-y-auto max-h-[300px] */}
+        <div className={`p-4 flex flex-col gap-2`}>
           {items.map((i) => (
             <div key={i.id} className="bordered-paragraph">
               {i.value}
@@ -64,4 +63,4 @@ const Collapsible = ({
   );
 };
 
-export default Collapsible;
+export default React.memo(Collapsible);

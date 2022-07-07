@@ -9,7 +9,8 @@ import SaveIcon from "../icons/SaveIcon";
 
 const WordDetails = () => {
   const { isEdit, currentWord } = useAppSelector((state) => state.wordDetails);
-  const { id, word, partOfSpeech, meanings } = currentWord as WordWithId;
+  const { id, word, partOfSpeech, meanings, phrases, synonyms, antonyms } =
+    currentWord as WordWithId;
   const [expanded, setExpanded] = useState<string[]>([]);
   return (
     <div className="w-full h-full relative">
@@ -25,11 +26,25 @@ const WordDetails = () => {
         {partOfSpeech.map((p) => (p as FormValue).value).join(", ")}
       </div>
       <Collapsible
+        title="Phrases"
+        items={(phrases as FormValue[]).slice(0, 4)}
+        {...{ expanded, setExpanded }}
+      />
+      <Collapsible
         title="Definitions"
         items={meanings as FormValue[]}
         {...{ expanded, setExpanded }}
       />
-      <div>hello</div>
+      {/* <Collapsible
+        title="Synonyms"
+        items={synonyms as FormValue[]}
+        {...{ expanded, setExpanded }}
+      />
+      <Collapsible
+        title="Antonyms"
+        items={antonyms as FormValue[]}
+        {...{ expanded, setExpanded }}
+      /> */}
       <div className="absolute right-0 top-0 flex justify-start items-center gap-4">
         {isEdit ? (
           <button>
