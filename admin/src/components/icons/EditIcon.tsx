@@ -1,18 +1,17 @@
-import React from "react";
-
 const EditIcon = () => {
   return (
     <svg
-      width="19"
-      height="19"
-      viewBox="0 0 19 19"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M17.75 4.375L14.625 1.25L2.125 13.75L0.875 18.125L5.25 16.875L17.75 4.375ZM12.125 3.75L15.25 6.875L12.125 3.75ZM2.125 13.75L5.25 16.875L2.125 13.75Z"
-        stroke="black"
-        strokeWidth="1.25"
+        d="M22 5.7037L18.2963 2L3.48148 16.8148L2 22L7.18518 20.5185L22 5.7037ZM15.3333 4.96296L19.037 8.66667L15.3333 4.96296ZM3.48148 16.8148L7.18518 20.5185L3.48148 16.8148Z"
+        fill="white"
+        stroke="#AAAAAA"
+        strokeWidth="2.1875"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

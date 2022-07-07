@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useAppDispatch } from "../../app/hooks";
+import { toggleModal } from "../../features/modal/modal-slice";
+import { setCurrentWord } from "../../features/wordDetails/worddetails-slice";
 import { WordWithId } from "../../types";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
@@ -21,6 +24,7 @@ const Word = ({
 }: WordProps) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const dispatch = useAppDispatch();
   const minSwipeDistance = 50;
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
@@ -44,6 +48,11 @@ const Word = ({
       }
     }
   };
+  const detailsHandler = () => {
+    dispatch(setCurrentWord(word));
+    dispatch(toggleModal(true));
+  };
+
   return (
     <div
       className={`relative border border-slate-300 p-4 overflow-hidden sm:w-[18rem] ${
@@ -67,7 +76,7 @@ const Word = ({
         }`}
       >
         <div className="flex flex-row justify-center items-center gap-[3px] h-full">
-          <button className="p-4">
+          <button className="p-4" onClick={detailsHandler}>
             <DetailsIcon />
           </button>
           <button className="p-4">
@@ -80,7 +89,7 @@ const Word = ({
         className={`hidden bg-blue-300 absolute top-0 bottom-0 right-0 sm:block`}
       >
         <div className="flex flex-row justify-center items-center gap-[3px] h-full">
-          <button className="p-4">
+          <button className="p-4" onClick={detailsHandler}>
             <DetailsIcon />
           </button>
           <button className="p-4">

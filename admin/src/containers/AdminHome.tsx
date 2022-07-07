@@ -15,14 +15,14 @@ const AdminHome = () => {
   type Tabs = "vocabulary" | "quizzes";
   const [activeTab, setActiveTab] = useState<Tabs>("vocabulary");
   return (
-    <>
+    <div className="relative">
       <h3>Admin panel</h3>
       <ul>
         <li>Vocabulary</li>
         <li>Quizzes</li>
       </ul>
       <main>{tabs[activeTab].content}</main>
-    </>
+    </div>
   );
 };
 

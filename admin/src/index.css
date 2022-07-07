@@ -17,6 +17,10 @@ code {
     monospace;
 }
 
+button{
+  all: unset;
+}
+
 .bordered-tab {
   @apply py-[3px] border border-blue-300 border-t-0 border-l-0  border-r-0;
 }
@@ -33,3 +37,10 @@ code {
   border-color: transparent;
   box-shadow: 0px 0px 3px #64b5f6;
 }
+
+.bordered-paragraph{
+  border-left: 2px solid #64b5f6;
+  padding-left: 4px;
+}
+
+

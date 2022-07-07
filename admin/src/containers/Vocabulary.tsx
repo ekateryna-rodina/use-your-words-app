@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { SearchVocabulary } from "../components/SearchVocabulary";
+import { WordDetails } from "../components/WordDetails";
 import Words from "../components/Words/Words";
 import { useFetchPartsOfSpeechQuery } from "../features/app-api-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
-import { PartOfSpeech, WordWithId } from "../types/";
+import { PartOfSpeech } from "../types/";
 
 const Vocabulary = () => {
   const [partsOfSpeech, setPartsOfSpeech] = useState<PartOfSpeech[]>([]);
-  const [modal, setModal] = useState<{
-    show: boolean;
-  }>({ show: false });
 
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState<WordWithId | undefined>();
-
-  // const partOfSpeechURL = `${baseURL}/partOfSpeech`;
-  const [showCreateQuizModal, setShowCreateQuizModal] =
-    useState<boolean>(false);
-  const quizQuestionsLimitLength = 4;
   const dispatch = useAppDispatch();
-
+  const { currentWord } = useAppSelector((state) => state.wordDetails);
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
 
   useEffect(() => {
@@ -32,10 +24,6 @@ const Vocabulary = () => {
     if (apiPartsOfSpeechResponse.isLoading) return;
     setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []);
   }, [apiPartsOfSpeechResponse]);
-  useEffect(() => {
-    if (!currentWord || !Object.keys(currentWord).length) return;
-    setModal({ show: true });
-  }, [currentWord]);
 
   const onDeleteHandler = (id: string) => {
     // request(wordURL, { id }, "DELETE")
@@ -69,6 +57,13 @@ const Vocabulary = () => {
       ) : (
         <></>
       )} */}
+      <div
+        className={`absolute inset-0 transition bg-slate-100 p-4 ${
+          !currentWord ? "translate-y-full" : ""
+        }`}
+      >
+        {currentWord ? <WordDetails /> : <></>}
+      </div>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import loadingReducer from "../features/loading/loading-slice";
 import modalReducer from "../features/modal/modal-slice";
 import searchReducer from "../features/search/search-slice";
 import tabsReducer from "../features/tabs/tabs-slice";
+import wordDetailsReducer from "../features/wordDetails/worddetails-slice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     tabs: tabsReducer,
     loading: loadingReducer,
     search: searchReducer,
+    wordDetails: wordDetailsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
