@@ -25,26 +25,29 @@ const WordDetails = () => {
       <div className="bordered-paragraph mt-4">
         {partOfSpeech.map((p) => (p as FormValue).value).join(", ")}
       </div>
-      <Collapsible
-        title="Phrases"
-        items={(phrases as FormValue[]).slice(0, 4)}
-        {...{ expanded, setExpanded }}
-      />
-      <Collapsible
-        title="Definitions"
-        items={meanings as FormValue[]}
-        {...{ expanded, setExpanded }}
-      />
-      {/* <Collapsible
-        title="Synonyms"
-        items={synonyms as FormValue[]}
-        {...{ expanded, setExpanded }}
-      />
-      <Collapsible
-        title="Antonyms"
-        items={antonyms as FormValue[]}
-        {...{ expanded, setExpanded }}
-      /> */}
+      <div className="overflow-y-auto max-h-[600px] pr-4">
+        <Collapsible
+          title="Definitions"
+          items={meanings as FormValue[]}
+          {...{ expanded, setExpanded }}
+        />
+        <Collapsible
+          title="Examples"
+          items={phrases as FormValue[]}
+          {...{ expanded, setExpanded }}
+        />
+        <Collapsible
+          title="Synonyms"
+          items={synonyms as FormValue[]}
+          {...{ expanded, setExpanded }}
+        />
+        <Collapsible
+          title="Antonyms"
+          items={antonyms as FormValue[]}
+          {...{ expanded, setExpanded }}
+        />
+      </div>
+
       <div className="absolute right-0 top-0 flex justify-start items-center gap-4">
         {isEdit ? (
           <button>
