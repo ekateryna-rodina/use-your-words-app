@@ -12,7 +12,7 @@ const Vocabulary = () => {
 
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const { currentWord } = useAppSelector((state) => state.wordDetails);
+  const { currentWord, isEdit } = useAppSelector((state) => state.wordDetails);
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
 
   useEffect(() => {

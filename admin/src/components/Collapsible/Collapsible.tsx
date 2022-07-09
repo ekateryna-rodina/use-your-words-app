@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FormValue } from "../../types";
+import { useAppSelector } from "../../app/hooks";
 import ArrowDown from "../icons/ArrowDown";
 import ArrowUp from "../icons/ArrowUp";
 
 type CollapsibleProps = {
   title: string;
-  items: FormValue[];
   expanded: string[];
   setExpanded: (expanded: string[]) => void;
+  children: React.ReactNode;
 };
 
-const Collapsible = ({
+const Collapsible: React.FC<CollapsibleProps> = ({
   title,
-  items,
   expanded,
   setExpanded,
+  children,
 }: CollapsibleProps) => {
-  console.log("render", title);
-  const [height, setHeight] = useState<string>("max-h-0");
-  const expandHandler = () => {
+  const [maxHeight, setMaxHeight] = useState<string>("max-h-[0px]");
+  const { isEdit } = useAppSelector((state) => state.wordDetails);
+  const expandHandler = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
     if (expanded.includes(title)) {
       setExpanded(expanded.filter((i) => i !== title));
     } else {
@@ -34,7 +35,8 @@ const Collapsible = ({
     } else {
       height = 0;
     }
-    setHeight(`max-h-[${height}px]`);
+    setMaxHeight(`max-h-[${height}px]`);
+    console.log(`max-h-[${height}px]`);
     // eslint-disable-next-line
   }, [expanded]);
   return (
@@ -45,13 +47,9 @@ const Collapsible = ({
           {expanded.includes(title) ? <ArrowUp /> : <ArrowDown />}
         </button>
       </div>
-      <div className={`overflow-hidden ${height}`}>
+      <div className={`overflow-hidden ${maxHeight}`}>
         <div ref={ref} className={`p-4 flex flex-col gap-2`}>
-          {items.map((i) => (
-            <div key={i.id} className="bordered-paragraph">
-              {i.value}
-            </div>
-          ))}
+          {children}
         </div>
       </div>
     </div>

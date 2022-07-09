@@ -1,26 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
+import { useAppSelector } from "../../app/hooks";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
-import { FormValue, PartOfSpeech, Word, WordWithId } from "../../types/";
+import { FormValue, Word } from "../../types/";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
-import { PronunciationRadio } from "../PronunciationRadio";
-import { SelectField } from "../SelectField";
-import { TextField } from "../TextField";
 
-type AddEditWordProps = {
-  word?: WordWithId;
-  tempParts: PartOfSpeech[];
-};
-function AddEditWord({ word, tempParts }: AddEditWordProps) {
-  const [editWord] = useState<WordWithId | undefined>(word);
+function AddEditWord() {
+  const { currentWord } = useAppSelector((state) => state.wordDetails);
   const [loading, setLoading] = useState<boolean>(false);
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<boolean>(false);
   const resolver = useYupValidationResolver(wordSchema);
+
+  const [postPutUrl, wordInfoUrl] = [
+    "http://localhost:8080/api/words",
+    "http://localhost:8080/api/wordsApi",
+  ];
   const {
     handleSubmit,
     register,
@@ -35,12 +34,6 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
       pronunciationRadio: "autofill",
     },
   });
-
-  const [postPutUrl, wordInfoUrl] = [
-    "http://localhost:8080/api/words",
-    "http://localhost:8080/api/wordsApi",
-  ];
-
   const submitFileToStorage = async () => {
     if (file?.name) {
       const [cloudName, uploadPreset] = [
@@ -76,10 +69,10 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
       fileUrl = await submitFileToStorage();
     }
 
-    if (editWord) {
+    if (currentWord) {
       request(
         postPutUrl,
-        { ...values, id: editWord.id, fileUrl: fileUrl },
+        { ...values, id: currentWord.id, fileUrl: fileUrl },
         "PUT"
       )
         .then((info) => console.log(info))
@@ -126,21 +119,21 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
     // eslint-disable-next-line
   }, [autofill]);
   useEffect(() => {
-    if (!editWord) return;
+    if (!currentWord) return;
     reset({
-      word: editWord.word,
-      fileUrl: editWord.fileUrl,
-      meanings: editWord.meanings,
-      partOfSpeech: editWord.partOfSpeech.map((p) => (p as FormValue).id),
-      synonyms: editWord.synonyms,
-      antonyms: editWord.antonyms,
-      phrases: editWord.phrases,
+      word: currentWord.word,
+      fileUrl: currentWord.fileUrl,
+      meanings: currentWord.meanings,
+      partOfSpeech: currentWord.partOfSpeech.map((p) => (p as FormValue).id),
+      synonyms: currentWord.synonyms,
+      antonyms: currentWord.antonyms,
+      phrases: currentWord.phrases,
     });
     // eslint-disable-next-line
-  }, [editWord]);
+  }, [currentWord]);
   return (
     <div>
-      {editWord ? "Edit word" : "Create New Word"}
+      {currentWord ? "Edit word" : "Create New Word"}
       <form
         onSubmit={handleSubmit(
           (data) => onSaveWordHandler(data),
@@ -149,14 +142,14 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
           }
         )}
       >
-        <TextField
+        {/* <TextField
           label="Enter word"
           name="word"
           validate={register}
           disabled={false}
-        />
-        <button onClick={(e) => onAutoFillHandler(e)}>Autofill</button>
-        <PronunciationRadio
+        /> */}
+        {/* <button onClick={(e) => onAutoFillHandler(e)}>Autofill</button> */}
+        {/* <PronunciationRadio
           {...{
             register,
             file,
@@ -168,14 +161,14 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
             getValues,
             word: getValues("word"),
           }}
-        />
-        <SelectField
+        /> */}
+        {/* <SelectField
           label="Select part of speech"
           name="partOfSpeech"
-          options={tempParts}
+          options={[]} // use API query
           validate={register}
           control={control}
-        />
+        /> */}
 
         <DynamicMultipleTextarea
           name="meaning"
@@ -183,7 +176,7 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
           control={control}
           register={register}
         />
-        <DynamicMultipleTextarea
+        {/* <DynamicMultipleTextarea
           name="phrase"
           formValuesInit={(getValues() as Partial<Word>).phrases}
           control={control}
@@ -200,7 +193,7 @@ function AddEditWord({ word, tempParts }: AddEditWordProps) {
           control={control}
           formValuesInit={(getValues() as Partial<Word>).antonyms}
           register={register}
-        />
+        /> */}
         {loading ? <span>Loading</span> : <></>}
         <button type="submit">Save</button>
         {Object.keys(errors).length ? (

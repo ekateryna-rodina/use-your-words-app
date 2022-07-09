@@ -8,7 +8,7 @@ interface WordDetailsState {
 
 const initialState: WordDetailsState = {
   currentWord: null,
-  isEdit: false,
+  isEdit: true,
 };
 
 const wordDetailsSlice = createSlice({

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 import { FormValue } from "../../types/";
+import AddIcon from "../icons/AddIcon";
+import MinusIcon from "../icons/MinusIcon";
 
 type DynamicMultipleTextareaProps = {
   name: string;
@@ -21,6 +23,7 @@ const DynamicMultipleTextarea = ({
   });
 
   useEffect(() => {
+    console.log(formValuesInit);
     if (!formValuesInit) return;
     formValuesInit.map((fv) =>
       append({
@@ -33,13 +36,13 @@ const DynamicMultipleTextarea = ({
 
   return (
     <>
-      {<span>{`List ${name} for the term`}</span>}
       {fields.map((obj: any, index) => (
-        <div key={obj.id}>
+        <div key={obj.id} className="flex justify-between items-center">
           <textarea
             {...register(`${name}.${index}.value.value`)}
             name={`${name}[${index}].name`}
             defaultValue={obj["value"].value}
+            className="w-[calc(100%-2rem)] p-4 outline-blue-300"
             onChange={(e) =>
               update(index, {
                 name,
@@ -56,18 +59,23 @@ const DynamicMultipleTextarea = ({
               e.target.value = val;
             }}
           />
-          <button type="button" onClick={() => remove(index)}>
-            -
+          <button
+            type="button"
+            onClick={() => remove(index)}
+            className="flex justify-center items-center"
+          >
+            <MinusIcon />
           </button>
         </div>
       ))}
+
       <button
-        type="button"
         onClick={() =>
           append({ name, value: { id: "idsfhdsiufhisfdh", value: "" } })
         }
+        className="w-8 h-8 bg-blue-300 flex justify-center items-center"
       >
-        +
+        <AddIcon />
       </button>
     </>
   );
