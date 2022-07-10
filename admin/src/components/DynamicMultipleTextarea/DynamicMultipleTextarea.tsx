@@ -21,25 +21,28 @@ const DynamicMultipleTextarea = ({
     control,
     name,
   });
-
   useEffect(() => {
-    console.log(formValuesInit);
-    if (!formValuesInit) return;
-    formValuesInit.map((fv) =>
-      append({
-        name,
-        value: typeof fv === "object" ? fv : { id: "", value: fv },
-      })
-    );
-    // eslint-disable-next-line
-  }, [formValuesInit]);
-
+    console.log(fields);
+  }, [fields]);
+  // useEffect(() => {
+  //   if (!formValuesInit) return;
+  //   formValuesInit.forEach((fv) =>
+  //     append({
+  //       name,
+  //       value: typeof fv === "object" ? fv : { id: "", value: fv },
+  //     })
+  //   );
+  //   // eslint-disable-next-line
+  // }, [formValuesInit]);
+  // useEffect(() => {
+  //   console.log("here", fields, fields);
+  // }, [fields]);
   return (
     <>
       {fields.map((obj: any, index) => (
         <div key={obj.id} className="flex justify-between items-center">
           <textarea
-            {...register(`${name}.${index}.value.value`)}
+            {...register(`${name}.${index}.id`)}
             name={`${name}[${index}].name`}
             defaultValue={obj["value"].value}
             className="w-[calc(100%-2rem)] p-4 outline-blue-300"

@@ -83,7 +83,6 @@ const mapToWord = (obj) => {
 export default async function fetchWordInfo(word: string) {
   try {
     const data = await fetchInfo(word);
-    console.log("data", data);
     const wordInfo: Partial<Word> = mapToWord(data);
     return wordInfo;
   } catch (error) {

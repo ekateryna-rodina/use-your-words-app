@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAppSelector } from "../../app/hooks";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { wordSchema } from "../../schema/wordSchema";
-import { FormValue, Word, WordWithId } from "../../types";
+import { FormValue, WordWithId } from "../../types";
 import request from "../../utils/request";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
@@ -25,10 +25,14 @@ const Editable = () => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<Word>({
+  } = useForm<any>({
     resolver,
     defaultValues: {
       pronunciationRadio: "autofill",
+      meanings: [
+        { id: "6", value: "33", name: "meaning" },
+        { id: "2", value: "34", name: "meaning" },
+      ],
     },
   });
 
@@ -88,6 +92,12 @@ const Editable = () => {
 
     setLoading(false);
   };
+  const data = [
+    { title: "Definitions", name: "meanings", items: currentWord?.meanings },
+    // { title: "Examples", name: "phrase", items: currentWord?.phrases },
+    // { title: "Synonyms", name: "synonym", items: currentWord?.synonyms },
+    // { title: "Antonyms", name: "antonym", items: currentWord?.antonyms },
+  ];
   return (
     <div className="h-full">
       <form
@@ -103,41 +113,35 @@ const Editable = () => {
           {partOfSpeech.map((p) => (p as FormValue).value).join(", ")}
         </div>
         <div className="overflow-y-auto max-h-[600px] pr-4">
-          <Collapsible title="Definitions" {...{ expanded, setExpanded }}>
-            {currentWord && isEdit ? (
-              <>
-                <DynamicMultipleTextarea
-                  name="meaning"
-                  formValuesInit={currentWord?.meanings}
-                  control={control}
-                  register={register}
-                />
-              </>
-            ) : (
-              <>
-                {currentWord?.meanings.map((i) => (
-                  <div key={(i as FormValue).id} className="bordered-paragraph">
-                    {(i as FormValue).value}
-                  </div>
-                ))}
-              </>
-            )}
-          </Collapsible>
-          {/* <Collapsible
-            title="Examples"
-            items={phrases as FormValue[]}
-            {...{ expanded, setExpanded }}
-          />
-          <Collapsible
-            title="Synonyms"
-            items={synonyms as FormValue[]}
-            {...{ expanded, setExpanded }}
-          />
-          <Collapsible
-            title="Antonyms"
-            items={antonyms as FormValue[]}
-            {...{ expanded, setExpanded }}
-          /> */}
+          {data.map((d) => (
+            <Collapsible
+              key={d.title}
+              title={d.title}
+              {...{ expanded, setExpanded }}
+            >
+              {currentWord && isEdit ? (
+                <>
+                  <DynamicMultipleTextarea
+                    name={d.name}
+                    formValuesInit={d.items}
+                    control={control}
+                    register={register}
+                  />
+                </>
+              ) : (
+                <>
+                  {d.items?.map((i) => (
+                    <div
+                      key={(i as FormValue).id}
+                      className="bordered-paragraph"
+                    >
+                      {(i as FormValue).value}
+                    </div>
+                  ))}
+                </>
+              )}
+            </Collapsible>
+          ))}
         </div>
       </form>
     </div>

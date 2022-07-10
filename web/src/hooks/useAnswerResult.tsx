@@ -22,7 +22,7 @@ export function useAnswerResult<
     const isCurrent =
       currentChallengeIndex !== null &&
       challengeId === currentQuizChallengeIds[currentChallengeIndex];
-    console.log("answered", challengeId);
+
     if (isCurrent) {
       const correctAnswer = currentQuizChallenges[challengeId].answer;
       const result =

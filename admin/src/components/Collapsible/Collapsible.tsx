@@ -36,7 +36,6 @@ const Collapsible: React.FC<CollapsibleProps> = ({
       height = 0;
     }
     setMaxHeight(`max-h-[${height}px]`);
-    console.log(`max-h-[${height}px]`);
     // eslint-disable-next-line
   }, [expanded]);
   return (
