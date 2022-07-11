@@ -24,35 +24,21 @@ const DynamicMultipleTextarea = ({
   useEffect(() => {
     console.log(fields);
   }, [fields]);
-  // useEffect(() => {
-  //   if (!formValuesInit) return;
-  //   formValuesInit.forEach((fv) =>
-  //     append({
-  //       name,
-  //       value: typeof fv === "object" ? fv : { id: "", value: fv },
-  //     })
-  //   );
-  //   // eslint-disable-next-line
-  // }, [formValuesInit]);
-  // useEffect(() => {
-  //   console.log("here", fields, fields);
-  // }, [fields]);
   return (
     <>
       {fields.map((obj: any, index) => (
         <div key={obj.id} className="flex justify-between items-center">
           <textarea
-            {...register(`${name}.${index}.id`)}
+            {...register(`${name}.${index}.value`)}
             name={`${name}[${index}].name`}
             defaultValue={obj["value"].value}
             className="w-[calc(100%-2rem)] p-4 outline-blue-300"
             onChange={(e) =>
               update(index, {
                 name,
-                value: {
-                  id: obj.id,
-                  value: e.target.value,
-                },
+
+                id: obj.id,
+                value: e.target.value,
               })
             }
             autoFocus
@@ -73,9 +59,7 @@ const DynamicMultipleTextarea = ({
       ))}
 
       <button
-        onClick={() =>
-          append({ name, value: { id: "idsfhdsiufhisfdh", value: "" } })
-        }
+        onClick={() => append({ name, id: "idsfhdsiufhisfdh", value: "" })}
         className="w-8 h-8 bg-blue-300 flex justify-center items-center"
       >
         <AddIcon />

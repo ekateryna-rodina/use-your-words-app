@@ -29,10 +29,18 @@ const Editable = () => {
     resolver,
     defaultValues: {
       pronunciationRadio: "autofill",
-      meanings: [
-        { id: "6", value: "33", name: "meaning" },
-        { id: "2", value: "34", name: "meaning" },
-      ],
+      meanings: meanings.map((m: FormValue | string) => {
+        return { ...(m as FormValue), name: "meanings" };
+      }),
+      phrases: phrases.map((p: FormValue | string) => {
+        return { ...(p as FormValue), name: "phrases" };
+      }),
+      synonyms: synonyms.map((s: FormValue | string) => {
+        return { ...(s as FormValue), name: "synonyms" };
+      }),
+      antonyms: antonyms.map((a: FormValue | string) => {
+        return { ...(a as FormValue), name: "antonyms" };
+      }),
     },
   });
 
@@ -94,9 +102,9 @@ const Editable = () => {
   };
   const data = [
     { title: "Definitions", name: "meanings", items: currentWord?.meanings },
-    // { title: "Examples", name: "phrase", items: currentWord?.phrases },
-    // { title: "Synonyms", name: "synonym", items: currentWord?.synonyms },
-    // { title: "Antonyms", name: "antonym", items: currentWord?.antonyms },
+    { title: "Examples", name: "phrases", items: currentWord?.phrases },
+    { title: "Synonyms", name: "synonyms", items: currentWord?.synonyms },
+    { title: "Antonyms", name: "antonyms", items: currentWord?.antonyms },
   ];
   return (
     <div className="h-full">
