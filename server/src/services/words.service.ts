@@ -35,9 +35,6 @@ type PostWord = {
 };
 type PutWord = {
   id: string;
-  word: string;
-  fileUrl: string;
-  partOfSpeech: (string[] | WordData[]) & string;
   synonyms: WordData[];
   antonyms: WordData[];
   phrases: WordData[];
@@ -106,40 +103,8 @@ const postWord = async (wordFullInfo: PostWord) => {
 };
 
 const putWord = async (wordFullInfo: PutWord) => {
-  const {
-    id,
-    word,
-    fileUrl,
-    synonyms,
-    antonyms,
-    meanings,
-    phrases,
-    partOfSpeech,
-  } = wordFullInfo;
+  const { id, synonyms, antonyms, meanings, phrases } = wordFullInfo;
   try {
-    await db.Word.update({ word, fileUrl }, { where: { id } });
-    // update parts of speech
-    // delete old
-    await db.WordPartOfSpeech.destroy({
-      where: {
-        [Op.and]: [
-          { WordId: id },
-          {
-            PartOfSpeechId: {
-              [Op.notIn]: partOfSpeech,
-            },
-          },
-        ],
-      },
-    });
-    // add new
-    const partsofSpeech = partOfSpeech.map((ps) => ({
-      PartOfSpeechId: ps,
-      WordId: id,
-    }));
-    await db.WordPartOfSpeech.bulkCreate(partsofSpeech, {
-      updateOnDuplicate: ["PartOfSpeechId", "WordId"],
-    });
     // deletion for synonyms, antonyms, meanings, phrases
     await db.Antonym.destroy({
       where: {
@@ -147,7 +112,7 @@ const putWord = async (wordFullInfo: PutWord) => {
           { wordId: id },
           {
             id: {
-              [Op.notIn]: antonyms.map((a) => a.value.id),
+              [Op.notIn]: antonyms.map((a) => a.id),
             },
           },
         ],
@@ -159,7 +124,7 @@ const putWord = async (wordFullInfo: PutWord) => {
           { wordId: id },
           {
             id: {
-              [Op.notIn]: synonyms.map((a) => a.value.id),
+              [Op.notIn]: synonyms.map((a) => a.id),
             },
           },
         ],
@@ -171,7 +136,7 @@ const putWord = async (wordFullInfo: PutWord) => {
           { wordId: id },
           {
             id: {
-              [Op.notIn]: meanings.map((a) => a.value.id),
+              [Op.notIn]: meanings.map((a) => a.id),
             },
           },
         ],
@@ -183,7 +148,7 @@ const putWord = async (wordFullInfo: PutWord) => {
           { wordId: id },
           {
             id: {
-              [Op.notIn]: phrases.map((a) => a.value.id),
+              [Op.notIn]: phrases.map((a) => a.id),
             },
           },
         ],
@@ -191,23 +156,23 @@ const putWord = async (wordFullInfo: PutWord) => {
     });
     // update or add
     const newAntonyms = antonyms.map((a) => ({
-      id: a.value.id,
-      antonym: a.value.value,
+      id: a.id,
+      antonym: a.value,
       wordId: id,
     }));
     const newSynonyms = synonyms.map((s) => ({
-      id: s.value.id,
-      synonym: s.value.value,
+      id: s.id,
+      synonym: s.value,
       wordId: id,
     }));
     const newMeanings = meanings.map((s) => ({
-      id: s.value.id,
-      meaning: s.value.value,
+      id: s.id,
+      meaning: s.value,
       wordId: id,
     }));
     const newPhrases = phrases.map((s) => ({
-      id: s.value.id,
-      phrase: s.value.value,
+      id: s.id,
+      phrase: s.value,
       wordId: id,
     }));
     await db.Antonym.bulkCreate(newAntonyms, {

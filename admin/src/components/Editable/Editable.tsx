@@ -1,20 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "../../app/hooks";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
-import { wordSchema } from "../../schema/wordSchema";
+import { editWordSchema } from "../../schema/editWordSchema";
 import { FormValue, WordWithId } from "../../types";
 import request from "../../utils/request";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
+
+import { ModalButtonPanel } from "../ModalButtonPanel";
 
 const Editable = () => {
   const { isEdit, currentWord } = useAppSelector((state) => state.wordDetails);
   const { id, word, partOfSpeech, meanings, phrases, synonyms, antonyms } =
     currentWord as WordWithId;
   const [expanded, setExpanded] = useState<string[]>([]);
-  const resolver = useYupValidationResolver(wordSchema);
+  const resolver = useYupValidationResolver(editWordSchema);
   const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const {
@@ -28,7 +29,6 @@ const Editable = () => {
   } = useForm<any>({
     resolver,
     defaultValues: {
-      pronunciationRadio: "autofill",
       meanings: meanings.map((m: FormValue | string) => {
         return { ...(m as FormValue), name: "meanings" };
       }),
@@ -49,56 +49,12 @@ const Editable = () => {
     "http://localhost:8080/api/wordsApi",
   ];
 
-  const submitFileToStorage = async () => {
-    if (file?.name) {
-      const [cloudName, uploadPreset] = [
-        process.env.REACT_APP_CLOUD_NAME ?? "",
-        process.env.REACT_APP_UPLOAD_PRESET ?? "",
-      ];
-
-      if (!cloudName || !uploadPreset) return;
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", uploadPreset);
-      formData.append("resource_type", "video");
-      try {
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
-          formData
-        );
-        return response.data.secure_url;
-      } catch (error) {
-        return null;
-      }
-    }
-  };
-
   const onSaveWordHandler = async (values: any) => {
-    let fileUrl = getValues("fileUrl");
-    setLoading(true);
-    console.log(
-      getValues("pronunciationRadio"),
-      ["upload", "record"].includes(getValues("pronunciationRadio"))
-    );
-    if (["upload", "record"].includes(getValues("pronunciationRadio"))) {
-      fileUrl = await submitFileToStorage();
-    }
+    if (!currentWord) return;
 
-    if (currentWord) {
-      request(
-        postPutUrl,
-        { ...values, id: currentWord.id, fileUrl: fileUrl },
-        "PUT"
-      )
-        .then((info) => console.log(info))
-        .catch((err) => console.log(err));
-    } else {
-      request(postPutUrl, { ...values, fileUrl }, "POST")
-        .then((info) => console.log("in", fileUrl, info))
-        .catch((err) => console.log(err));
-    }
-
-    setLoading(false);
+    request(postPutUrl, { ...values, id: currentWord.id }, "PUT")
+      .then((info) => console.log(info))
+      .catch((err) => console.log(err));
   };
   const data = [
     { title: "Definitions", name: "meanings", items: currentWord?.meanings },
@@ -151,6 +107,7 @@ const Editable = () => {
             </Collapsible>
           ))}
         </div>
+        <ModalButtonPanel />
       </form>
     </div>
   );

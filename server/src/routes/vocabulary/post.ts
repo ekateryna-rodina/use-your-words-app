@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import { saveWord } from "../../controllers/words.controller";
 import validate from "../../middleware/validate";
-import validateWord from "../../schema/word";
+import { validateAddWord } from "../../schema/word";
 const router = express.Router();
 
 router.post(
   "/api/words",
-  validate(validateWord),
+  validate(validateAddWord),
   async (req: Request, res: Response, next: NextFunction) => {
     const wordInfo = await saveWord(req.body);
     if (!wordInfo) {

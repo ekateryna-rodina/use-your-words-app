@@ -3,10 +3,13 @@ export type Value = {
   value: string;
 };
 export type WordData = {
-  value: {
-    id?: string;
-    value: string;
-  };
+  // value: {
+  //   id?: string;
+  //   value: string;
+  // };
+  id?: string;
+  value: string;
+  name: string;
 };
 export type Word = {
   word: string;

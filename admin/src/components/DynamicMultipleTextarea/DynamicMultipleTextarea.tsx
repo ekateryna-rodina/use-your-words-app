@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { FormValue } from "../../types/";
 import AddIcon from "../icons/AddIcon";
@@ -21,9 +21,6 @@ const DynamicMultipleTextarea = ({
     control,
     name,
   });
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
   return (
     <>
       {fields.map((obj: any, index) => (

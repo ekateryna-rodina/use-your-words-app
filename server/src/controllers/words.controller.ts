@@ -5,7 +5,7 @@ import {
   postWord,
   putWord,
 } from "../services/words.service";
-import { ExistingWord, Word } from "../types/Word";
+import { ExistingWord, Word, WordData } from "../types/Word";
 
 export async function getAllWords() {
   try {
@@ -31,22 +31,19 @@ export async function saveWord(word: Word) {
 }
 
 export async function updateWord(data: ExistingWord) {
-  const { id, word, fileUrl, synonym, antonym, phrase, meaning, partOfSpeech } =
-    data;
+  const { id, synonyms, antonyms, phrases, meanings } = data;
   try {
     const wordFullInfo = {
       id,
-      word,
-      fileUrl,
-      partOfSpeech,
-      synonyms: synonym,
-      antonyms: antonym,
-      phrases: phrase,
-      meanings: meaning,
+      synonyms: synonyms as WordData[],
+      antonyms: antonyms as WordData[],
+      phrases: phrases as WordData[],
+      meanings: meanings as WordData[],
     };
     const newWord = await putWord(wordFullInfo);
     return newWord;
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
 import { useAppSelector } from "../../app/hooks";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
-import { wordSchema } from "../../schema/wordSchema";
+import { addWordSchema } from "../../schema/addWordSchema";
 import { FormValue, Word } from "../../types/";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
@@ -14,7 +14,7 @@ function AddEditWord() {
   const [autofill, setAutofill] = useState<Partial<Word> | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<boolean>(false);
-  const resolver = useYupValidationResolver(wordSchema);
+  const resolver = useYupValidationResolver(addWordSchema);
 
   const [postPutUrl, wordInfoUrl] = [
     "http://localhost:8080/api/words",

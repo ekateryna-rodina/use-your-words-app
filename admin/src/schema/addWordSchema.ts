@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const wordSchema = Yup.object({
+export const addWordSchema = Yup.object({
   id: Yup.string().nullable(),
   word: Yup.string().required().min(3, "Must be 3 characters or more"),
   meaning: Yup.array().of(Yup.object()).min(1, "Must be at least 1 meaning"),
@@ -31,4 +31,4 @@ export const wordSchema = Yup.object({
   antonym: Yup.array().of(Yup.object()).min(1, "Must be at least 1 antonym"),
 });
 
-export type Word = Yup.InferType<typeof wordSchema>;
+export type Word = Yup.InferType<typeof addWordSchema>;
