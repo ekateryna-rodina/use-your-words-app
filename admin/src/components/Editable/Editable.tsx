@@ -1,67 +1,87 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  useFetchVocabularyQuery,
+  useUpdateWordMutation,
+} from "../../features/app-api-slice";
+import { setEditMode } from "../../features/wordDetails/worddetails-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { editWordSchema } from "../../schema/editWordSchema";
 import { FormValue, WordWithId } from "../../types";
-import request from "../../utils/request";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 
 import { ModalButtonPanel } from "../ModalButtonPanel";
 
 const Editable = () => {
-  const { isEdit, currentWord } = useAppSelector((state) => state.wordDetails);
-  const { id, word, partOfSpeech, meanings, phrases, synonyms, antonyms } =
-    currentWord as WordWithId;
+  const { isEdit, currentWordId } = useAppSelector(
+    (state) => state.wordDetails
+  );
+  const fromResult = useFetchVocabularyQuery(undefined, {
+    selectFromResult: ({ isSuccess, data }) => ({
+      isSuccess,
+      data: data,
+      // data: data?.words,
+    }),
+  });
+
+  const currentWord = fromResult.data?.words.filter(
+    (w) => w.id === currentWordId
+  )[0] as WordWithId;
+
+  const { meanings, phrases, synonyms, antonyms } = currentWord;
   const [expanded, setExpanded] = useState<string[]>([]);
   const resolver = useYupValidationResolver(editWordSchema);
   const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
+  const dispatch = useAppDispatch();
+  const [updateWord] = useUpdateWordMutation();
   const {
     handleSubmit,
     register,
-    control,
-    getValues,
     reset,
-    setValue,
+    control,
     formState: { errors },
   } = useForm<any>({
     resolver,
-    defaultValues: {
-      meanings: meanings.map((m: FormValue | string) => {
-        return { ...(m as FormValue), name: "meanings" };
-      }),
-      phrases: phrases.map((p: FormValue | string) => {
-        return { ...(p as FormValue), name: "phrases" };
-      }),
-      synonyms: synonyms.map((s: FormValue | string) => {
-        return { ...(s as FormValue), name: "synonyms" };
-      }),
-      antonyms: antonyms.map((a: FormValue | string) => {
-        return { ...(a as FormValue), name: "antonyms" };
-      }),
-    },
+    defaultValues: useMemo(() => {
+      return {
+        meanings: meanings.map((m: FormValue | string) => {
+          return { ...(m as FormValue), name: "meanings" };
+        }),
+        phrases: phrases.map((p: FormValue | string) => {
+          return { ...(p as FormValue), name: "phrases" };
+        }),
+        synonyms: synonyms.map((s: FormValue | string) => {
+          return { ...(s as FormValue), name: "synonyms" };
+        }),
+        antonyms: antonyms.map((a: FormValue | string) => {
+          return { ...(a as FormValue), name: "antonyms" };
+        }),
+      };
+    }, [meanings]),
   });
 
-  const [postPutUrl, wordInfoUrl] = [
-    "http://localhost:8080/api/words",
-    "http://localhost:8080/api/wordsApi",
-  ];
-
   const onSaveWordHandler = async (values: any) => {
-    if (!currentWord) return;
-
-    request(postPutUrl, { ...values, id: currentWord.id }, "PUT")
-      .then((info) => console.log(info))
-      .catch((err) => console.log(err));
+    updateWord({ ...values, id: currentWord.id });
+    dispatch(setEditMode(false));
   };
   const data = [
-    { title: "Definitions", name: "meanings", items: currentWord?.meanings },
+    {
+      title: "Definitions",
+      name: "meanings",
+      items: currentWord?.meanings,
+    },
     { title: "Examples", name: "phrases", items: currentWord?.phrases },
     { title: "Synonyms", name: "synonyms", items: currentWord?.synonyms },
     { title: "Antonyms", name: "antonyms", items: currentWord?.antonyms },
   ];
+  useEffect(() => {
+    console.log("from result", fromResult);
+    reset({ meanings, phrases, synonyms, antonyms });
+    // eslint-disable-next-line
+  }, [isEdit]);
   return (
     <div className="h-full">
       <form
@@ -73,9 +93,9 @@ const Editable = () => {
           }
         )}
       >
-        <div className="bordered-paragraph mt-4">
+        {/* <div className="bordered-paragraph mt-4">
           {partOfSpeech.map((p) => (p as FormValue).value).join(", ")}
-        </div>
+        </div> */}
         <div className="overflow-y-auto max-h-[600px] pr-4">
           {data.map((d) => (
             <Collapsible

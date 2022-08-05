@@ -104,89 +104,97 @@ const postWord = async (wordFullInfo: PostWord) => {
 
 const putWord = async (wordFullInfo: PutWord) => {
   const { id, synonyms, antonyms, meanings, phrases } = wordFullInfo;
+  console.log("hhhhhh", id, synonyms, antonyms, meanings, phrases);
   try {
     // deletion for synonyms, antonyms, meanings, phrases
-    await db.Antonym.destroy({
-      where: {
-        [Op.and]: [
-          { wordId: id },
-          {
-            id: {
-              [Op.notIn]: antonyms.map((a) => a.id),
+    if (antonyms) {
+      await db.Antonym.destroy({
+        where: {
+          [Op.and]: [
+            { wordId: id },
+            {
+              id: {
+                [Op.notIn]: antonyms.map((a) => a.id),
+              },
             },
-          },
-        ],
-      },
-    });
-    await db.Synonym.destroy({
-      where: {
-        [Op.and]: [
-          { wordId: id },
-          {
-            id: {
-              [Op.notIn]: synonyms.map((a) => a.id),
+          ],
+        },
+      });
+      const newAntonyms = antonyms.map((a) => ({
+        id: a.id,
+        antonym: a.value,
+        wordId: id,
+      }));
+      await db.Antonym.bulkCreate(newAntonyms, {
+        updateOnDuplicate: ["antonym"],
+      });
+    }
+    if (synonyms) {
+      await db.Synonym.destroy({
+        where: {
+          [Op.and]: [
+            { wordId: id },
+            {
+              id: {
+                [Op.notIn]: synonyms.map((a) => a.id),
+              },
             },
-          },
-        ],
-      },
-    });
-    await db.Meaning.destroy({
-      where: {
-        [Op.and]: [
-          { wordId: id },
-          {
-            id: {
-              [Op.notIn]: meanings.map((a) => a.id),
+          ],
+        },
+      });
+      const newSynonyms = synonyms.map((s) => ({
+        id: s.id,
+        synonym: s.value,
+        wordId: id,
+      }));
+      await db.Synonym.bulkCreate(newSynonyms, {
+        updateOnDuplicate: ["synonym"],
+      });
+    }
+    if (meanings) {
+      await db.Meaning.destroy({
+        where: {
+          [Op.and]: [
+            { wordId: id },
+            {
+              id: {
+                [Op.notIn]: meanings.map((a) => a.id),
+              },
             },
-          },
-        ],
-      },
-    });
-    await db.Phrase.destroy({
-      where: {
-        [Op.and]: [
-          { wordId: id },
-          {
-            id: {
-              [Op.notIn]: phrases.map((a) => a.id),
+          ],
+        },
+      });
+      const newMeanings = meanings.map((s) => ({
+        id: s.id,
+        meaning: s.value,
+        wordId: id,
+      }));
+      await db.Meaning.bulkCreate(newMeanings, {
+        updateOnDuplicate: ["meaning"],
+      });
+    }
+    if (phrases) {
+      await db.Phrase.destroy({
+        where: {
+          [Op.and]: [
+            { wordId: id },
+            {
+              id: {
+                [Op.notIn]: phrases.map((a) => a.id),
+              },
             },
-          },
-        ],
-      },
-    });
-    // update or add
-    const newAntonyms = antonyms.map((a) => ({
-      id: a.id,
-      antonym: a.value,
-      wordId: id,
-    }));
-    const newSynonyms = synonyms.map((s) => ({
-      id: s.id,
-      synonym: s.value,
-      wordId: id,
-    }));
-    const newMeanings = meanings.map((s) => ({
-      id: s.id,
-      meaning: s.value,
-      wordId: id,
-    }));
-    const newPhrases = phrases.map((s) => ({
-      id: s.id,
-      phrase: s.value,
-      wordId: id,
-    }));
-    await db.Antonym.bulkCreate(newAntonyms, {
-      updateOnDuplicate: ["antonym"],
-    });
-    await db.Synonym.bulkCreate(newSynonyms, {
-      updateOnDuplicate: ["synonym"],
-    });
-    await db.Phrase.bulkCreate(newPhrases, {
-      updateOnDuplicate: ["phrase"],
-    });
-    await db.Meaning.bulkCreate(newMeanings, {
-      updateOnDuplicate: ["meaning"],
-    });
+          ],
+        },
+      });
+      const newPhrases = phrases.map((s) => ({
+        id: s.id,
+        phrase: s.value,
+        wordId: id,
+      }));
+      await db.Phrase.bulkCreate(newPhrases, {
+        updateOnDuplicate: ["phrase"],
+      });
+    }
   } catch (error) {
     throw new ApiError(500, error.message);
   }

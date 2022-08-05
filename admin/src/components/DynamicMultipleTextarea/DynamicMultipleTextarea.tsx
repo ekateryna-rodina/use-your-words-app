@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import { useFieldArray } from "react-hook-form";
 import { FormValue } from "../../types/";
 import AddIcon from "../icons/AddIcon";
@@ -21,6 +21,10 @@ const DynamicMultipleTextarea = ({
     control,
     name,
   });
+  const appendHandler = (e: FormEvent) => {
+    e.preventDefault();
+    append({ name, id: "", value: "" });
+  };
   return (
     <>
       {fields.map((obj: any, index) => (
@@ -56,7 +60,7 @@ const DynamicMultipleTextarea = ({
       ))}
 
       <button
-        onClick={() => append({ name, id: "idsfhdsiufhisfdh", value: "" })}
+        onClick={appendHandler}
         className="w-8 h-8 bg-blue-300 flex justify-center items-center"
       >
         <AddIcon />

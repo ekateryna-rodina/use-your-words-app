@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { toggleModal } from "../../features/modal/modal-slice";
-import { setCurrentWord } from "../../features/wordDetails/worddetails-slice";
+import { setCurrentWordId } from "../../features/wordDetails/worddetails-slice";
 import { WordWithId } from "../../types";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
@@ -49,7 +49,8 @@ const Word = ({
     }
   };
   const detailsHandler = () => {
-    dispatch(setCurrentWord(word));
+    // dispatch(setCurrentWord(word));
+    dispatch(setCurrentWordId(word.id));
     dispatch(toggleModal(true));
   };
 

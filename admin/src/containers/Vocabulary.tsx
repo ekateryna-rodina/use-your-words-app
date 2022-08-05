@@ -12,7 +12,9 @@ const Vocabulary = () => {
 
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const { currentWord, isEdit } = useAppSelector((state) => state.wordDetails);
+  const { currentWordId, isEdit } = useAppSelector(
+    (state) => state.wordDetails
+  );
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
 
   useEffect(() => {
@@ -59,10 +61,10 @@ const Vocabulary = () => {
       )} */}
       <div
         className={`absolute inset-0 transition bg-slate-100 p-4 ${
-          !currentWord ? "translate-y-full" : ""
+          !currentWordId ? "translate-y-full" : ""
         }`}
       >
-        {currentWord ? <WordDetails /> : <></>}
+        {currentWordId ? <WordDetails /> : <></>}
       </div>
     </div>
   );
