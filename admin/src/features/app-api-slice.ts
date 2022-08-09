@@ -45,7 +45,12 @@ export const apiSlice = createApi({
           }
         },
       }),
-
+      deleteWord: builder.mutation<void, string>({
+        query: (id) => ({
+          url: `words/${id}`,
+          method: "DELETE",
+        }),
+      }),
       fetchPartsOfSpeech: builder.query<PartOfSpeech[], void>({
         query() {
           return "/partOfSpeech";
@@ -59,4 +64,5 @@ export const {
   useFetchVocabularyQuery,
   useFetchPartsOfSpeechQuery,
   useUpdateWordMutation,
+  useDeleteWordMutation,
 } = apiSlice;

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { ConfirmationWindow } from "../components/ConfirmationWindow";
 import { SearchVocabulary } from "../components/SearchVocabulary";
 import { WordDetails } from "../components/WordDetails";
 import Words from "../components/Words/Words";
 import { useFetchPartsOfSpeechQuery } from "../features/app-api-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
+import { useConfirm } from "../hooks/useConfirm";
 import { PartOfSpeech } from "../types/";
 
 const Vocabulary = () => {
   const [partsOfSpeech, setPartsOfSpeech] = useState<PartOfSpeech[]>([]);
-
+  const confirm = useConfirm(ConfirmationWindow);
+  const Confirmation = confirm[0] as unknown as JSX.Element;
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
   const { currentWordId, isEdit } = useAppSelector(
@@ -26,12 +29,6 @@ const Vocabulary = () => {
     if (apiPartsOfSpeechResponse.isLoading) return;
     setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []);
   }, [apiPartsOfSpeechResponse]);
-
-  const onDeleteHandler = (id: string) => {
-    // request(wordURL, { id }, "DELETE")
-    //   .then((response) => console.log("success delete"))
-    //   .catch((err) => console.log(err));
-  };
 
   const toggleQuizList = (wordId: string) => {
     if (quizQuestions.includes(wordId)) {
@@ -66,6 +63,8 @@ const Vocabulary = () => {
       >
         {currentWordId ? <WordDetails /> : <></>}
       </div>
+      {/* @ts-ignore */}
+      <Confirmation />
     </div>
   );
 };

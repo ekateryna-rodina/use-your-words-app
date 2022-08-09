@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "../features/app-api-slice";
+import confirmReducer from "../features/confirm/confirm-slice";
 import loadingReducer from "../features/loading/loading-slice";
 import modalReducer from "../features/modal/modal-slice";
 import searchReducer from "../features/search/search-slice";
@@ -12,6 +13,7 @@ export const store = configureStore({
     tabs: tabsReducer,
     loading: loadingReducer,
     search: searchReducer,
+    confirm: confirmReducer,
     wordDetails: wordDetailsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

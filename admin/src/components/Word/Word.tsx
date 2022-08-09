@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
+import { useDeleteWordMutation } from "../../features/app-api-slice";
 import { toggleModal } from "../../features/modal/modal-slice";
 import { setCurrentWordId } from "../../features/wordDetails/worddetails-slice";
+import { useConfirm } from "../../hooks/useConfirm";
 import { WordWithId } from "../../types";
+import { ConfirmationWindow } from "../ConfirmationWindow";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
 
@@ -14,6 +17,7 @@ type WordProps = {
   expanded: string[];
   setExpanded: (expanded: string[]) => void;
 };
+
 const Word = ({
   index,
   word,
@@ -24,6 +28,8 @@ const Word = ({
 }: WordProps) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [, show] = useConfirm(ConfirmationWindow);
+  const [deleteWord] = useDeleteWordMutation();
   const dispatch = useAppDispatch();
   const minSwipeDistance = 50;
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -49,9 +55,14 @@ const Word = ({
     }
   };
   const detailsHandler = () => {
-    // dispatch(setCurrentWord(word));
     dispatch(setCurrentWordId(word.id));
     dispatch(toggleModal(true));
+  };
+
+  const deleteHandler = async () => {
+    const isOk = await show();
+    console.log(isOk, "isok");
+    // deleteWord(word.id);
   };
 
   return (
@@ -80,7 +91,7 @@ const Word = ({
           <button className="p-4" onClick={detailsHandler}>
             <DetailsIcon />
           </button>
-          <button className="p-4">
+          <button className="p-4" onClick={deleteHandler}>
             <DeleteIcon />
           </button>
         </div>
@@ -93,7 +104,7 @@ const Word = ({
           <button className="p-4" onClick={detailsHandler}>
             <DetailsIcon />
           </button>
-          <button className="p-4">
+          <button className="p-4" onClick={deleteHandler}>
             <DeleteIcon />
           </button>
         </div>
