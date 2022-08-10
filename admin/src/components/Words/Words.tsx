@@ -4,7 +4,7 @@ import { useFetchVocabularyQuery } from "../../features/app-api-slice";
 import { WordWithId } from "../../types";
 import Word from "../Word/Word";
 
-const Words = () => {
+const Words = ({ allowDelete }: { allowDelete: Function }) => {
   const searchState = useAppSelector((state) => state.search);
   const [words, setWords] = useState<WordWithId[] | null>(null);
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -61,6 +61,7 @@ const Words = () => {
                     expanded={expanded}
                     setExpanded={setExpanded}
                     key={w.id}
+                    allowDelete={allowDelete}
                   />
                 ))}
             </div>

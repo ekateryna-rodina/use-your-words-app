@@ -3,9 +3,8 @@ import { useAppDispatch } from "../../app/hooks";
 import { useDeleteWordMutation } from "../../features/app-api-slice";
 import { toggleModal } from "../../features/modal/modal-slice";
 import { setCurrentWordId } from "../../features/wordDetails/worddetails-slice";
-import { useConfirm } from "../../hooks/useConfirm";
+import { useDeferredPromise } from "../../hooks/useDeferredPromise";
 import { WordWithId } from "../../types";
-import { ConfirmationWindow } from "../ConfirmationWindow";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
 
@@ -16,6 +15,7 @@ type WordProps = {
   letter: string;
   expanded: string[];
   setExpanded: (expanded: string[]) => void;
+  allowDelete: Function;
 };
 
 const Word = ({
@@ -25,10 +25,11 @@ const Word = ({
   letter,
   expanded,
   setExpanded,
+  allowDelete,
 }: WordProps) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [, show] = useConfirm(ConfirmationWindow);
+  const { defer } = useDeferredPromise<boolean>();
   const [deleteWord] = useDeleteWordMutation();
   const dispatch = useAppDispatch();
   const minSwipeDistance = 50;
@@ -60,7 +61,7 @@ const Word = ({
   };
 
   const deleteHandler = async () => {
-    const isOk = await show();
+    const isOk = await allowDelete();
     console.log(isOk, "isok");
     // deleteWord(word.id);
   };

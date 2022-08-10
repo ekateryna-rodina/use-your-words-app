@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../app/hooks";
+import { useDeferredPromise } from "../../hooks/useDeferredPromise";
 
 type ConfirmationWindowProps = {
   onConfirm: () => void;
@@ -9,6 +10,7 @@ const ConfirmationWindow = ({
   onCancel,
 }: ConfirmationWindowProps) => {
   const { isOpen } = useAppSelector((state) => state.confirm);
+  const { deferRef } = useDeferredPromise();
   if (!isOpen) return <></>;
   return (
     <div className={`absolute inset-0 w-screen h-screen bg-slate-300/50`}>
