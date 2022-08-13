@@ -104,7 +104,6 @@ const postWord = async (wordFullInfo: PostWord) => {
 
 const putWord = async (wordFullInfo: PutWord) => {
   const { id, synonyms, antonyms, meanings, phrases } = wordFullInfo;
-  console.log("hhhhhh", id, synonyms, antonyms, meanings, phrases);
   try {
     // deletion for synonyms, antonyms, meanings, phrases
     if (antonyms) {
@@ -202,6 +201,8 @@ const putWord = async (wordFullInfo: PutWord) => {
 
 const deleteWord = async (id: string) => {
   try {
+    // add constraint?
+    // destroy question and quiz-question record first
     await db.Word.destroy({ where: { id } });
   } catch (error) {
     throw new ApiError(500, error.message);

@@ -53,6 +53,7 @@ export async function dropWord(id: string) {
     await deleteWord(id);
     return { ok: true };
   } catch (error) {
+    console.log(error);
     return { ok: false };
   }
 }

@@ -4,11 +4,12 @@ import ApiError from "../../error/apiError";
 const router = express.Router();
 
 router.delete(
-  "/api/words",
+  "/api/words/:id",
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.query;
+    const { id } = req.params;
+    console.log(id, "red");
     try {
-      const result = await dropWord(id.toString());
+      const result = await dropWord(id);
       res.status(200).send(result);
     } catch (error) {
       next(new ApiError(error.code, error.message));
