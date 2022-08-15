@@ -3,7 +3,6 @@ import { useAppDispatch } from "../../app/hooks";
 import { useDeleteWordMutation } from "../../features/app-api-slice";
 import { toggleModal } from "../../features/modal/modal-slice";
 import { setCurrentWordId } from "../../features/wordDetails/worddetails-slice";
-import { useDeferredPromise } from "../../hooks/useDeferredPromise";
 import { WordWithId } from "../../types";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
@@ -29,7 +28,6 @@ const Word = ({
 }: WordProps) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const { defer } = useDeferredPromise<boolean>();
   const [deleteWord] = useDeleteWordMutation();
   const dispatch = useAppDispatch();
   const minSwipeDistance = 50;
@@ -62,8 +60,8 @@ const Word = ({
 
   const deleteHandler = async () => {
     const isOk = await allowDelete();
-    console.log(isOk, "isok");
-    // deleteWord(word.id);
+    if (!isOk) return;
+    deleteWord(word.id);
   };
 
   return (

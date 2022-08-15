@@ -2,9 +2,13 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setEditMode } from "../../features/wordDetails/worddetails-slice";
 import CloseIcon from "../icons/CloseIcon";
 import EditIcon from "../icons/EditIcon";
+import RandomIcon from "../icons/RandomIcon";
 import SaveIcon from "../icons/SaveIcon";
 
-const ModalButtonPanel = () => {
+type ModalButtonPanelProps = {
+  isNew: boolean;
+};
+const ModalButtonPanel = ({ isNew }: ModalButtonPanelProps) => {
   const { isEdit } = useAppSelector((state) => state.wordDetails);
   const dispatch = useAppDispatch();
   const editHandler = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -13,7 +17,14 @@ const ModalButtonPanel = () => {
   };
   return (
     <div className="absolute right-0 top-0 flex justify-start items-center gap-4">
-      {isEdit ? (
+      {isNew ? (
+        <button className="bg-blue-700 w-8 h-8 flex justify-center items-center">
+          <RandomIcon />
+        </button>
+      ) : (
+        <></>
+      )}
+      {isEdit || isNew ? (
         <div className="relative w-8 h-8">
           <input
             type="submit"
@@ -30,6 +41,7 @@ const ModalButtonPanel = () => {
           <EditIcon />
         </button>
       )}
+
       <button>
         <CloseIcon />
       </button>

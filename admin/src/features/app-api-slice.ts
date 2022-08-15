@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PartOfSpeech, WordWithId } from "../types";
-
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -50,6 +49,7 @@ export const apiSlice = createApi({
           url: `words/${id}`,
           method: "DELETE",
         }),
+        invalidatesTags: ["Word"],
       }),
       fetchPartsOfSpeech: builder.query<PartOfSpeech[], void>({
         query() {

@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import addNewReducer from "../features/addNew/addnew-slice";
 import { apiSlice } from "../features/app-api-slice";
 import confirmReducer from "../features/confirm/confirm-slice";
 import loadingReducer from "../features/loading/loading-slice";
@@ -15,6 +16,7 @@ export const store = configureStore({
     search: searchReducer,
     confirm: confirmReducer,
     wordDetails: wordDetailsReducer,
+    addNew: addNewReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

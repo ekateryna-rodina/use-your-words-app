@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { AddEdit } from "../components/AddEdit";
 import { ConfirmationWindow } from "../components/ConfirmationWindow";
+import AddIcon from "../components/icons/AddIcon";
 import { SearchVocabulary } from "../components/SearchVocabulary";
-import { WordDetails } from "../components/WordDetails";
 import Words from "../components/Words/Words";
+import { setIsNew } from "../features/addNew/addnew-slice";
 import { useFetchPartsOfSpeechQuery } from "../features/app-api-slice";
 import { toggleConfirm } from "../features/confirm/confirm-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
@@ -15,20 +17,17 @@ const Vocabulary = () => {
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
   const { defer, deferRef } = useDeferredPromise<boolean>();
-  const { currentWordId, isEdit } = useAppSelector(
-    (state) => state.wordDetails
-  );
+  const { currentWordId } = useAppSelector((state) => state.wordDetails);
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
+  const { isNew } = useAppSelector((state) => state.addNew);
   const handleConfirm = () => {
     dispatch(toggleConfirm(false));
     deferRef.current?.resolve(true);
   };
-
   const allowDelete = async () => {
     dispatch(toggleConfirm(true));
     return defer().promise;
   };
-
   const handleClose = () => {
     dispatch(toggleConfirm(false));
     deferRef.current?.resolve(false);
@@ -53,9 +52,17 @@ const Vocabulary = () => {
   };
 
   return (
-    <div>
-      {/* <button onClick={() => setModal({ show: true })}>Add New</button> */}
-      <SearchVocabulary />
+    <>
+      <div className="flex justify-start items-center">
+        <SearchVocabulary />
+        <button
+          onClick={() => dispatch(setIsNew(true))}
+          className="w-8 h-8 bg-blue-300 ml-[6px] flex justify-center items-center"
+        >
+          <AddIcon />
+        </button>
+      </div>
+
       <Words allowDelete={allowDelete} />
       {/* {modal.show ? (
         <AddEditWord word={currentWord} tempParts={partsOfSpeech} />
@@ -71,13 +78,13 @@ const Vocabulary = () => {
       )} */}
       <div
         className={`absolute inset-0 transition bg-slate-100 p-4 ${
-          !currentWordId ? "translate-y-full" : ""
+          !currentWordId && !isNew ? "translate-y-full" : ""
         }`}
       >
-        {currentWordId ? <WordDetails /> : <></>}
+        <AddEdit partsOfSpeech={partsOfSpeech} />
       </div>
       <ConfirmationWindow onConfirm={handleConfirm} onCancel={handleClose} />
-    </div>
+    </>
   );
 };
 
