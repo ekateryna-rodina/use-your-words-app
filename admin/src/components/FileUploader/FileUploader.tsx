@@ -1,4 +1,3 @@
-import React from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 
 type FileUploaderProps = {
@@ -48,12 +47,12 @@ const FileUploader = ({
               textAlign: "center",
               pointerEvents: disabled ? "none" : "auto",
               borderColor: file?.name
-                ? "green"
+                ? "#6EE7B7"
                 : error
                 ? "red"
                 : disabled
                 ? "gray"
-                : "blue",
+                : "rgb(59 130 246 / 0.5)",
             }}
             {...getRootProps()}
           >

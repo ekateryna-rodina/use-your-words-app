@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PartOfSpeech, WordWithId } from "../types";
+import { PartOfSpeech, Word, WordWithId } from "../types";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -56,6 +56,11 @@ export const apiSlice = createApi({
           return "/partOfSpeech";
         },
       }),
+      autofill: builder.query<{ wordInfo: Word }, string>({
+        query: (word: string) => ({
+          url: `wordsApi?word=${word}`,
+        }),
+      }),
     };
   },
 });
@@ -65,4 +70,5 @@ export const {
   useFetchPartsOfSpeechQuery,
   useUpdateWordMutation,
   useDeleteWordMutation,
+  useLazyAutofillQuery,
 } = apiSlice;

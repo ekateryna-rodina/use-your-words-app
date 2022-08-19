@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useAppDispatch } from "../../app/hooks";
+import { setWord } from "../../features/addNew/addnew-slice";
 import { useUpdateWordMutation } from "../../features/app-api-slice";
 import { setEditMode } from "../../features/wordDetails/worddetails-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
@@ -10,6 +11,7 @@ import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 import ListenIcon from "../icons/ListenIcon";
 import { ModalButtonPanel } from "../ModalButtonPanel";
+import { PronunciationRadio } from "../PronunciationRadio";
 import { SelectField } from "../SelectField";
 import { TextField } from "../TextField";
 
@@ -27,20 +29,22 @@ const Editable = ({
   const { meanings, phrases, synonyms, antonyms } = word;
   const [expanded, setExpanded] = useState<string[]>([]);
   const resolver = useYupValidationResolver(editWordSchema);
-  const [loading, setLoading] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const dispatch = useAppDispatch();
   const [updateWord] = useUpdateWordMutation();
+  const [fileError, setFileError] = useState<boolean>(false);
   const {
     handleSubmit,
     register,
     reset,
     control,
+    getValues,
     formState: { errors },
   } = useForm<any>({
     resolver,
     defaultValues: useMemo(() => {
       return {
+        pronunciationRadio: "upload",
         meanings: meanings.map((m: FormValue | string) => {
           return { ...(m as FormValue), name: "meanings" };
         }),
@@ -61,7 +65,10 @@ const Editable = ({
     updateWord({ ...values, id: (word as WordWithId).id });
     dispatch(setEditMode(false));
   };
-  const data = [
+  const onNewWordEnterHandler = (word: string) => {
+    dispatch(setWord(word));
+  };
+  const wordDetails = [
     {
       title: "Definitions",
       name: "meanings",
@@ -75,6 +82,7 @@ const Editable = ({
     reset({ meanings, phrases, synonyms, antonyms });
     // eslint-disable-next-line
   }, [isEdit]);
+
   return (
     <div className="relative">
       <div className="h-12">
@@ -84,12 +92,20 @@ const Editable = ({
               {word.word[0].toUpperCase() + word.word.slice(1)}
             </span>
           ) : (
-            <TextField
-              label=""
+            <Controller
               name="word"
-              validate={register}
-              disabled={false}
-            />
+              control={control}
+              render={({ field: { onChange } }) => (
+                <TextField
+                  onChange={({ target: { value } }) => {
+                    onNewWordEnterHandler(value);
+                  }}
+                  label=""
+                  name="word"
+                  disabled={false}
+                />
+              )}
+            ></Controller>
           )}
           {!isNew ?? (
             <button>
@@ -114,6 +130,7 @@ const Editable = ({
             </div>
           ) : (
             <SelectField
+              labelClass="text-xl text-slate-300"
               label="Parts of speech"
               validate={register}
               name="partOfSpeech"
@@ -121,8 +138,30 @@ const Editable = ({
               control={control}
             />
           )}
+          {isNew ? (
+            <div className="mt-4">
+              <span className="text-xl text-slate-300">
+                Pronounciation file
+              </span>
+              <PronunciationRadio
+                {...{
+                  register,
+                  file,
+                  setFile,
+                  fileError,
+                  setFileError,
+                  active: getValues("pronunciationRadio"),
+                  control,
+                  getValues,
+                  word: getValues("word"),
+                }}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="overflow-y-auto max-h-[600px] pr-4">
-            {data.map((d) => (
+            {wordDetails.map((d) => (
               <Collapsible
                 key={d.title}
                 title={d.title}

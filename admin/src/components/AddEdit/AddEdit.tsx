@@ -7,7 +7,7 @@ type AddEditProps = {
   partsOfSpeech: PartOfSpeech[];
 };
 const AddEdit = ({ partsOfSpeech }: AddEditProps) => {
-  const { word, isNew } = useAppSelector((state) => state.addNew);
+  const { wordDetails, word, isNew } = useAppSelector((state) => state.addNew);
   const { currentWordId, isEdit } = useAppSelector(
     (state) => state.wordDetails
   );
@@ -26,7 +26,7 @@ const AddEdit = ({ partsOfSpeech }: AddEditProps) => {
   if (isNew)
     return (
       <Editable
-        word={word}
+        word={{ ...wordDetails, word }}
         isEdit={true}
         isNew={isNew}
         partsOfSpeech={partsOfSpeech}

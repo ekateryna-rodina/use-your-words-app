@@ -1,10 +1,18 @@
 type TextFieldProps = {
   label?: string;
   name: string;
-  validate: any;
+  validate?: any;
   disabled: boolean;
+  onChange?: (target: any) => void;
 };
-const TextField = ({ label, validate, name, disabled }: TextFieldProps) => {
+const TextField = ({
+  label,
+  validate,
+  name,
+  disabled,
+  onChange,
+}: TextFieldProps) => {
+  const validateForControlled = validate ? { ...validate(name) } : {};
   return (
     <div>
       {label ? <label htmlFor={name}>{label}</label> : <></>}
@@ -15,7 +23,8 @@ const TextField = ({ label, validate, name, disabled }: TextFieldProps) => {
         id={name}
         disabled={disabled}
         autoComplete="off"
-        {...validate(name)}
+        onChange={onChange}
+        {...validateForControlled}
       />
     </div>
   );

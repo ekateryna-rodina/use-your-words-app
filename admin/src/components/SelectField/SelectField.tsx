@@ -6,8 +6,10 @@ type SelectFieldProps<T> = {
   options: T[];
   validate: any;
   control: any;
+  labelClass?: string;
 };
 const SelectField = <T extends { id: string; value: string }>({
+  labelClass,
   label,
   validate,
   name,
@@ -21,15 +23,32 @@ const SelectField = <T extends { id: string; value: string }>({
     },
     []
   );
+  const customStyles = {
+    control: (provided: any, state: any) => {
+      const outline = state.isFocused ? "1px solid" : "";
+      const outlineColor = state.isFocused ? "#93c5fd" : "transparent";
+      const border = state.isFocused ? "1px solid transparent" : "";
+      return { ...provided, outline, border, outlineColor };
+    },
+    singleValue: (provided: any, state: any) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 300ms";
+
+      return { ...provided, opacity, transition };
+    },
+  };
   return (
     <div>
-      <label htmlFor={name}>{label}</label>
+      <label className={labelClass} htmlFor={name}>
+        {label}
+      </label>
       <Controller
         control={control}
         name={name}
         render={({ field, fieldState, formState }) => (
           <Select
             isMulti
+            styles={customStyles}
             ref={field.ref}
             options={selectOptions as []}
             value={options.find((c) => c.value === field.value)}

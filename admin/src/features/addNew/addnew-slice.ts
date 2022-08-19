@@ -3,13 +3,16 @@ import { Word } from "../../types";
 
 interface AddNewState {
   isNew: boolean;
-  word: Word;
+  word: string;
+  wordDetails: Omit<Word, "word">;
+  isAutofill: boolean;
 }
 
 const initialState: AddNewState = {
   isNew: false,
-  word: {
-    word: "",
+  word: "",
+  isAutofill: false,
+  wordDetails: {
     fileUrl: "",
     meanings: [],
     partOfSpeech: [],
@@ -29,8 +32,18 @@ const addNewSlice = createSlice({
     setIsNew(state, action: PayloadAction<boolean>) {
       state.isNew = action.payload;
     },
+    setWord(state, action: PayloadAction<string>) {
+      state.word = action.payload;
+    },
+    setWordDetails(state, action: PayloadAction<Word>) {
+      state.wordDetails = action.payload;
+    },
+    setIsAutofill(state, action: PayloadAction<boolean>) {
+      state.isAutofill = action.payload;
+    },
   },
 });
 
-export const { setIsNew } = addNewSlice.actions;
+export const { setIsNew, setWord, setWordDetails, setIsAutofill } =
+  addNewSlice.actions;
 export default addNewSlice.reducer;

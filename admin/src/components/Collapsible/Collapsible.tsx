@@ -41,7 +41,7 @@ const Collapsible: React.FC<CollapsibleProps> = ({
   return (
     <div className="mt-4">
       <div className="flex justify-between items-center">
-        <span className="text-lg text-slate-300">{title}</span>
+        <span className="text-xl text-slate-300">{title}</span>
         <button onClick={expandHandler}>
           {expanded.includes(title) ? <ArrowUp /> : <ArrowDown />}
         </button>

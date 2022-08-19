@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PronunciationType } from "../../types";
 import { AutofillPronunciation } from "../AutofillPronunciation";
 import { RecordPronunciation } from "../RecordPronunciation";
@@ -30,7 +30,9 @@ const PronunciationRadio = ({
   getValues,
   word,
 }: PronunciationRadioProps) => {
-  const [active, setActive] = useState<PronunciationType>("autofill");
+  const [active, setActive] = useState<PronunciationType>(
+    getValues("pronunciationRadio")
+  );
   const options = {
     autofill: () => (
       <AutofillPronunciation
@@ -59,16 +61,21 @@ const PronunciationRadio = ({
   const renderPronunciationOptionControl = (o: PronunciationType) => {
     return options[o as keyof typeof options]();
   };
-
+  console.log("def", getValues("pronunciationRadio"));
   return (
     <>
       {Object.keys(options).map((o) => (
-        <div key={o}>
+        <div key={o} className="mt-[8px]">
           <label>
             <input
               type="radio"
+              className="mt-[8px]"
               value={o}
-              defaultChecked={getValues("pronunciationRadio") === o}
+              defaultChecked={
+                getValues("pronunciationRadio")
+                  ? getValues("pronunciationRadio") === o
+                  : false
+              }
               {...register("pronunciationRadio", {
                 onChange: () => setActive(getValues("pronunciationRadio")),
               })}
