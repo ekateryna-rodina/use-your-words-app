@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../app/hooks";
-import { setWord } from "../../features/addNew/addnew-slice";
+import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  setAutofillError,
+  setIsAutofill,
+  setWord,
+  setWordDetails,
+} from "../../features/addNew/addnew-slice";
 import { useUpdateWordMutation } from "../../features/app-api-slice";
 import { setEditMode } from "../../features/wordDetails/worddetails-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
@@ -9,14 +14,14 @@ import { editWordSchema } from "../../schema/editWordSchema";
 import { FormValue, PartOfSpeech, Word, WordWithId } from "../../types";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
+import CloseIcon from "../icons/CloseIcon";
 import ListenIcon from "../icons/ListenIcon";
 import { ModalButtonPanel } from "../ModalButtonPanel";
 import { PronunciationRadio } from "../PronunciationRadio";
 import { SelectField } from "../SelectField";
-import { TextField } from "../TextField";
 
 const Editable = ({
-  word,
+  word: wordInfo,
   isEdit,
   isNew,
   partsOfSpeech,
@@ -26,7 +31,7 @@ const Editable = ({
   isNew: boolean;
   partsOfSpeech?: PartOfSpeech[];
 }) => {
-  const { meanings, phrases, synonyms, antonyms } = word;
+  const { meanings, phrases, synonyms, antonyms } = wordInfo;
   const [expanded, setExpanded] = useState<string[]>([]);
   const resolver = useYupValidationResolver(editWordSchema);
   const [file, setFile] = useState<File | null>(null);
@@ -34,11 +39,18 @@ const Editable = ({
   const [updateWord] = useUpdateWordMutation();
   const [fileError, setFileError] = useState<boolean>(false);
   const {
+    word,
+    wordDetails: wordAutofill,
+    isAutofillError,
+  } = useAppSelector((state) => state.addNew);
+  const {
     handleSubmit,
     register,
     reset,
     control,
     getValues,
+    setValue,
+    resetField,
     formState: { errors },
   } = useForm<any>({
     resolver,
@@ -62,50 +74,83 @@ const Editable = ({
   });
 
   const onSaveWordHandler = async (values: any) => {
-    updateWord({ ...values, id: (word as WordWithId).id });
+    updateWord({ ...values, id: (wordInfo as WordWithId).id });
     dispatch(setEditMode(false));
   };
   const onNewWordEnterHandler = (word: string) => {
     dispatch(setWord(word));
+    dispatch(setAutofillError(false));
+    console.log("eooo", getValues("word"));
   };
-  const wordDetails = [
+  const resetWordHandler = () => {
+    dispatch(setWord(""));
+    dispatch(setAutofillError(false));
+    dispatch(setIsAutofill(false));
+    dispatch(setWordDetails(false));
+    resetField("word");
+  };
+  const renderWordInfo = [
     {
       title: "Definitions",
       name: "meanings",
-      items: word?.meanings,
+      items: wordInfo?.meanings,
     },
-    { title: "Examples", name: "phrases", items: word?.phrases },
-    { title: "Synonyms", name: "synonyms", items: word?.synonyms },
-    { title: "Antonyms", name: "antonyms", items: word?.antonyms },
+    { title: "Examples", name: "phrases", items: wordInfo?.phrases },
+    { title: "Synonyms", name: "synonyms", items: wordInfo?.synonyms },
+    { title: "Antonyms", name: "antonyms", items: wordInfo?.antonyms },
   ];
   useEffect(() => {
     reset({ meanings, phrases, synonyms, antonyms });
     // eslint-disable-next-line
   }, [isEdit]);
+  useEffect(() => {
+    if (wordAutofill.word && wordAutofill.word !== word) {
+      // reset autofill state
+      dispatch(setIsAutofill(false));
+      dispatch(setWordDetails(false));
+    }
 
+    // eslint-disable-next-line
+  }, [word, wordAutofill]);
   return (
     <div className="relative">
       <div className="h-12">
-        <div className="absolute top-0 left-0 flex justify-start items-center gap-4 my-0 ">
+        <div className="absolute top-0 left-0 right-0 flex justify-start items-center gap-4 my-0">
           {!isNew ? (
             <span className="text-2xl font-bold">
-              {word.word[0].toUpperCase() + word.word.slice(1)}
+              {wordInfo.word[0].toUpperCase() + wordInfo.word.slice(1)}
             </span>
           ) : (
-            <Controller
-              name="word"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <TextField
-                  onChange={({ target: { value } }) => {
-                    onNewWordEnterHandler(value);
-                  }}
-                  label=""
-                  name="word"
-                  disabled={false}
+            <div className="w-full">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-[60%]"
+                  placeholder="Type new word..."
+                  {...register("word", {
+                    onChange: (e) => {
+                      onNewWordEnterHandler(e.currentTarget.value);
+                    },
+                  })}
                 />
+                <div className="absolute top-[50%] right-[calc(40%+10px)] -translate-y-1/2">
+                  <button
+                    onClick={resetWordHandler}
+                    className="flex justify-center items-center"
+                  >
+                    <CloseIcon size={10} />
+                  </button>
+                </div>
+              </div>
+
+              {isAutofillError ? (
+                <small className="text-red">
+                  Could not fetch information about this word
+                </small>
+              ) : (
+                <></>
               )}
-            ></Controller>
+            </div>
           )}
           {!isNew ?? (
             <button>
@@ -126,7 +171,9 @@ const Editable = ({
         >
           {!isNew ? (
             <div className="bordered-paragraph mt-4">
-              {word.partOfSpeech.map((p) => (p as FormValue).value).join(", ")}
+              {wordInfo.partOfSpeech
+                .map((p) => (p as FormValue).value)
+                .join(", ")}
             </div>
           ) : (
             <SelectField
@@ -161,13 +208,13 @@ const Editable = ({
             <></>
           )}
           <div className="overflow-y-auto max-h-[600px] pr-4">
-            {wordDetails.map((d) => (
+            {renderWordInfo.map((d) => (
               <Collapsible
                 key={d.title}
                 title={d.title}
                 {...{ expanded, setExpanded }}
               >
-                {word && isEdit ? (
+                {wordInfo && isEdit ? (
                   <>
                     <DynamicMultipleTextarea
                       name={d.name}

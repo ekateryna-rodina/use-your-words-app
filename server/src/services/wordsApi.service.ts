@@ -8,6 +8,7 @@ export async function fetchInfo(word: string) {
   const endpointDictionary = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
   const endpointCollocations =
     "https://linguatools-english-collocations.p.rapidapi.com/bolls/";
+
   const endpointSynonymsAntonyms = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${process.env.MERRIAM_WEBSTER_THESAURUS}`;
   try {
     const dictionaryPromise = axios(endpointDictionary);
@@ -23,14 +24,12 @@ export async function fetchInfo(word: string) {
       },
     });
     const synonymsAntonymsPromise = axios(endpointSynonymsAntonyms);
-
     const [dictionaryResponse, collocationsResponse, synonymsAntonymsResponse] =
       await Promise.all([
         dictionaryPromise,
         collocationsPromise,
         synonymsAntonymsPromise,
       ]);
-
     return {
       ...dictionaryResponse.data[0],
       collocations: collocationsResponse.data,

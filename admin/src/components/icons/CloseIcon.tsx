@@ -1,8 +1,9 @@
-const CloseIcon = () => {
+const CloseIcon = ({ size }: { size?: number }) => {
+  const _size = size || 20;
   return (
     <svg
-      width="20"
-      height="20"
+      width={_size}
+      height={_size}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
 import { PronunciationType } from "../../types";
 import { AutofillPronunciation } from "../AutofillPronunciation";
 import { RecordPronunciation } from "../RecordPronunciation";
@@ -33,7 +34,11 @@ const PronunciationRadio = ({
   const [active, setActive] = useState<PronunciationType>(
     getValues("pronunciationRadio")
   );
-  const options = {
+  const {
+    isAutofill,
+    wordDetails: { fileUrl },
+  } = useAppSelector((state) => state.addNew);
+  const allOptions = {
     autofill: () => (
       <AutofillPronunciation
         {...{ active: active === "autofill", register, control }}
@@ -57,11 +62,27 @@ const PronunciationRadio = ({
       />
     ),
   };
-
+  const [options, setOptions] = useState(allOptions);
   const renderPronunciationOptionControl = (o: PronunciationType) => {
     return options[o as keyof typeof options]();
   };
-  console.log("def", getValues("pronunciationRadio"));
+  useEffect(() => {
+    if (isAutofill && fileUrl) {
+      setOptions(allOptions);
+      return;
+    }
+    const radioWithoutAutofill = Object.keys(allOptions).reduce(
+      (acc: any, curr) => {
+        if (curr !== "autofill") {
+          acc[curr] = allOptions[curr as keyof typeof allOptions];
+        }
+        return acc;
+      },
+      {}
+    );
+    setOptions(radioWithoutAutofill);
+    // eslint-disable-next-line
+  }, [isAutofill, fileUrl]);
   return (
     <>
       {Object.keys(options).map((o) => (
@@ -71,11 +92,7 @@ const PronunciationRadio = ({
               type="radio"
               className="mt-[8px]"
               value={o}
-              defaultChecked={
-                getValues("pronunciationRadio")
-                  ? getValues("pronunciationRadio") === o
-                  : false
-              }
+              defaultChecked={active === o}
               {...register("pronunciationRadio", {
                 onChange: () => setActive(getValues("pronunciationRadio")),
               })}

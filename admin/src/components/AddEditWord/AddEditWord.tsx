@@ -4,7 +4,7 @@ import { FieldError, useForm } from "react-hook-form";
 import { useAppSelector } from "../../app/hooks";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addWordSchema } from "../../schema/addWordSchema";
-import { FormValue, Word } from "../../types/";
+import { FormValue, Word } from "../../types";
 import request from "../../utils/request";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 

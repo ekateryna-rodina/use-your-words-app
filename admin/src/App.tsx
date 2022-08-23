@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
-import "./App.css";
 import { Layout } from "./components/Layout";
 import Quizzes from "./containers/Quizzes";
 import Vocabulary from "./containers/Vocabulary";
+import "./index.css";
 import { Tabs } from "./types";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     // eslint-disable-next-line
   }, []);
   return (
-    <main className="px-4 py-4">
+    <main>
       <Layout>
         <Routes>
           <Route path="/vocabulary" element={<Vocabulary />} />

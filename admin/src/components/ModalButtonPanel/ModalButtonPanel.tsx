@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  setAutofillError,
   setIsAutofill,
   setWordDetails,
 } from "../../features/addNew/addnew-slice";
@@ -18,24 +19,29 @@ type ModalButtonPanelProps = {
 const ModalButtonPanel = ({ isNew }: ModalButtonPanelProps) => {
   const { isEdit } = useAppSelector((state) => state.wordDetails);
   const { word } = useAppSelector((state) => state.addNew);
-  const [trigger, result, lastPromiseInfo] =
-    apiSlice.endpoints.autofill.useLazyQuery();
+  const [trigger, result] = apiSlice.endpoints.autofill.useLazyQuery();
   const dispatch = useAppDispatch();
   const editHandler = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(setEditMode(true));
   };
   const autofillHandler = async () => {
-    dispatch(setIsAutofill(true));
     trigger(word, true);
   };
   useEffect(() => {
-    if (!result.data) return;
+    console.log(result);
+    if (result.isUninitialized || result.isLoading) return;
+    if (result.isError) {
+      dispatch(setAutofillError(true));
+      return;
+    }
     const autofillWord = result.data?.wordInfo as Word;
     dispatch(setWordDetails(autofillWord));
+    dispatch(setIsAutofill(true));
+    // eslint-disable-next-line
   }, [result]);
   return (
-    <div className="absolute right-0 top-0 flex justify-start items-center gap-4">
+    <div className="absolute right-0 top-0 flex justify-start items-center gap-[5px]">
       {isNew ? (
         <button
           className="bg-blue-700 w-8 h-8 flex justify-center items-center"
@@ -64,7 +70,7 @@ const ModalButtonPanel = ({ isNew }: ModalButtonPanelProps) => {
         </button>
       )}
 
-      <button>
+      <button className="ml-[5px]">
         <CloseIcon />
       </button>
     </div>

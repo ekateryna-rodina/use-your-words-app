@@ -21,6 +21,10 @@ button{
   all: unset;
 }
 
+input[type="text"]{
+ @apply  p-4 border border-slate-300 h-8 outlined;
+}
+
 .bordered-tab {
   @apply py-[3px] border border-blue-300 border-t-0 border-l-0  border-r-0;
 }

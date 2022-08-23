@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { AddEdit } from "../components/AddEdit";
+// import { AddEdit } from "../components/AddEdit";
 import { ConfirmationWindow } from "../components/ConfirmationWindow";
 import AddIcon from "../components/icons/AddIcon";
 import { SearchVocabulary } from "../components/SearchVocabulary";
@@ -77,7 +78,7 @@ const Vocabulary = () => {
         <></>
       )} */}
       <div
-        className={`absolute inset-0 transition bg-slate-100 p-4 ${
+        className={`absolute inset-0 transition bg-slate-100 p-4 md:w-1/2 md:right-0 md:left-1/2 ${
           !currentWordId && !isNew ? "translate-y-full" : ""
         }`}
       >

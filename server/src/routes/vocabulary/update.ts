@@ -8,8 +8,6 @@ router.put(
   "/api/words/:wordId",
   validate(validateEditWord),
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-
     try {
       const wordInfo = await updateWord(req.body);
       res.status(200).json({ wordInfo });
