@@ -1,17 +1,16 @@
-import React from "react";
 import { Controller } from "react-hook-form";
+import { useAppSelector } from "../../app/hooks";
 import { TextField } from "../TextField";
 
 type AutofillPronunciationProps = {
   register: any;
-  active: boolean;
   control: any;
 };
 const AutofillPronunciation = ({
   register,
-  active,
   control,
 }: AutofillPronunciationProps) => {
+  const { pronounceFileType } = useAppSelector((state) => state.addNew);
   return (
     <>
       <Controller
@@ -20,9 +19,10 @@ const AutofillPronunciation = ({
         render={() => (
           <TextField
             label=""
+            styles="w-full"
             name="fileUrl"
             validate={register}
-            disabled={!active}
+            disabled={pronounceFileType !== "autofill"}
           />
         )}
       ></Controller>

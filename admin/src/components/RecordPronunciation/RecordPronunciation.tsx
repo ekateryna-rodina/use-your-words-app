@@ -1,19 +1,18 @@
-import React from "react";
 import { Controller } from "react-hook-form";
+import { useAppSelector } from "../../app/hooks";
 import { MediaRecorder } from "../MediaRecorder";
 
 type RecordPronunciationProps = {
-  active: boolean;
   control: any;
   word: string;
   setFile: (file: File | null) => void;
 };
 const RecordPronunciation = ({
-  active,
   control,
   word,
   setFile,
 }: RecordPronunciationProps) => {
+  const { pronounceFileType } = useAppSelector((state) => state.addNew);
   return (
     <>
       <Controller
@@ -21,7 +20,7 @@ const RecordPronunciation = ({
         control={control}
         render={({ field: { onChange } }) => (
           <MediaRecorder
-            disabled={!active}
+            disabled={pronounceFileType !== "record"}
             setFile={setFile}
             word={word}
             onChange={onChange}

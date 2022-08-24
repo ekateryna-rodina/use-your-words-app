@@ -7,6 +7,7 @@ interface AddNewState {
   word: string;
   wordDetails: Word;
   isAutofill: boolean;
+  pronounceFileType: "autofill" | "upload" | "record";
 }
 
 const initialState: AddNewState = {
@@ -14,6 +15,7 @@ const initialState: AddNewState = {
   word: "",
   isAutofillError: false,
   isAutofill: false,
+  pronounceFileType: "upload",
   wordDetails: {
     word: "",
     fileUrl: "",
@@ -62,6 +64,12 @@ const addNewSlice = createSlice({
     setAutofillError(state, action: PayloadAction<boolean>) {
       state.isAutofillError = action.payload;
     },
+    setPronounceType(
+      state,
+      action: PayloadAction<"autofill" | "upload" | "record">
+    ) {
+      state.pronounceFileType = action.payload;
+    },
   },
 });
 
@@ -71,5 +79,6 @@ export const {
   setWordDetails,
   setIsAutofill,
   setAutofillError,
+  setPronounceType,
 } = addNewSlice.actions;
 export default addNewSlice.reducer;

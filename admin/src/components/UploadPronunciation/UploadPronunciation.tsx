@@ -1,22 +1,21 @@
-import React from "react";
 import { Controller } from "react-hook-form";
+import { useAppSelector } from "../../app/hooks";
 import { FileUploader } from "../FileUploader";
 
 type UploadPronunciationProps = {
   control: any;
-  active: boolean;
   file: File | null;
   setFile: (file: File | null) => void;
   fileError: boolean;
   setFileError: (isError: boolean) => void;
 };
 const UploadPronunciation = ({
-  active,
   fileError,
   file,
   setFile,
   control,
 }: UploadPronunciationProps) => {
+  const { pronounceFileType } = useAppSelector((state) => state.addNew);
   return (
     <>
       <Controller
@@ -27,7 +26,7 @@ const UploadPronunciation = ({
             file={file}
             setFile={setFile}
             error={fileError}
-            disabled={!active}
+            disabled={pronounceFileType !== "upload"}
             onChange={onChange}
           />
         )}

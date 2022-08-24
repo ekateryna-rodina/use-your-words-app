@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setPronounceType } from "../../features/addNew/addnew-slice";
 import { PronunciationType } from "../../types";
 import { AutofillPronunciation } from "../AutofillPronunciation";
 import { RecordPronunciation } from "../RecordPronunciation";
@@ -30,24 +31,23 @@ const PronunciationRadio = ({
   control,
   getValues,
   word,
+  active,
 }: PronunciationRadioProps) => {
-  const [active, setActive] = useState<PronunciationType>(
-    getValues("pronunciationRadio")
-  );
   const {
     isAutofill,
+    pronounceFileType,
     wordDetails: { fileUrl },
   } = useAppSelector((state) => state.addNew);
+  const dispatch = useAppDispatch();
   const allOptions = {
     autofill: () => (
       <AutofillPronunciation
-        {...{ active: active === "autofill", register, control }}
+        {...{ isActive: pronounceFileType === "autofill", register, control }}
       />
     ),
     upload: () => (
       <UploadPronunciation
         {...{
-          active: active === "upload",
           file,
           setFile,
           fileError,
@@ -58,7 +58,13 @@ const PronunciationRadio = ({
     ),
     record: () => (
       <RecordPronunciation
-        {...{ active: active === "record", control, file, setFile, word }}
+        {...{
+          isActive: pronounceFileType === "record",
+          control,
+          file,
+          setFile,
+          word,
+        }}
       />
     ),
   };
@@ -90,11 +96,14 @@ const PronunciationRadio = ({
           <label>
             <input
               type="radio"
-              className="mt-[8px]"
+              className="mt-[8px] mr-[5px]"
               value={o}
               defaultChecked={active === o}
               {...register("pronunciationRadio", {
-                onChange: () => setActive(getValues("pronunciationRadio")),
+                onChange: () => {
+                  dispatch(setPronounceType(getValues("pronunciationRadio")));
+                  console.log("dispatch", getValues("pronunciationRadio"));
+                },
               })}
             />
             {radioLabel[o as keyof typeof radioLabel]}

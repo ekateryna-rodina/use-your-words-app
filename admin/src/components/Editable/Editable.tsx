@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setAutofillError,
   setIsAutofill,
+  setPronounceType,
   setWord,
   setWordDetails,
 } from "../../features/addNew/addnew-slice";
@@ -80,7 +81,6 @@ const Editable = ({
   const onNewWordEnterHandler = (word: string) => {
     dispatch(setWord(word));
     dispatch(setAutofillError(false));
-    console.log("eooo", getValues("word"));
   };
   const resetWordHandler = () => {
     dispatch(setWord(""));
@@ -112,6 +112,29 @@ const Editable = ({
 
     // eslint-disable-next-line
   }, [word, wordAutofill]);
+  useEffect(() => {
+    if (!wordAutofill.word) {
+      // reset form fields
+    } else {
+      // set form fields
+      if (wordAutofill.fileUrl) {
+        setValue("fileUrl", wordAutofill.fileUrl);
+        setValue("pronunciationRadio", "autofill");
+        dispatch(setPronounceType(getValues("pronunciationRadio")));
+      }
+      if (wordAutofill.partOfSpeech.length) {
+        const parts: string[] = partsOfSpeech
+          ?.filter((p) =>
+            (wordAutofill.partOfSpeech as string[]).includes(
+              (p as FormValue).value
+            )
+          )
+          .map((p) => p.id) as string[];
+        setValue("partOfSpeech", parts);
+      }
+    }
+    // eslint-disable-next-line
+  }, [wordAutofill]);
   return (
     <div className="relative">
       <div className="h-12">

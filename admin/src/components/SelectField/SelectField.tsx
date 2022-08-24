@@ -45,13 +45,15 @@ const SelectField = <T extends { id: string; value: string }>({
       <Controller
         control={control}
         name={name}
+        defaultValue={[]}
         render={({ field, fieldState, formState }) => (
           <Select
             isMulti
             styles={customStyles}
+            classNamePrefix={"react-select"}
             ref={field.ref}
+            value={selectOptions.filter((c) => field.value.includes(c.value))}
             options={selectOptions as []}
-            value={options.find((c) => c.value === field.value)}
             onChange={(val) => field.onChange(val)}
           />
         )}
