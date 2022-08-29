@@ -12,6 +12,7 @@ body {
   overflow: hidden;
 }
 
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -25,6 +26,18 @@ input[type="text"]{
  @apply  p-4 border border-slate-300 h-8 outlined;
 }
 
+.modal-container{
+  padding: 1rem;
+  height: 100%;
+}
+
+.word-details-container{
+  overflow-y: auto;
+  position: relative;
+  height: 90vh;
+  padding-right: 10px;
+}
+
 .bordered-tab {
   @apply py-[3px] border border-blue-300 border-t-0 border-l-0  border-r-0;
 }
@@ -33,9 +46,12 @@ input[type="text"]{
 }
 
 .loading {
-  @apply inline-block ml-[3px] text-xs text-center text-transparent animate-spin w-[1.2rem] h-[1.2rem] border-[1px] rounded-full border-t-amber-300 border-r-blue-300 border-b-rose-300 border-l-lime-300;
+  @apply inline-block text-xs text-center text-transparent animate-spin w-[1.2rem] h-[1.2rem] border-[1px] rounded-full border-t-amber-300 border-r-blue-300 border-b-rose-300 border-l-lime-300;
 }
 
+.loading.loading-lg{
+  @apply w-[3rem] h-[3rem]
+}
 .outlined:focus{
   outline: none;
   border-color: transparent;

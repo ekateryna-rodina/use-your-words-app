@@ -5,13 +5,8 @@ import { MediaRecorder } from "../MediaRecorder";
 type RecordPronunciationProps = {
   control: any;
   word: string;
-  setFile: (file: File | null) => void;
 };
-const RecordPronunciation = ({
-  control,
-  word,
-  setFile,
-}: RecordPronunciationProps) => {
+const RecordPronunciation = ({ control, word }: RecordPronunciationProps) => {
   const { pronounceFileType } = useAppSelector((state) => state.addNew);
   return (
     <>
@@ -21,7 +16,6 @@ const RecordPronunciation = ({
         render={({ field: { onChange } }) => (
           <MediaRecorder
             disabled={pronounceFileType !== "record"}
-            setFile={setFile}
             word={word}
             onChange={onChange}
           />

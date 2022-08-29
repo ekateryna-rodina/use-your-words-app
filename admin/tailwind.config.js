@@ -28,6 +28,9 @@ module.exports = {
       },
     },
   },
+  screens: {
+    xs: "539px", // min-width
+  },
   variants: {
     extend: {},
   },

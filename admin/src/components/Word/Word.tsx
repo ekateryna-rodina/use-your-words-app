@@ -71,7 +71,7 @@ const Word = ({
         words.filter((w) => w.word[0].toLowerCase() === letter.toLowerCase())
           .length -
           1
-          ? "border-b-0"
+          ? "border-b-0 md:border-b-[1px]"
           : ""
       } sm:border-b-1`}
       key={word.id}

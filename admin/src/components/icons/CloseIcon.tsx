@@ -1,5 +1,5 @@
 const CloseIcon = ({ size }: { size?: number }) => {
-  const _size = size || 20;
+  const _size = size || 25;
   return (
     <svg
       width={_size}

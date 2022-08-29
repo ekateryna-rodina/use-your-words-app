@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import ListenIcon from "../icons/ListenIcon";
 
 type PlaySoundProps = {
@@ -13,7 +13,10 @@ const PlaySound = ({ fileUrl }: PlaySoundProps) => {
     <>
       <audio ref={ref} id="player" src={fileUrl}></audio>
       <div>
-        <button onClick={playSound}>
+        <button
+          onClick={playSound}
+          className="flex justify-center items-center"
+        >
           <ListenIcon />
         </button>
       </div>

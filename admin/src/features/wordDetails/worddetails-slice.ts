@@ -26,8 +26,13 @@ const wordDetailsSlice = createSlice({
     setEditMode(state, action: PayloadAction<boolean>) {
       state.isEdit = action.payload;
     },
+    reset(state) {
+      state.currentWordId = null;
+      state.isEdit = false;
+    },
   },
 });
 
-export const { setEditMode, setCurrentWordId } = wordDetailsSlice.actions;
+export const { setEditMode, setCurrentWordId, reset } =
+  wordDetailsSlice.actions;
 export default wordDetailsSlice.reducer;

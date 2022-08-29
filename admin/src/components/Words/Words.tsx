@@ -35,13 +35,13 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
   }, [searchState]);
   if (apiWordsResponse.isLoading || !words) {
     return (
-      <div className="h-full flex justify-center items-center">
-        <div className="loading"></div>
+      <div className="h-full flex justify-center items-start pt-8">
+        <div className="loading loading-lg"></div>
       </div>
     );
   }
   return (
-    <div className="flex flex-col mt-4">
+    <div className="flex flex-col mt-4 max-h-[72vh] overflow-y-auto pr-[10px]">
       {Array.from(new Set(words?.map((w) => w.word[0].toUpperCase())))
         .sort()
         .map((l, i) => (
@@ -49,7 +49,7 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
             <span className="text-xl text-slate-300 font-bold mb-[4px]" key={l}>
               {l}
             </span>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-[3px]">
+            <div className="flex flex-col md:flex-row flex-wrap md:gap-[3px]">
               {words
                 .filter((w) => w.word[0].toLowerCase() === l.toLowerCase())
                 .map((w, i) => (

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { AddEdit } from "../components/AddEdit";
-// import { AddEdit } from "../components/AddEdit";
 import { ConfirmationWindow } from "../components/ConfirmationWindow";
 import AddIcon from "../components/icons/AddIcon";
+import CloseIcon from "../components/icons/CloseIcon";
 import { SearchVocabulary } from "../components/SearchVocabulary";
 import Words from "../components/Words/Words";
-import { setIsNew } from "../features/addNew/addnew-slice";
+// import { AddEdit } from "../components/AddEdit";
+import { reset as resetNew, setIsNew } from "../features/addNew/addnew-slice";
 import { useFetchPartsOfSpeechQuery } from "../features/app-api-slice";
 import { toggleConfirm } from "../features/confirm/confirm-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
+import { reset as resetExisting } from "../features/wordDetails/worddetails-slice";
 import { useDeferredPromise } from "../hooks/useDeferredPromise";
 import { PartOfSpeech } from "../types/";
 
@@ -51,7 +53,10 @@ const Vocabulary = () => {
       setQuizQuestions([...quizQuestions, wordId]);
     }
   };
-
+  const closeModalHandler = () => {
+    dispatch(resetNew());
+    dispatch(resetExisting());
+  };
   return (
     <>
       <div className="flex justify-start items-center">
@@ -77,12 +82,21 @@ const Vocabulary = () => {
       ) : (
         <></>
       )} */}
+      {/* md:w-1/2 md:right-0 md:left-1/2 */}
       <div
-        className={`absolute inset-0 transition bg-slate-100 p-4 md:w-1/2 md:right-0 md:left-1/2 ${
+        className={`absolute inset-0 transition bg-slate-100 ${
           !currentWordId && !isNew ? "translate-y-full" : ""
         }`}
       >
-        <AddEdit partsOfSpeech={partsOfSpeech} />
+        <div className="relative w-full h-full">
+          <AddEdit partsOfSpeech={partsOfSpeech} />
+          <button
+            className="absolute right-4 top-4 translate-y-[calc(50%-.5rem)]"
+            onClick={closeModalHandler}
+          >
+            <CloseIcon />
+          </button>
+        </div>
       </div>
       <ConfirmationWindow onConfirm={handleConfirm} onCancel={handleClose} />
     </>

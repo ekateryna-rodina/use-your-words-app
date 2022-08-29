@@ -1,19 +1,18 @@
 import React, { FormEvent } from "react";
 import { useFieldArray } from "react-hook-form";
-import { FormValue } from "../../types/";
 import AddIcon from "../icons/AddIcon";
 import MinusIcon from "../icons/MinusIcon";
 
 type DynamicMultipleTextareaProps = {
   name: string;
-  formValuesInit?: FormValue[] | string[];
+  // formValuesInit?: FormValue[] | string[];
   control: any;
   register: any;
 };
 
 const DynamicMultipleTextarea = ({
   name,
-  formValuesInit,
+
   control,
   register,
 }: DynamicMultipleTextareaProps) => {

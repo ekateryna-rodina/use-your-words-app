@@ -8,6 +8,10 @@ interface AddNewState {
   wordDetails: Word;
   isAutofill: boolean;
   pronounceFileType: "autofill" | "upload" | "record";
+  media: {
+    file: File | string | null;
+    error: boolean;
+  };
 }
 
 const initialState: AddNewState = {
@@ -16,6 +20,7 @@ const initialState: AddNewState = {
   isAutofillError: false,
   isAutofill: false,
   pronounceFileType: "upload",
+  media: { file: null, error: false },
   wordDetails: {
     word: "",
     fileUrl: "",
@@ -70,6 +75,33 @@ const addNewSlice = createSlice({
     ) {
       state.pronounceFileType = action.payload;
     },
+    setMediaFile(state, action: PayloadAction<File | string>) {
+      state.media.file = action.payload;
+    },
+    setMediaError(state, action: PayloadAction<boolean>) {
+      state.media.error = action.payload;
+    },
+    reset(state) {
+      state.isNew = false;
+      state.isAutofill = false;
+      state.word = "";
+      state.isAutofillError = false;
+      state.isAutofill = false;
+      state.pronounceFileType = "upload";
+      state.media = { file: null, error: false };
+      state.wordDetails = {
+        word: "",
+        fileUrl: "",
+        meanings: [],
+        partOfSpeech: [],
+        phrases: [],
+        synonyms: [],
+        antonyms: [],
+        pronunciationRadio: "upload",
+        uploadPronunciation: "",
+        recordPronunciation: "",
+      };
+    },
   },
 });
 
@@ -80,5 +112,8 @@ export const {
   setIsAutofill,
   setAutofillError,
   setPronounceType,
+  setMediaFile,
+  setMediaError,
+  reset,
 } = addNewSlice.actions;
 export default addNewSlice.reducer;

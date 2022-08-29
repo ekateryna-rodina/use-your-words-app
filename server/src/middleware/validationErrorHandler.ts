@@ -10,6 +10,7 @@ function apiErrorHandler(
   if (err instanceof ValidationError) {
     return res.status(err.code).json(err.message);
   }
+  console.log(err);
   return res.status(500).json("Server error");
 }
 

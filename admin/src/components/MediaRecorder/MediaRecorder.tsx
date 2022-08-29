@@ -1,25 +1,22 @@
 import { useEffect } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
+import { useAppDispatch } from "../../app/hooks";
+import { setMediaFile } from "../../features/addNew/addnew-slice";
 import RecordIcon from "../icons/RecordIcon";
 import StopIcon from "../icons/StopIcon";
 
 type MediaRecorderProps = {
   disabled: boolean;
-  setFile: (file: File | null) => void;
   word: string;
   onChange: (fileName: string) => void;
 };
-const MediaRecorder = ({
-  disabled,
-  setFile,
-  word,
-  onChange,
-}: MediaRecorderProps) => {
+const MediaRecorder = ({ disabled, word, onChange }: MediaRecorderProps) => {
   const { status, startRecording, stopRecording, mediaBlobUrl } =
     useReactMediaRecorder({
       video: false,
       audio: true,
     });
+  const dispatch = useAppDispatch();
   const convertToBlob = async () => {
     return await fetch(mediaBlobUrl!).then((response) => response.blob());
   };
@@ -31,7 +28,7 @@ const MediaRecorder = ({
         type: blob.type,
       });
       onChange(file.name);
-      setFile(file);
+      dispatch(setMediaFile(file));
     });
     // eslint-disable-next-line
   }, [mediaBlobUrl]);

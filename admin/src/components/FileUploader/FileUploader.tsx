@@ -1,24 +1,21 @@
 import Dropzone, { FileRejection } from "react-dropzone";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setMediaFile } from "../../features/addNew/addnew-slice";
 
 type FileUploaderProps = {
-  setFile: (file: File) => void;
-  file: File | null;
-  error: boolean;
   disabled: boolean;
   onChange: (fileName: string) => void;
 };
-const FileUploader = ({
-  setFile,
-  file,
-  error,
-  disabled,
-  onChange,
-}: FileUploaderProps) => {
+const FileUploader = ({ disabled, onChange }: FileUploaderProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    media: { file, error },
+  } = useAppSelector((state) => state.addNew);
   async function dropFileHandler(
     files: File[],
     rejectedFiles: FileRejection[]
   ) {
-    setFile(files[0]);
+    dispatch(setMediaFile(files[0]));
   }
   let maxSize = 5e6;
   return (
@@ -46,7 +43,7 @@ const FileUploader = ({
               borderStyle: "dashed",
               textAlign: "center",
               pointerEvents: disabled ? "none" : "auto",
-              borderColor: file?.name
+              borderColor: (file as File)?.name
                 ? "#6EE7B7"
                 : error
                 ? "red"
@@ -57,7 +54,7 @@ const FileUploader = ({
             {...getRootProps()}
           >
             <input {...getInputProps({})} />
-            {!file?.name ? (
+            {!(file as File)?.name.length ? (
               <p
                 style={{
                   color: disabled ? "gray" : "blue",
@@ -67,7 +64,9 @@ const FileUploader = ({
                 Upload mp3 file
               </p>
             ) : (
-              <p style={{ color: "blue", fontWeight: "bold" }}>{file.name}</p>
+              <p style={{ color: "blue", fontWeight: "bold" }}>
+                {(file as File)?.name}
+              </p>
             )}
           </div>
         </section>

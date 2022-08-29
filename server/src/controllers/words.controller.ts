@@ -21,10 +21,10 @@ export async function saveWord(word: Word) {
   const wordFullInfo = {
     wordInfo,
     partOfSpeech: partOfSpeech as string[],
-    synonyms: synonyms as string[],
-    antonyms: antonyms as string[],
-    phrases: phrases as string[],
-    meanings: meanings as string[],
+    synonyms: synonyms.map((s) => s.value) as string[],
+    antonyms: antonyms.map((a) => a.value) as string[],
+    phrases: phrases.map((p) => p.value) as string[],
+    meanings: meanings.map((m) => m.value) as string[],
   };
   const newWord = await postWord(wordFullInfo);
   return newWord;

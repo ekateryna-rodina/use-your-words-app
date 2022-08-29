@@ -1,38 +1,17 @@
 import { useAppSelector } from "../../app/hooks";
-import { useFetchVocabularyQuery } from "../../features/app-api-slice";
-import { PartOfSpeech, WordWithId } from "../../types";
-import { Editable } from "../Editable";
+import { PartOfSpeech } from "../../types";
+import { ExistingWordEditable } from "../ExistingWordEditable";
+// import { ExistingWordEditable } from "../ExistingWordEditable";
+import { NewWordEditable } from "../NewWordEditable";
 
 type AddEditProps = {
   partsOfSpeech: PartOfSpeech[];
 };
 const AddEdit = ({ partsOfSpeech }: AddEditProps) => {
-  const { wordDetails, word, isNew } = useAppSelector((state) => state.addNew);
-  const { currentWordId, isEdit } = useAppSelector(
-    (state) => state.wordDetails
-  );
-  const fromResult = useFetchVocabularyQuery(undefined, {
-    selectFromResult: ({ isSuccess, data }) => ({
-      isSuccess,
-      data: data,
-    }),
-  });
-  const currentWord = fromResult.data?.words.filter(
-    (w) => w.id === currentWordId
-  )[0] as WordWithId;
+  const { currentWordId } = useAppSelector((state) => state.wordDetails);
 
-  if (currentWordId)
-    return <Editable word={currentWord} isEdit={isEdit} isNew={isNew} />;
-  if (isNew)
-    return (
-      <Editable
-        word={{ ...wordDetails, word }}
-        isEdit={true}
-        isNew={isNew}
-        partsOfSpeech={partsOfSpeech}
-      />
-    );
-  return <></>;
+  if (currentWordId) return <ExistingWordEditable />;
+  return <NewWordEditable partsOfSpeech={partsOfSpeech} />;
 };
 
 export default AddEdit;

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PartOfSpeech, Word, WordWithId } from "../types";
+import { v4 } from "uuid";
+import { FormValue, PartOfSpeech, Word, WordWithId } from "../types";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -35,12 +36,31 @@ export const apiSlice = createApi({
             await queryFulfilled;
           } catch {
             patchResult.undo();
-
-            /**
-             * Alternatively, on failure you can invalidate the corresponding cache tags
-             * to trigger a re-fetch:
-             * dispatch(api.util.invalidateTags(['Post']))
-             */
+            dispatch(apiSlice.util.invalidateTags(["Word"]));
+          }
+        },
+      }),
+      addNewWord: builder.mutation<WordWithId, Word>({
+        query: (word: Word) => ({
+          url: `words/`,
+          method: "POST",
+          body: word,
+        }),
+        invalidatesTags: ["Word"],
+        async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+          const patchResult = dispatch(
+            apiSlice.util.updateQueryData(
+              "fetchVocabulary",
+              undefined,
+              (draft) => {
+                Object.assign(draft, patch);
+              }
+            )
+          );
+          try {
+            await queryFulfilled;
+          } catch {
+            patchResult.undo();
           }
         },
       }),
@@ -60,6 +80,45 @@ export const apiSlice = createApi({
         query: (word: string) => ({
           url: `wordsApi?word=${word}`,
         }),
+        transformResponse: (
+          response:
+            | {
+                wordInfo: Word;
+              }
+            | Promise<{
+                wordInfo: Word;
+              }>
+        ) => {
+          if (response instanceof Promise) return response;
+          const wordInfoAsObj = response as {
+            wordInfo: Word;
+          };
+          wordInfoAsObj.wordInfo.meanings = wordInfoAsObj.wordInfo.meanings.map(
+            (m: string | FormValue) => ({
+              id: v4(),
+              value: m as string,
+            })
+          );
+          wordInfoAsObj.wordInfo.phrases = wordInfoAsObj.wordInfo.phrases.map(
+            (m: string | FormValue) => ({
+              id: v4(),
+              value: m as string,
+            })
+          );
+          wordInfoAsObj.wordInfo.synonyms = wordInfoAsObj.wordInfo.synonyms.map(
+            (m: string | FormValue) => ({
+              id: v4(),
+              value: m as string,
+            })
+          );
+          wordInfoAsObj.wordInfo.antonyms = wordInfoAsObj.wordInfo.antonyms.map(
+            (m: string | FormValue) => ({
+              id: v4(),
+              value: m as string,
+            })
+          );
+          return wordInfoAsObj;
+        },
       }),
     };
   },
@@ -71,4 +130,5 @@ export const {
   useUpdateWordMutation,
   useDeleteWordMutation,
   useLazyAutofillQuery,
+  useAddNewWordMutation,
 } = apiSlice;

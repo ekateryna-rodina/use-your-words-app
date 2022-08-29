@@ -16,14 +16,14 @@ function App() {
     // eslint-disable-next-line
   }, []);
   return (
-    <main>
+    <div className="relative w-screen h-screen overflow-hidden">
       <Layout>
         <Routes>
           <Route path="/vocabulary" element={<Vocabulary />} />
           <Route path="/quizzes" element={<Quizzes />} />
         </Routes>
       </Layout>
-    </main>
+    </div>
   );
 }
 

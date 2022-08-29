@@ -8,10 +8,6 @@ import { UploadPronunciation } from "../UploadPronunciation";
 
 type PronunciationRadioProps = {
   register: any;
-  file: File | null;
-  setFile: (file: File | null) => void;
-  fileError: boolean;
-  setFileError: (isError: boolean) => void;
   control: any;
   getValues: any;
   active: PronunciationType;
@@ -24,10 +20,6 @@ const radioLabel = {
 };
 const PronunciationRadio = ({
   register,
-  file,
-  setFile,
-  fileError,
-  setFileError,
   control,
   getValues,
   word,
@@ -35,23 +27,14 @@ const PronunciationRadio = ({
 }: PronunciationRadioProps) => {
   const {
     isAutofill,
-    pronounceFileType,
     wordDetails: { fileUrl },
   } = useAppSelector((state) => state.addNew);
   const dispatch = useAppDispatch();
   const allOptions = {
-    autofill: () => (
-      <AutofillPronunciation
-        {...{ isActive: pronounceFileType === "autofill", register, control }}
-      />
-    ),
+    autofill: () => <AutofillPronunciation {...{ register, control }} />,
     upload: () => (
       <UploadPronunciation
         {...{
-          file,
-          setFile,
-          fileError,
-          setFileError,
           control,
         }}
       />
@@ -59,10 +42,7 @@ const PronunciationRadio = ({
     record: () => (
       <RecordPronunciation
         {...{
-          isActive: pronounceFileType === "record",
           control,
-          file,
-          setFile,
           word,
         }}
       />
@@ -102,7 +82,6 @@ const PronunciationRadio = ({
               {...register("pronunciationRadio", {
                 onChange: () => {
                   dispatch(setPronounceType(getValues("pronunciationRadio")));
-                  console.log("dispatch", getValues("pronunciationRadio"));
                 },
               })}
             />
