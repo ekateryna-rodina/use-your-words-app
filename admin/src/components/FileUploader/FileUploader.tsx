@@ -1,6 +1,6 @@
 import Dropzone, { FileRejection } from "react-dropzone";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setMediaFile } from "../../features/addNew/addnew-slice";
+import { setMediaFile } from "../../features/addNewWord/addnewword-slice";
 
 type FileUploaderProps = {
   disabled: boolean;
@@ -10,7 +10,7 @@ const FileUploader = ({ disabled, onChange }: FileUploaderProps) => {
   const dispatch = useAppDispatch();
   const {
     media: { file, error },
-  } = useAppSelector((state) => state.addNew);
+  } = useAppSelector((state) => state.addNewWord);
   async function dropFileHandler(
     files: File[],
     rejectedFiles: FileRejection[]

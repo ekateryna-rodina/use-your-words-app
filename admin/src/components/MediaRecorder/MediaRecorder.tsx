@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useAppDispatch } from "../../app/hooks";
-import { setMediaFile } from "../../features/addNew/addnew-slice";
+import { setMediaFile } from "../../features/addNewWord/addnewword-slice";
 import RecordIcon from "../icons/RecordIcon";
 import StopIcon from "../icons/StopIcon";
 

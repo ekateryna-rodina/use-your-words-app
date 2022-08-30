@@ -6,7 +6,7 @@ type UploadPronunciationProps = {
   control: any;
 };
 const UploadPronunciation = ({ control }: UploadPronunciationProps) => {
-  const { pronounceFileType } = useAppSelector((state) => state.addNew);
+  const { pronounceFileType } = useAppSelector((state) => state.addNewWord);
 
   return (
     <>

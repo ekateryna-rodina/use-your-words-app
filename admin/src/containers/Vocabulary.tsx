@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { AddEdit } from "../components/AddEdit";
+import { useAppDispatch } from "../app/hooks";
 import { ConfirmationWindow } from "../components/ConfirmationWindow";
 import AddIcon from "../components/icons/AddIcon";
-import CloseIcon from "../components/icons/CloseIcon";
 import { SearchVocabulary } from "../components/SearchVocabulary";
 import Words from "../components/Words/Words";
-// import { AddEdit } from "../components/AddEdit";
-import { reset as resetNew, setIsNew } from "../features/addNew/addnew-slice";
+import {
+  setIsNew,
+  setPartsOfSpeech,
+} from "../features/addNewWord/addnewword-slice";
 import { useFetchPartsOfSpeechQuery } from "../features/app-api-slice";
 import { toggleConfirm } from "../features/confirm/confirm-slice";
 import { setActiveTab } from "../features/tabs/tabs-slice";
-import { reset as resetExisting } from "../features/wordDetails/worddetails-slice";
 import { useDeferredPromise } from "../hooks/useDeferredPromise";
-import { PartOfSpeech } from "../types/";
 
 const Vocabulary = () => {
-  const [partsOfSpeech, setPartsOfSpeech] = useState<PartOfSpeech[]>([]);
   const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
   const { defer, deferRef } = useDeferredPromise<boolean>();
-  const { currentWordId } = useAppSelector((state) => state.wordDetails);
+
   const apiPartsOfSpeechResponse = useFetchPartsOfSpeechQuery();
-  const { isNew } = useAppSelector((state) => state.addNew);
+
   const handleConfirm = () => {
     dispatch(toggleConfirm(false));
     deferRef.current?.resolve(true);
@@ -42,7 +39,7 @@ const Vocabulary = () => {
 
   useEffect(() => {
     if (apiPartsOfSpeechResponse.isLoading) return;
-    setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []);
+    dispatch(setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []));
   }, [apiPartsOfSpeechResponse]);
 
   const toggleQuizList = (wordId: string) => {
@@ -53,10 +50,7 @@ const Vocabulary = () => {
       setQuizQuestions([...quizQuestions, wordId]);
     }
   };
-  const closeModalHandler = () => {
-    dispatch(resetNew());
-    dispatch(resetExisting());
-  };
+
   return (
     <>
       <div className="flex justify-start items-center">
@@ -83,21 +77,7 @@ const Vocabulary = () => {
         <></>
       )} */}
       {/* md:w-1/2 md:right-0 md:left-1/2 */}
-      <div
-        className={`absolute inset-0 transition bg-slate-100 ${
-          !currentWordId && !isNew ? "translate-y-full" : ""
-        }`}
-      >
-        <div className="relative w-full h-full">
-          <AddEdit partsOfSpeech={partsOfSpeech} />
-          <button
-            className="absolute right-4 top-4 translate-y-[calc(50%-.5rem)]"
-            onClick={closeModalHandler}
-          >
-            <CloseIcon />
-          </button>
-        </div>
-      </div>
+
       <ConfirmationWindow onConfirm={handleConfirm} onCancel={handleClose} />
     </>
   );

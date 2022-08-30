@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Word } from "../../types";
+import { PartOfSpeech, Word } from "../../types";
 
-interface AddNewState {
+interface AddNewWordState {
+  partsOfSpeech: PartOfSpeech[];
   isNew: boolean;
   isAutofillError: boolean;
   word: string;
@@ -14,7 +15,8 @@ interface AddNewState {
   };
 }
 
-const initialState: AddNewState = {
+const initialState: AddNewWordState = {
+  partsOfSpeech: [],
   isNew: false,
   word: "",
   isAutofillError: false,
@@ -35,8 +37,8 @@ const initialState: AddNewState = {
   },
 };
 
-const addNewSlice = createSlice({
-  name: "addNew",
+const addNewWordSlice = createSlice({
+  name: "addNewWord",
   initialState,
   reducers: {
     setIsNew(state, action: PayloadAction<boolean>) {
@@ -102,6 +104,9 @@ const addNewSlice = createSlice({
         recordPronunciation: "",
       };
     },
+    setPartsOfSpeech(state, action: PayloadAction<PartOfSpeech[]>) {
+      state.partsOfSpeech = action.payload;
+    },
   },
 });
 
@@ -114,6 +119,7 @@ export const {
   setPronounceType,
   setMediaFile,
   setMediaError,
+  setPartsOfSpeech,
   reset,
-} = addNewSlice.actions;
-export default addNewSlice.reducer;
+} = addNewWordSlice.actions;
+export default addNewWordSlice.reducer;

@@ -10,7 +10,7 @@ const AutofillPronunciation = ({
   register,
   control,
 }: AutofillPronunciationProps) => {
-  const { pronounceFileType } = useAppSelector((state) => state.addNew);
+  const { pronounceFileType } = useAppSelector((state) => state.addNewWord);
   return (
     <>
       <Controller

@@ -9,7 +9,7 @@ import {
   setPronounceType,
   setWord,
   setWordDetails,
-} from "../../features/addNew/addnew-slice";
+} from "../../features/addNewWord/addnewword-slice";
 import { apiSlice, useAddNewWordMutation } from "../../features/app-api-slice";
 import { setLoading } from "../../features/loading/loading-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
@@ -23,17 +23,14 @@ import SaveIcon from "../icons/SaveIcon";
 import { PronunciationRadio } from "../PronunciationRadio";
 import { SelectField } from "../SelectField";
 
-const NewWordEditable = ({
-  partsOfSpeech,
-}: {
-  partsOfSpeech: PartOfSpeech[];
-}) => {
+const NewWordEditable = () => {
   const {
     wordDetails,
     word,
     isAutofillError,
+    partsOfSpeech,
     media: { file, error: fileError },
-  } = useAppSelector((state) => state.addNew);
+  } = useAppSelector((state) => state.addNewWord);
   const { isLoading } = useAppSelector((state) => state.loading);
   const resolver = useYupValidationResolver(addWordSchema);
   const [trigger, result] = apiSlice.endpoints.autofill.useLazyQuery();

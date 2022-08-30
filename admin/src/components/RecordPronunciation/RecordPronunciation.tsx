@@ -7,7 +7,7 @@ type RecordPronunciationProps = {
   word: string;
 };
 const RecordPronunciation = ({ control, word }: RecordPronunciationProps) => {
-  const { pronounceFileType } = useAppSelector((state) => state.addNew);
+  const { pronounceFileType } = useAppSelector((state) => state.addNewWord);
   return (
     <>
       <Controller

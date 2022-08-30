@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { v4 } from "uuid";
-import { FormValue, PartOfSpeech, Word, WordWithId } from "../types";
+import { FormValue, PartOfSpeech, Quiz, Word, WordWithId } from "../types";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -120,6 +120,11 @@ export const apiSlice = createApi({
           return wordInfoAsObj;
         },
       }),
+      getQuizzes: builder.query<Quiz[], void>({
+        query() {
+          return "/quiz";
+        },
+      }),
     };
   },
 });
@@ -131,4 +136,5 @@ export const {
   useDeleteWordMutation,
   useLazyAutofillQuery,
   useAddNewWordMutation,
+  useGetQuizzesQuery,
 } = apiSlice;

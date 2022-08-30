@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setPronounceType } from "../../features/addNew/addnew-slice";
+import { setPronounceType } from "../../features/addNewWord/addnewword-slice";
 import { PronunciationType } from "../../types";
 import { AutofillPronunciation } from "../AutofillPronunciation";
 import { RecordPronunciation } from "../RecordPronunciation";
@@ -28,7 +28,7 @@ const PronunciationRadio = ({
   const {
     isAutofill,
     wordDetails: { fileUrl },
-  } = useAppSelector((state) => state.addNew);
+  } = useAppSelector((state) => state.addNewWord);
   const dispatch = useAppDispatch();
   const allOptions = {
     autofill: () => <AutofillPronunciation {...{ register, control }} />,
