@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../app/hooks";
 import { ConfirmationWindow } from "../components/ConfirmationWindow";
 import AddIcon from "../components/icons/AddIcon";
@@ -14,7 +14,6 @@ import { setActiveTab } from "../features/tabs/tabs-slice";
 import { useDeferredPromise } from "../hooks/useDeferredPromise";
 
 const Vocabulary = () => {
-  const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
   const dispatch = useAppDispatch();
   const { defer, deferRef } = useDeferredPromise<boolean>();
 
@@ -40,16 +39,8 @@ const Vocabulary = () => {
   useEffect(() => {
     if (apiPartsOfSpeechResponse.isLoading) return;
     dispatch(setPartsOfSpeech(apiPartsOfSpeechResponse.data ?? []));
+    //eslint-disable-next-line
   }, [apiPartsOfSpeechResponse]);
-
-  const toggleQuizList = (wordId: string) => {
-    if (quizQuestions.includes(wordId)) {
-      const newQuizQuestions = quizQuestions.filter((q) => q !== wordId);
-      setQuizQuestions(newQuizQuestions);
-    } else {
-      setQuizQuestions([...quizQuestions, wordId]);
-    }
-  };
 
   return (
     <>
@@ -64,20 +55,6 @@ const Vocabulary = () => {
       </div>
 
       <Words allowDelete={allowDelete} />
-      {/* {modal.show ? (
-        <AddEditWord word={currentWord} tempParts={partsOfSpeech} />
-      ) : (
-        <></>
-      )}
-      {showCreateQuizModal ? (
-        <CreateQuiz
-          words={words?.filter((w) => quizQuestions.includes(w.id)) ?? []}
-        />
-      ) : (
-        <></>
-      )} */}
-      {/* md:w-1/2 md:right-0 md:left-1/2 */}
-
       <ConfirmationWindow onConfirm={handleConfirm} onCancel={handleClose} />
     </>
   );

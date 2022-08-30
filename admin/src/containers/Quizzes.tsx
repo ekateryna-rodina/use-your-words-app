@@ -11,6 +11,7 @@ const Quizzes = () => {
   const { data, isLoading } = useGetQuizzesQuery();
   useEffect(() => {
     dispatch(setActiveTab("quizzes"));
+    // eslint-disable-next-line
   }, []);
   return (
     <>
@@ -35,3 +36,31 @@ export default Quizzes;
 // -- generate questions
 // -- can remove questions
 // -- save quiz
+
+{
+  /* {modal.show ? (
+        <AddEditWord word={currentWord} tempParts={partsOfSpeech} />
+      ) : (
+        <></>
+      )}
+      {showCreateQuizModal ? (
+        <CreateQuiz
+          words={words?.filter((w) => quizQuestions.includes(w.id)) ?? []}
+        />
+      ) : (
+        <></>
+      )} */
+}
+{
+  /* md:w-1/2 md:right-0 md:left-1/2 */
+}
+
+// const [quizQuestions, setQuizQuestions] = useState<string[]>([]);
+// const toggleQuizList = (wordId: string) => {
+//   if (quizQuestions.includes(wordId)) {
+//     const newQuizQuestions = quizQuestions.filter((q) => q !== wordId);
+//     setQuizQuestions(newQuizQuestions);
+//   } else {
+//     setQuizQuestions([...quizQuestions, wordId]);
+//   }
+// };

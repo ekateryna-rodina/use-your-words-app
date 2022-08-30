@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { WordWithId } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import { useFetchVocabularyQuery } from "../../features/app-api-slice";
-import { WordWithId } from "../../types";
 import Word from "../Word/Word";
 
 const Words = ({ allowDelete }: { allowDelete: Function }) => {
@@ -67,103 +67,6 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
             </div>
           </div>
         ))}
-      {/* {words.map((w, i) => (
-      <div
-        className={`border border-slate-300 p-4 ${
-          i !== words.length - 1 ? "border-b-0" : ""
-        }`}
-        key={w.id}
-      >
-        {w.word}
-      </div>
-    ))} */}
-
-      {/* <button
-      disabled={quizQuestions.length < quizQuestionsLimitLength}
-      onClick={() => setShowCreateQuizModal(true)}
-    >
-      Create Quiz
-    </button> */}
-      {/* <table style={{ width: "100%", height: "100%" }}>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Word</th>
-          <th>Part of speech</th>
-          <th>Pronounce</th>
-          <th>Meaning</th>
-          <th>Phases</th>
-          <th>Synonyms</th>
-          <th>Antonyms</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {words.map((w) => (
-          <tr key={w.id}>
-            <td>
-              <input
-                type="checkbox"
-                disabled={
-                  quizQuestions.length >= quizQuestionsLimitLength &&
-                  !quizQuestions.includes(w.id)
-                }
-                onClick={() => toggleQuizList(w.id)}
-              />
-            </td>
-            <td>{w.word}</td>
-            <td>
-              <ul>
-                {w.partOfSpeech.map((item: {}) => (
-                  <li key={(item as FormValue).id}>
-                    {(item as FormValue).value}
-                  </li>
-                ))}
-              </ul>
-            </td>
-            <td>
-              <PlaySound fileUrl={w.fileUrl} />
-            </td>
-            <td>
-              {w.meanings.map((item: {}) => (
-                <li key={(item as FormValue).id}>
-                  {(item as FormValue).value}
-                </li>
-              ))}
-            </td>
-            <td>
-              {w.phrases.map((item: {}) => (
-                <li key={(item as FormValue).id}>
-                  {(item as FormValue).value}
-                </li>
-              ))}
-            </td>
-            <td>
-              {w.synonyms.map((item: {}) => (
-                <li key={(item as FormValue).id}>
-                  {(item as FormValue).value}
-                </li>
-              ))}
-            </td>
-            <td>
-              {w.antonyms.map((item: {}) => (
-                <li key={(item as FormValue).id}>
-                  {(item as FormValue).value}
-                </li>
-              ))}
-            </td>
-            <td>
-              <button onClick={() => setCurrentWord(w)}>
-                <EditIcon />
-              </button>
-              <button onClick={() => onDeleteHandler(w.id)}>
-                <DeleteIcon />
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table> */}
     </div>
   );
 };

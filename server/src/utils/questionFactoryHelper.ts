@@ -158,10 +158,18 @@ export const createChooseAntonymByWordQuestion = (
   otherWordsInfo: ExistingWord[]
 ) => {
   const wrongOptions = randomize<ExistingWord>(otherWordsInfo).map(
-    (o: ExistingWord) => getRandom(o.antonyms.map((a) => a as Value)).value
+    (o: ExistingWord) =>
+      getRandom(o.antonyms.map((a) => a as Value))?.value ?? null
   );
+
   const randomAntonym = getRandom(wordInfo.antonyms as Value[]).value;
-  const options = randomize([...wrongOptions, randomAntonym]);
+  const wrongOptionsFiltered = wrongOptions.filter((o) => o);
+  // handle edge case when there is not enough wrong options
+  const minWrongOptionsCount = 3;
+  if (wrongOptionsFiltered.length < minWrongOptionsCount) {
+    return null;
+  }
+  const options = randomize([...wrongOptionsFiltered, randomAntonym]);
   const question: ChooseAntonymByWordQuestion = {
     __type: QuestionType.ChooseAntonymByWord,
     wordId: wordInfo.id,

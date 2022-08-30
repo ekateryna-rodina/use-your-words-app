@@ -6,12 +6,10 @@ import { ExistingWord } from "../types/Word";
 import { mapToWords } from "../utils/mapToObject";
 import QuestionsFactory from "./questionsFactory";
 
-const generateQuizQuestions = async (wordIds: string[]) => {
+const generateQuizChallenges = async (wordIds: string[]) => {
+  console.log("wordIds", wordIds);
   if (!wordIds) return;
-  const questions: (BaseQuestion & { __type: QuestionType })[] = [];
-  const quizInfo = {
-    name: "New number",
-  };
+  const challenges: (BaseQuestion & { __type: QuestionType })[] = [];
   try {
     const itemDtos = await db.Word.findAll({
       where: {
@@ -26,23 +24,23 @@ const generateQuizQuestions = async (wordIds: string[]) => {
         { model: db.Antonym, separate: true },
       ],
     });
-
     const items = mapToWords(itemDtos);
+    console.log(items, "items");
     for (const item of items) {
       for (const qt of Object.keys(QuestionType)) {
         const questionType: QuestionType =
           QuestionType[qt as keyof typeof QuestionType];
-        const newQuestion = QuestionsFactory(
+        const newChallenge = QuestionsFactory(
           questionType,
           item as ExistingWord,
           items.filter((w: ExistingWord) => w.word !== item.word)
         );
-        if (!newQuestion) continue;
-        questions.push(newQuestion);
+        if (!newChallenge) continue;
+        challenges.push(newChallenge);
       }
     }
 
-    return { ...quizInfo, questions };
+    return { challenges };
   } catch (error) {
     throw new ApiError(500, error.message);
   }
@@ -81,4 +79,4 @@ const generateQuestion = async (
   }
 };
 
-export { generateQuizQuestions, generateQuestion };
+export { generateQuizChallenges as generateQuizQuestions, generateQuestion };

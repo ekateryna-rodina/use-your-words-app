@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { WordWithId } from "use-your-words-common";
 import { useAppDispatch } from "../../app/hooks";
 import { useDeleteWordMutation } from "../../features/app-api-slice";
 import { toggleModal } from "../../features/modal/modal-slice";
 import { setCurrentWordId } from "../../features/wordDetails/worddetails-slice";
-import { WordWithId } from "../../types";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
 

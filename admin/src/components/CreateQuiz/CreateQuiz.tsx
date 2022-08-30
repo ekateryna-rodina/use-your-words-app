@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { QuestionType, Quiz, WordWithId } from "../../types";
+import { useEffect, useState } from "react";
+import { QuestionType, Quiz, WordWithId } from "use-your-words-common";
 import request from "../../utils/request";
 import { PlaySound } from "../PlaySound";
 
@@ -26,7 +26,7 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
         wordId,
         quizWordIds: Array.from(
           new Set(
-            quiz?.questions
+            quiz?.challenges
               .filter((q) => q.wordId !== wordId)
               .map((q) => q.wordId)
           )
@@ -83,7 +83,7 @@ const CreateQuiz = ({ words }: CreateQuizProps) => {
               </tr>
             </thead>
             <tbody>
-              {quiz.questions.map((q, index) => (
+              {quiz.challenges.map((q, index) => (
                 <tr key={q.wordId + index}>
                   <td>{index + 1}</td>
                   <td>

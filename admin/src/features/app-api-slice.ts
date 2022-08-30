@@ -1,6 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  BaseQuestion,
+  QuestionType,
+  Quiz,
+  WordWithId,
+} from "use-your-words-common";
 import { v4 } from "uuid";
-import { FormValue, PartOfSpeech, Quiz, Word, WordWithId } from "../types";
+import { FormValue, PartOfSpeech, Word } from "../types";
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -125,6 +132,14 @@ export const apiSlice = createApi({
           return "/quiz";
         },
       }),
+      generateChallenges: builder.query<
+        { challenges: (BaseQuestion & { __type: QuestionType })[] },
+        string[]
+      >({
+        query(ids: string[]) {
+          return `/challenges?wordIds=${ids.join(",")}`;
+        },
+      }),
     };
   },
 });
@@ -137,4 +152,5 @@ export const {
   useLazyAutofillQuery,
   useAddNewWordMutation,
   useGetQuizzesQuery,
+  useLazyGenerateChallengesQuery,
 } = apiSlice;

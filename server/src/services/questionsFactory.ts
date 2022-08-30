@@ -38,12 +38,16 @@ const QuestionsFactory = (
         allOtherWordsInfo
       );
     case QuestionType.ChooseSynonymByWord:
+      if (!wordInfo.synonyms.length) return null;
       return createChooseSynonymByWordQuestion(wordInfo, allOtherWordsInfo);
     case QuestionType.ChooseAntonymByWord:
+      if (!wordInfo.antonyms.length) return null;
       return createChooseAntonymByWordQuestion(wordInfo, allOtherWordsInfo);
     case QuestionType.ChooseWordBySynonym:
+      if (!wordInfo.synonyms.length) return null;
       return createChooseWordBySynonymQuestion(wordInfo, allOtherWordsInfo);
     case QuestionType.ChooseWordByAntonym:
+      if (!wordInfo.antonyms.length) return null;
       return createChooseWordByAntonymQuestion(wordInfo, allOtherWordsInfo);
     default:
       return null;

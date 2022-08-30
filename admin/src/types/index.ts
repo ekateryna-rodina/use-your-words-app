@@ -21,6 +21,8 @@ export type Word = {
 
 export type WordWithId = Word & { id: string };
 
+export type Tabs = "vocabulary" | "quizzes";
+
 // export enum QuestionType {
 //   FillGap = "Fill the gap",
 //   Pronounce = "Pronounce the word",
@@ -34,32 +36,3 @@ export type WordWithId = Word & { id: string };
 //   ChooseWordBySynonym = "What is the word associated with the synonym?",
 //   ChooseWordByAntonym = "What is the word associated with the antonym?",
 // }
-
-export enum QuestionType {
-  FillGap,
-  Pronounce,
-  TypeWordByPronunciation,
-  TypeWordByMeaning,
-  ChooseMeaningByWord,
-  ChooseWordByMeaning,
-  ConnectWordsWithMeanings,
-  ChooseSynonymByWord,
-  ChooseAntonymByWord,
-  ChooseWordBySynonym,
-  ChooseWordByAntonym,
-}
-
-export type BaseQuestion = {
-  wordId: string;
-  question: string | { words: string[]; meanings: string[] };
-  answer?: string | string[] | Record<string, string>;
-  options?: string[];
-};
-
-export type Quiz = {
-  id: string;
-  name?: string;
-  questions: (BaseQuestion & { __type: QuestionType })[];
-};
-
-export type Tabs = "vocabulary" | "quizzes";

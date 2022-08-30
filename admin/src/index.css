@@ -22,6 +22,10 @@ button{
   all: unset;
 }
 
+button:disabled{
+  @apply bg-slate-300;
+}
+
 input[type="text"]{
  @apply  p-4 border border-slate-300 h-8 outlined;
 }
@@ -31,7 +35,7 @@ input[type="text"]{
   height: 100%;
 }
 
-.word-details-container{
+.word-details-container, .quiz-questions-container{
   overflow-y: auto;
   position: relative;
   height: 90vh;

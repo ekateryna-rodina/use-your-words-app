@@ -44,7 +44,6 @@ const NewWordEditable = () => {
   const {
     handleSubmit,
     register,
-    reset,
     control,
     getValues,
     setValue,

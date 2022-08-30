@@ -1,12 +1,12 @@
 import { QuestionType } from "use-your-words-common";
 import {
   generateQuestion,
-  generateQuizQuestions,
+  generateQuizQuestions as generateChallenges,
 } from "../services/questions.service";
 
-export async function generateQuestions(wordIds: string[]) {
+export async function generateChallengesByWorddIds(wordIds: string[]) {
   try {
-    const quiz = await generateQuizQuestions(wordIds);
+    const quiz = await generateChallenges(wordIds);
     return quiz;
   } catch (error) {
     throw new Error(error);

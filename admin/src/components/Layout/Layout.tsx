@@ -1,22 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { reset as resetNew } from "../../features/addNewWord/addnewword-slice";
+import { reset as resetNewQuiz } from "../../features/addNewQuiz/addnewquiz-slice";
+import { reset as resetNewWord } from "../../features/addNewWord/addnewword-slice";
 import { useFetchVocabularyQuery } from "../../features/app-api-slice";
-import { reset as resetExisting } from "../../features/wordDetails/worddetails-slice";
-import { AddEdit } from "../AddEdit";
+import { reset as resetExistingWord } from "../../features/wordDetails/worddetails-slice";
+import { ExistingWordEditable } from "../ExistingWordEditable";
 import CloseIcon from "../icons/CloseIcon";
+import { NewQuizEditable } from "../NewQuizEditable";
+import { NewWordEditable } from "../NewWordEditable";
 
 const Layout: React.FC = ({ children }) => {
   const { activeTab } = useAppSelector((state) => state.tabs);
   const { data, isLoading } = useFetchVocabularyQuery();
   const dispatch = useAppDispatch();
   const closeModalHandler = () => {
-    dispatch(resetNew());
-    dispatch(resetExisting());
+    dispatch(resetNewWord());
+    dispatch(resetExistingWord());
+    dispatch(resetNewQuiz());
   };
-  const { isNew } = useAppSelector((state) => state.addNewWord);
+  const { isNew: isNewWord } = useAppSelector((state) => state.addNewWord);
+  const { isNew: isNewQuiz } = useAppSelector((state) => state.addNewQuiz);
   const { currentWordId } = useAppSelector((state) => state.wordDetails);
+  const renderModalContent = () => {
+    if (currentWordId) return <ExistingWordEditable />;
+    else if (isNewWord) return <NewWordEditable />;
+    return <NewQuizEditable />;
+  };
   return (
     <div className="w-[85%] h-full mx-auto my-4">
       <h2 className="text-lg">Admin panel</h2>
@@ -52,11 +62,11 @@ const Layout: React.FC = ({ children }) => {
         {children}
         <div
           className={`absolute inset-0 transition bg-slate-100 ${
-            !currentWordId && !isNew ? "translate-y-full" : ""
+            !currentWordId && !isNewWord && !isNewQuiz ? "translate-y-full" : ""
           }`}
         >
           <div className="relative w-full h-full">
-            <AddEdit />
+            {renderModalContent()}
             <button
               className="absolute right-4 top-4 translate-y-[calc(50%-.5rem)]"
               onClick={closeModalHandler}

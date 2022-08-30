@@ -1,18 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
 import { QuestionType } from "use-your-words-common";
-import { generateQuestions } from "../../controllers/questions.controller";
+import { generateChallengesByWorddIds as generateChallenges } from "../../controllers/questions.controller";
 import validate from "../../middleware/validate";
 import { validateGetQuestionsInput } from "../../schema/questions";
 import { generateQuestion } from "../../services/questions.service";
 const router = express.Router();
 
 router.get(
-  "/api/questions",
+  "/api/challenges",
   validate(validateGetQuestionsInput),
   async (req: Request, res: Response, next: NextFunction) => {
     const wordIds = (req.query.wordIds as string).split(",");
-    const quiz = await generateQuestions(wordIds);
-    res.status(200).json({ quiz });
+    const { challenges } = await generateChallenges(wordIds);
+    console.log(challenges);
+    res.status(200).json({ challenges });
   }
 );
 
