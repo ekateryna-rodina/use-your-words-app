@@ -1,3 +1,4 @@
+import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import RandomIcon from "../icons/RandomIcon";
@@ -21,7 +22,7 @@ const FillGap = () => {
       {challenges
         .filter((c) => c.__type === QuestionType.FillGap)
         .map((q) => (
-          <>
+          <React.Fragment key={`${q.wordId}_fg`}>
             <div className="font-bold">{q.word}</div>
             <div>{q.question}</div> <div>{q.answer}</div>
             <div>
@@ -29,7 +30,7 @@ const FillGap = () => {
                 <RandomIcon />
               </button>
             </div>
-          </>
+          </React.Fragment>
         ))}
     </div>
   );

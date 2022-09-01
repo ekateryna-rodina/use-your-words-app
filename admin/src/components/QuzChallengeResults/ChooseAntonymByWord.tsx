@@ -1,3 +1,4 @@
+import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import RandomIcon from "../icons/RandomIcon";
@@ -22,12 +23,12 @@ const ChooseAntonymByWord = () => {
       {challenges
         .filter((c) => c.__type === QuestionType.ChooseAntonymByWord)
         .map((q) => (
-          <>
+          <React.Fragment key={`${q.wordId}_caw`}>
             <div>{q.word}</div>
             <div>{q.question}</div>
             <div className="quiz-challenges-options-cell">
               {q.options?.map((o) => (
-                <div>{o}</div>
+                <div key={`${q.wordId}_options_caw_${o}`}>{o}</div>
               ))}
             </div>
             <div>{q.answer}</div>
@@ -36,7 +37,7 @@ const ChooseAntonymByWord = () => {
                 <RandomIcon />
               </button>
             </div>
-          </>
+          </React.Fragment>
         ))}
     </div>
   );

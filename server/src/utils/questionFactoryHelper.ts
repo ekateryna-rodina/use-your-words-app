@@ -153,36 +153,6 @@ export const createChooseSynonymByWordQuestion = (
   return question;
 };
 
-export const createChooseAntonymByWordQuestion = (
-  wordInfo: ExistingWord,
-  otherWordsInfo: ExistingWord[]
-) => {
-  console.log("generating quu");
-  const wrongOptions = randomize<ExistingWord>(otherWordsInfo).map(
-    (o: ExistingWord) =>
-      getRandom(o.antonyms.map((a) => a as Value))?.value ?? null
-  );
-
-  const randomAntonym = getRandom(wordInfo.antonyms as Value[]).value;
-  const wrongOptionsFiltered = wrongOptions.filter((o) => o);
-  // handle edge case when there is not enough wrong options
-  const minWrongOptionsCount = 3;
-  if (wrongOptionsFiltered.length < minWrongOptionsCount) {
-    console.log("something went wron quu");
-    return null;
-  }
-  const options = randomize([...wrongOptionsFiltered, randomAntonym]);
-  const question: ChooseAntonymByWordQuestion = {
-    __type: QuestionType.ChooseAntonymByWord,
-    wordId: wordInfo.id,
-    question: wordInfo.word,
-    answer: randomAntonym,
-    options,
-  };
-
-  return question;
-};
-
 export const createChooseWordBySynonymQuestion = (
   wordInfo: ExistingWord,
   otherWordsInfo: ExistingWord[]
@@ -207,9 +177,9 @@ export const createChooseWordByAntonymQuestion = (
   wordInfo: ExistingWord,
   otherWordsInfo: ExistingWord[]
 ) => {
-  const wrongOptions = randomize<ExistingWord>(otherWordsInfo).map(
-    (o: ExistingWord) => o.word
-  );
+  const wrongOptions = randomize<ExistingWord>(
+    otherWordsInfo.filter((w) => w.antonyms.length)
+  ).map((o: ExistingWord) => o.word);
   const options = randomize([...wrongOptions, wordInfo.word]);
   const randomAntonym = getRandom<Value>(wordInfo.antonyms as Value[]);
   const question: ChooseWordByAntonymQuestion = {
@@ -217,6 +187,30 @@ export const createChooseWordByAntonymQuestion = (
     wordId: wordInfo.id,
     question: randomAntonym.value,
     answer: wordInfo.word,
+    options,
+  };
+
+  return question;
+};
+
+export const createChooseAntonymByWordQuestion = (
+  wordInfo: ExistingWord,
+  otherWordsInfo: ExistingWord[]
+) => {
+  const wrongOptions = randomize<ExistingWord>(
+    otherWordsInfo.filter((w) => w.antonyms.length)
+  ).map(
+    (o: ExistingWord) =>
+      getRandom(o.antonyms.map((a) => a as Value))?.value ?? null
+  );
+
+  const randomAntonym = getRandom(wordInfo.antonyms as Value[]).value;
+  const options = randomize([...wrongOptions, randomAntonym]);
+  const question: ChooseAntonymByWordQuestion = {
+    __type: QuestionType.ChooseAntonymByWord,
+    wordId: wordInfo.id,
+    question: wordInfo.word,
+    answer: randomAntonym,
     options,
   };
 

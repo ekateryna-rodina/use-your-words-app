@@ -1,3 +1,4 @@
+import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import RandomIcon from "../icons/RandomIcon";
@@ -22,12 +23,12 @@ const ChooseWordBySynonym = () => {
       {challenges
         .filter((c) => c.__type === QuestionType.ChooseWordBySynonym)
         .map((q) => (
-          <>
+          <React.Fragment key={`${q.wordId}_cws`}>
             <div>{q.word}</div>
             <div>{q.question}</div>
             <div className="quiz-challenges-options-cell">
               {q.options?.map((o) => (
-                <div>{o}</div>
+                <div key={`${q.wordId}_options_cws_${o}`}>{o}</div>
               ))}
             </div>
             <div>{q.answer}</div>
@@ -36,7 +37,7 @@ const ChooseWordBySynonym = () => {
                 <RandomIcon />
               </button>
             </div>
-          </>
+          </React.Fragment>
         ))}
     </div>
   );

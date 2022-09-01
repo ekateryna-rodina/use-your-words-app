@@ -29,6 +29,7 @@ const addNewQuizSlice = createSlice({
       state.isNew = false;
       state.name = "";
       state.challenges = [];
+      state.includedWordIds = [];
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;

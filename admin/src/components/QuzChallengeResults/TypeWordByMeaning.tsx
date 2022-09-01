@@ -1,3 +1,4 @@
+import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 
@@ -21,11 +22,11 @@ const TypeWordByMeaning = () => {
       {challenges
         .filter((c) => c.__type === QuestionType.TypeWordByMeaning)
         .map((q) => (
-          <>
+          <React.Fragment key={`${q.wordId}_twm`}>
             <div>{q.word}</div>
             <div>{q.question}</div>
             <div>{q.answer}</div>
-          </>
+          </React.Fragment>
         ))}
     </div>
   );

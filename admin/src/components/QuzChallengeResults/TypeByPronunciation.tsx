@@ -1,3 +1,4 @@
+import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import { PlaySound } from "../PlaySound";
@@ -20,13 +21,13 @@ const TypeByPronunciation = () => {
       {challenges
         .filter((c) => c.__type === QuestionType.TypeWordByPronunciation)
         .map((q) => (
-          <>
+          <React.Fragment key={`${q.wordId}_tp`}>
             <div>{q.word}</div>
             <div>
               <PlaySound fileUrl={q.question as string} />
             </div>
             <div>{q.answer}</div>
-          </>
+          </React.Fragment>
         ))}
     </div>
   );
