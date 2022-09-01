@@ -133,11 +133,58 @@ export const apiSlice = createApi({
         },
       }),
       generateChallenges: builder.query<
-        { challenges: (BaseQuestion & { __type: QuestionType })[] },
+        {
+          challenges: (BaseQuestion & {
+            __type: QuestionType;
+            word?: string;
+          })[];
+        },
         string[]
       >({
         query(ids: string[]) {
           return `/challenges?wordIds=${ids.join(",")}`;
+        },
+        transformResponse: (
+          response:
+            | {
+                challenges: (BaseQuestion & {
+                  __type: QuestionType;
+                })[];
+              }
+            | Promise<{
+                challenges: (BaseQuestion & {
+                  __type: QuestionType;
+                })[];
+              }>
+        ) => {
+          if (response instanceof Promise) return response;
+          // TODO: this is a dirty solution :()
+          const nameById = response.challenges
+            .filter((c) => c.__type === QuestionType.FillGap)
+            .reduce(
+              (
+                acc: { [id: string]: string },
+                curr: BaseQuestion & {
+                  __type: QuestionType;
+                }
+              ) => {
+                const id = curr.wordId;
+                acc[id] = curr.answer as string;
+                return acc;
+              },
+              {}
+            );
+          const challengesModified = response.challenges.map((c) => ({
+            ...c,
+            word: nameById[c.wordId],
+          }));
+          response.challenges = challengesModified;
+          return response as {
+            challenges: (BaseQuestion & {
+              __type: QuestionType;
+              word: string;
+            })[];
+          };
         },
       }),
     };

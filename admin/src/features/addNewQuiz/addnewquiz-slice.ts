@@ -6,7 +6,8 @@ interface AddNewQuizState {
   name: string;
   challenges: (BaseQuestion & {
     __type: QuestionType;
-  })[];
+    word?: string;
+  } & { isSelected: boolean })[];
   includedWordIds: string[];
 }
 
@@ -35,9 +36,19 @@ const addNewQuizSlice = createSlice({
     setIncludedWordIds(state, action: PayloadAction<string[]>) {
       state.includedWordIds = action.payload;
     },
+    setChallenges(
+      state,
+      action: PayloadAction<
+        (BaseQuestion & {
+          __type: QuestionType;
+        } & { isSelected: boolean })[]
+      >
+    ) {
+      state.challenges = action.payload;
+    },
   },
 });
 
-export const { setIsNew, reset, setName, setIncludedWordIds } =
+export const { setIsNew, reset, setName, setIncludedWordIds, setChallenges } =
   addNewQuizSlice.actions;
 export default addNewQuizSlice.reducer;

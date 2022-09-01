@@ -252,10 +252,7 @@ const NewWordEditable = () => {
           ) : (
             <></>
           )}
-          <button
-            className="bg-blue-700 w-8 h-8 flex justify-center items-center"
-            onClick={autofillHandler}
-          >
+          <button className="btn generate" onClick={autofillHandler}>
             <RandomIcon />
           </button>
           <div className="relative w-8 h-8">

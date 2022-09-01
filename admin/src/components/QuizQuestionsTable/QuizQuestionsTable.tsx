@@ -1,11 +1,33 @@
-import { useAppSelector } from "../../app/hooks";
-import { apiSlice } from "../../features/app-api-slice";
+import {
+  ChooseAntonymByWord,
+  ChooseMeaningByWord,
+  ChooseSynonymByWord,
+  ChooseWordByAntonym,
+  ChooseWordByMeaning,
+  ChooseWordBySynonym,
+  FillGap,
+  FindWordMeaningPair,
+  Pronounce,
+  TypeByPronunciation,
+  TypeWordByMeaning,
+} from "../QuzChallengeResults/";
 
 const QuizQuestionsTable = () => {
-  const { includedWordIds } = useAppSelector((state) => state.addNewQuiz);
-  const data = apiSlice.endpoints.generateChallenges.useQuery(includedWordIds);
-  console.log(data);
-  return <div>QuizQuestionsTable</div>;
+  return (
+    <>
+      <FillGap />
+      <Pronounce />
+      <TypeByPronunciation />
+      <TypeWordByMeaning />
+      <FindWordMeaningPair />
+      <ChooseWordByMeaning />
+      <ChooseMeaningByWord />
+      <ChooseWordBySynonym />
+      <ChooseWordByAntonym />
+      <ChooseAntonymByWord />
+      <ChooseSynonymByWord />
+    </>
+  );
 };
 
 export default QuizQuestionsTable;

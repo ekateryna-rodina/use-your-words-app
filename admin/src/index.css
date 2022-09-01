@@ -26,20 +26,46 @@ button:disabled{
   @apply bg-slate-300;
 }
 
+.btn.generate{
+  @apply bg-blue-700 w-8 h-8 flex justify-center items-center ml-auto;
+}
 input[type="text"]{
  @apply  p-4 border border-slate-300 h-8 outlined;
 }
 
+.quiz-challenges-button{
+  @apply p-2 bg-blue-300 text-white text-xs md:text-sm text-center;
+}
+.quiz-challenges-header{
+  @apply text-slate-300 font-bold mb-2;
+}
+.quiz-challenges-result-header{
+  @apply text-slate-300 uppercase;
+}
+.quiz-challenges-result-name{
+  @apply col-span-full bg-slate-300 text-white uppercase font-bold p-2;
+}
 .modal-container{
   padding: 1rem;
   height: 100%;
 }
-
 .word-details-container, .quiz-questions-container{
   overflow-y: auto;
   position: relative;
   height: 90vh;
   padding-right: 10px;
+}
+.quiz-challenges-options-cell{
+  @apply flex justify-center items-center gap-2;
+}
+.quiz-challenges-options-cell div{
+  @apply p-2 bg-blue-300 text-xs; 
+}
+.quiz-challenges-options-cell.green div{
+  @apply bg-emerald-300/50;
+}
+.quiz-challenges-options-cell.pink div{
+  @apply bg-violet-300/50;
 }
 
 .bordered-tab {
