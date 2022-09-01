@@ -12,7 +12,6 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     const wordIds = (req.query.wordIds as string).split(",");
     const { challenges } = await generateChallenges(wordIds);
-    console.log(challenges);
     res.status(200).json({ challenges });
   }
 );

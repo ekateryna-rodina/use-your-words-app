@@ -7,7 +7,6 @@ import { mapToWords } from "../utils/mapToObject";
 import QuestionsFactory from "./questionsFactory";
 
 const generateQuizChallenges = async (wordIds: string[]) => {
-  console.log("wordIds", wordIds);
   if (!wordIds) return;
   const challenges: (BaseQuestion & { __type: QuestionType })[] = [];
   try {
@@ -25,7 +24,7 @@ const generateQuizChallenges = async (wordIds: string[]) => {
       ],
     });
     const items = mapToWords(itemDtos);
-    console.log(items, "items");
+
     for (const item of items) {
       for (const qt of Object.keys(QuestionType)) {
         const questionType: QuestionType =

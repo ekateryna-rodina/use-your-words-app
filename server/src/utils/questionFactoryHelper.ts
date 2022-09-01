@@ -157,6 +157,7 @@ export const createChooseAntonymByWordQuestion = (
   wordInfo: ExistingWord,
   otherWordsInfo: ExistingWord[]
 ) => {
+  console.log("generating quu");
   const wrongOptions = randomize<ExistingWord>(otherWordsInfo).map(
     (o: ExistingWord) =>
       getRandom(o.antonyms.map((a) => a as Value))?.value ?? null
@@ -167,6 +168,7 @@ export const createChooseAntonymByWordQuestion = (
   // handle edge case when there is not enough wrong options
   const minWrongOptionsCount = 3;
   if (wrongOptionsFiltered.length < minWrongOptionsCount) {
+    console.log("something went wron quu");
     return null;
   }
   const options = randomize([...wrongOptionsFiltered, randomAntonym]);

@@ -89,7 +89,6 @@ const NewWordEditable = () => {
     dispatch(setLoading(true));
     if (["upload", "record"].includes(getValues("pronunciationRadio"))) {
       fileUrl = await submitFileToStorage();
-      console.log("fileurl", fileUrl);
     }
     saveNewWord({ ...values, fileUrl });
     dispatch(setLoading(false));
@@ -196,9 +195,6 @@ const NewWordEditable = () => {
     const errorsHeight = errorsRef.current?.clientHeight;
     setErrorsHeight(errorsHeight ?? 0);
   }, [errors]);
-  useEffect(() => {
-    console.log(errorsHeight);
-  }, [errorsHeight]);
   return (
     <div className="modal-container">
       <form
