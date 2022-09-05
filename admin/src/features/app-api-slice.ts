@@ -177,6 +177,7 @@ export const apiSlice = createApi({
           const challengesModified = response.challenges.map((c) => ({
             ...c,
             word: nameById[c.wordId],
+            isSelected: true,
           }));
           response.challenges = challengesModified;
           return response as {

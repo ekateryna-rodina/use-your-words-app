@@ -7,9 +7,11 @@ interface AddNewQuizState {
   challenges: (BaseQuestion & {
     __type: QuestionType;
     word?: string;
-  } & { isSelected: boolean })[];
+    isSelected: boolean;
+  })[];
   includedWordIds: string[];
-  showChallengesResult: boolean;
+  isShowChallengesResult: boolean;
+  isSelectAllChallenges: boolean;
 }
 
 const initialState: AddNewQuizState = {
@@ -17,7 +19,8 @@ const initialState: AddNewQuizState = {
   name: "",
   challenges: [],
   includedWordIds: [],
-  showChallengesResult: false,
+  isShowChallengesResult: false,
+  isSelectAllChallenges: true,
 };
 
 const addNewQuizSlice = createSlice({
@@ -32,7 +35,7 @@ const addNewQuizSlice = createSlice({
       state.name = "";
       state.challenges = [];
       state.includedWordIds = [];
-      state.showChallengesResult = false;
+      state.isShowChallengesResult = false;
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
@@ -51,7 +54,7 @@ const addNewQuizSlice = createSlice({
       state.challenges = action.payload;
     },
     setShowChallengesResult(state, action: PayloadAction<boolean>) {
-      state.showChallengesResult = action.payload;
+      state.isShowChallengesResult = action.payload;
     },
     toggleSelection(
       state,
@@ -64,6 +67,9 @@ const addNewQuizSlice = createSlice({
       const isSelected = state.challenges[currentChallengeIdx].isSelected;
       state.challenges[currentChallengeIdx].isSelected = !isSelected;
     },
+    toggleSelectAllChallenges(state) {
+      state.isSelectAllChallenges = !state.isSelectAllChallenges;
+    },
   },
 });
 
@@ -75,5 +81,6 @@ export const {
   setChallenges,
   setShowChallengesResult,
   toggleSelection,
+  toggleSelectAllChallenges,
 } = addNewQuizSlice.actions;
 export default addNewQuizSlice.reducer;

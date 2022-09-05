@@ -1,6 +1,10 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { BaseQuestion, QuestionType } from "use-your-words-common";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  setChallenges,
+  toggleSelectAllChallenges,
+} from "../../features/addNewQuiz/addnewquiz-slice";
 import {
   WithMedia,
   WithOptions,
@@ -9,7 +13,10 @@ import {
 } from "../QuzChallengeResults/";
 
 const QuizQuestionsResult = () => {
-  const { challenges } = useAppSelector((state) => state.addNewQuiz);
+  const { challenges, isSelectAllChallenges } = useAppSelector(
+    (state) => state.addNewQuiz
+  );
+  const dispatch = useAppDispatch();
   const withOptionsChallenges: Record<
     string,
     (BaseQuestion & {
@@ -73,8 +80,31 @@ const QuizQuestionsResult = () => {
       ),
     };
   }, [challenges]);
+  const selectAllChallengesHandler = () => {
+    dispatch(toggleSelectAllChallenges());
+  };
+  useEffect(() => {
+    if (!challenges) return;
+    const newChallenges = challenges.map((c) => ({
+      ...c,
+      isSelected: isSelectAllChallenges,
+    }));
+    dispatch(setChallenges(newChallenges));
+    // eslint-disable-next-line
+  }, [isSelectAllChallenges]);
   return (
     <>
+      <div className="my-2">
+        <label>
+          <input
+            type="checkbox"
+            className="mr-[15px]"
+            checked={isSelectAllChallenges}
+            onChange={selectAllChallengesHandler}
+          />
+          Select all
+        </label>
+      </div>
       {Object.keys(withQuestionInputChallenges).map((k) => (
         <WithQuestionInput
           key={k}

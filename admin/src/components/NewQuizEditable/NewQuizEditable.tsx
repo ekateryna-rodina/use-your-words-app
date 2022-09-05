@@ -16,9 +16,8 @@ import { QuizQuestionsResult } from "../QuizQuestionsResult";
 const NewQuizEditable = () => {
   const [minQuizQuestions, maxQuizQuestions] = [3, 7];
   const { isLoading } = useAppSelector((state) => state.loading);
-  const { includedWordIds, showChallengesResult } = useAppSelector(
-    (state) => state.addNewQuiz
-  );
+  const { includedWordIds, isShowChallengesResult: showChallengesResult } =
+    useAppSelector((state) => state.addNewQuiz);
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
