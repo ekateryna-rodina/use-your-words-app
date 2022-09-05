@@ -1,25 +1,17 @@
-import ChooseAntonymByWord from "./ChooseAntonymByWord";
-import ChooseMeaningByWord from "./ChooseMeaningByWord";
-import ChooseSynonymByWord from "./ChooseSynonymByWord";
-import ChooseWordByAntonym from "./ChooseWordByAntonym";
-import ChooseWordByMeaning from "./ChooseWordByMeaning";
-import ChooseWordBySynonym from "./ChooseWordBySynonym";
-import FillGap from "./FillGap";
-import FindWordMeaningPair from "./FindWordMeaningPair";
-import Pronounce from "./Pronounce";
-import TypeByPronunciation from "./TypeByPronunciation";
-import TypeWordByMeaning from "./TypeWordByMeaning";
+import { BaseQuestion, QuestionType } from "use-your-words-common";
+import WithMedia from "./WithMedia";
+import WithOptions from "./WithOptions";
+import WithPair from "./WithPair";
+import WithQuestionInput from "./WithQuestionInput";
 
-export {
-  FillGap,
-  Pronounce,
-  TypeByPronunciation,
-  TypeWordByMeaning,
-  ChooseWordByMeaning,
-  FindWordMeaningPair,
-  ChooseMeaningByWord,
-  ChooseWordBySynonym,
-  ChooseWordByAntonym,
-  ChooseSynonymByWord,
-  ChooseAntonymByWord,
+type Challenges = (BaseQuestion & {
+  __type: QuestionType;
+  isSelected: boolean;
+  word?: string;
+})[];
+export type ChallengesRsultProps = {
+  challenges: Challenges;
+  title: string;
 };
+
+export { WithMedia, WithPair, WithOptions, WithQuestionInput };

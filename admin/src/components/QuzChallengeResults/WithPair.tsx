@@ -1,31 +1,32 @@
 import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
+import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
 import RandomIcon from "../icons/RandomIcon";
 
-const FindWordMeaningPair = () => {
+const WithPair = () => {
   const { challenges } = useAppSelector((state) => state.addNewQuiz);
+  const headers = ["", "Word options", "Definition options", "Answer", ""];
   return (
     <div
-      className="grid mb-2"
+      className="quiz-challenges-grid"
       style={{
-        gridTemplateColumns: "1fr 3fr 4fr 1fr",
-        alignItems: "center",
-        rowGap: "7px",
-        columnGap: "5px",
+        gridTemplateColumns: "20px 1fr 2fr 4fr 1fr",
       }}
     >
       <div className="quiz-challenges-result-name">
         Connect words with definitions
       </div>
-      <div className="quiz-challenges-result-header">Word options</div>
-      <div className="quiz-challenges-result-header">Definition options</div>
-      <div className="quiz-challenges-result-header">Answer</div>
-      <div></div>
+      {headers.map((h, i) => (
+        <div key={`${h}_${i}`} className="quiz-challenges-result-header">
+          {h}
+        </div>
+      ))}
       {challenges
         .filter((c) => c.__type === QuestionType.ConnectWordsWithMeanings)
         .map((q) => (
           <React.Fragment key={`${q.wordId}_fp`}>
+            <ChallengesResultCheckbox type={q.__type} wordId={q.wordId} />
             <div className="quiz-challenges-options-cell green flex-wrap">
               {(q.question as { words: string[]; meanings: string[] })[
                 "words"
@@ -71,4 +72,4 @@ const FindWordMeaningPair = () => {
   );
 };
 
-export default FindWordMeaningPair;
+export default WithPair;

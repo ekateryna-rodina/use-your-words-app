@@ -48,7 +48,7 @@ input[type="text"]{
 .quiz-challenges-result-word{
   @apply font-bold;
 }
-.quiz-challenges-result-word, .quiz-challenges-result-question, .quiz-challenges-result-answer{
+.quiz-challenges-result-word, .quiz-challenges-result-question, .quiz-challenges-result-answer, .quiz-challenges-result-media{
   @apply p-2;
 }
 .modal-container{
@@ -61,8 +61,11 @@ input[type="text"]{
   height: 90vh;
   padding-right: 10px;
 }
+.quiz-challenges-grid {
+  @apply grid mb-2 items-center gap-[3px]
+}
 .quiz-challenges-options-cell{
-  @apply flex justify-center items-center gap-2;
+  @apply flex justify-center flex-wrap items-center gap-2;
 }
 .quiz-challenges-options-cell div{
   @apply p-2 bg-blue-300 text-xs; 
