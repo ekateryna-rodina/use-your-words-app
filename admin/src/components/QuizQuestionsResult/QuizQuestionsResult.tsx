@@ -10,9 +10,9 @@ import {
   Pronounce,
   TypeByPronunciation,
   TypeWordByMeaning,
-} from "../QuzChallengeResults/";
+} from "../QuzChallengeResults";
 
-const QuizQuestionsTable = () => {
+const QuizQuestionsResult = () => {
   return (
     <>
       <FillGap />
@@ -30,4 +30,4 @@ const QuizQuestionsTable = () => {
   );
 };
 
-export default QuizQuestionsTable;
+export default QuizQuestionsResult;

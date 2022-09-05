@@ -6,18 +6,19 @@ import {
   setChallenges,
   setIncludedWordIds,
   setName,
+  setShowChallengesResult,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import { apiSlice } from "../../features/app-api-slice";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
-import { QuizQuestionsTable } from "../QuizQuestionsTable";
+import { QuizQuestionsResult } from "../QuizQuestionsResult";
 
 const NewQuizEditable = () => {
   const [minQuizQuestions, maxQuizQuestions] = [3, 7];
   const { isLoading } = useAppSelector((state) => state.loading);
-  const { includedWordIds } = useAppSelector((state) => state.addNewQuiz);
-  const [showChallengesTable, setShowChallengesTable] =
-    useState<boolean>(false);
+  const { includedWordIds, showChallengesResult } = useAppSelector(
+    (state) => state.addNewQuiz
+  );
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
@@ -59,7 +60,7 @@ const NewQuizEditable = () => {
       dispatch(
         setChallenges(data.challenges.map((c) => ({ ...c, isSelected: true })))
       );
-      setShowChallengesTable(true);
+      dispatch(setShowChallengesResult(true));
     }
     // eslint-disable-next-line
   }, [data]);
@@ -119,10 +120,10 @@ const NewQuizEditable = () => {
 
         <div className="quiz-questions-container mt-4 relative">
           <div className="absolute top-0 left-0 right-0 h-auto pb-8 border-b-[1px] border-dotted border-slate-300">
-            {!showChallengesTable && (
+            {!showChallengesResult && (
               <h2 className="quiz-challenges-header">Including Words</h2>
             )}
-            {!showChallengesTable && (
+            {!showChallengesResult && (
               <div className="flex xs:justify-between xs:items-center translate-y-1/8 md:translate-y-1/2 flex-col justify-center items-center gap-2 xs:flex-row">
                 <label
                   htmlFor="showWordsWithoutQuizOnly"
@@ -148,14 +149,14 @@ const NewQuizEditable = () => {
                 </button>
               </div>
             )}
-            {showChallengesTable && (
+            {showChallengesResult && (
               <h2 className="quiz-challenges-header">Challenges</h2>
             )}
-            {showChallengesTable && (
+            {showChallengesResult && (
               <div className="flex justify-start items-center translate-y-1/2">
                 <button
                   className="quiz-challenges-button"
-                  onClick={() => setShowChallengesTable(false)}
+                  onClick={() => dispatch(setShowChallengesResult(false))}
                 >
                   Back
                 </button>
@@ -164,7 +165,7 @@ const NewQuizEditable = () => {
           </div>
           <div
             className={`transition ease-in-out duration-300 absolute top-32 md:top-28 left-0 right-0 bottom-0 ${
-              showChallengesTable ? "-translate-x-full" : ""
+              showChallengesResult ? "-translate-x-full" : ""
             }`}
           >
             {vocabularyWords?.words.map((w) => (
@@ -184,10 +185,14 @@ const NewQuizEditable = () => {
           </div>
           <div
             className={`transition ease-in-out duration-300 absolute top-28 left-0 right-0 bottom-0 ${
-              showChallengesTable ? "" : "translate-x-full"
+              showChallengesResult ? "" : "translate-x-full"
             }`}
           >
-            {data?.challenges.length ? <QuizQuestionsTable /> : <></>}
+            {data?.challenges.length && showChallengesResult ? (
+              <QuizQuestionsResult />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </form>

@@ -9,6 +9,7 @@ interface AddNewQuizState {
     word?: string;
   } & { isSelected: boolean })[];
   includedWordIds: string[];
+  showChallengesResult: boolean;
 }
 
 const initialState: AddNewQuizState = {
@@ -16,6 +17,7 @@ const initialState: AddNewQuizState = {
   name: "",
   challenges: [],
   includedWordIds: [],
+  showChallengesResult: false,
 };
 
 const addNewQuizSlice = createSlice({
@@ -30,6 +32,7 @@ const addNewQuizSlice = createSlice({
       state.name = "";
       state.challenges = [];
       state.includedWordIds = [];
+      state.showChallengesResult = false;
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
@@ -47,9 +50,30 @@ const addNewQuizSlice = createSlice({
     ) {
       state.challenges = action.payload;
     },
+    setShowChallengesResult(state, action: PayloadAction<boolean>) {
+      state.showChallengesResult = action.payload;
+    },
+    toggleSelection(
+      state,
+      action: PayloadAction<{ wordId: string; type: QuestionType }>
+    ) {
+      const { type, wordId } = action.payload;
+      const currentChallengeIdx = state.challenges.findIndex(
+        (i) => i.wordId === wordId && type === i.__type
+      );
+      const isSelected = state.challenges[currentChallengeIdx].isSelected;
+      state.challenges[currentChallengeIdx].isSelected = !isSelected;
+    },
   },
 });
 
-export const { setIsNew, reset, setName, setIncludedWordIds, setChallenges } =
-  addNewQuizSlice.actions;
+export const {
+  setIsNew,
+  reset,
+  setName,
+  setIncludedWordIds,
+  setChallenges,
+  setShowChallengesResult,
+  toggleSelection,
+} = addNewQuizSlice.actions;
 export default addNewQuizSlice.reducer;

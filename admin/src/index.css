@@ -40,10 +40,16 @@ input[type="text"]{
   @apply text-slate-300 font-bold mb-2;
 }
 .quiz-challenges-result-header{
-  @apply text-slate-300 uppercase;
+  @apply text-slate-300 uppercase p-2;
 }
 .quiz-challenges-result-name{
   @apply col-span-full bg-slate-300 text-white uppercase font-bold p-2;
+}
+.quiz-challenges-result-word{
+  @apply font-bold;
+}
+.quiz-challenges-result-word, .quiz-challenges-result-question, .quiz-challenges-result-answer{
+  @apply p-2;
 }
 .modal-container{
   padding: 1rem;
