@@ -249,22 +249,6 @@ export const apiSlice = createApi({
           body: { name, challenges },
         }),
         invalidatesTags: ["Quiz"],
-        async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
-          const patchResult = dispatch(
-            apiSlice.util.updateQueryData(
-              "fetchQuizzes",
-              undefined,
-              (draft) => {
-                Object.assign(draft, patch);
-              }
-            )
-          );
-          try {
-            await queryFulfilled;
-          } catch {
-            patchResult.undo();
-          }
-        },
       }),
     };
   },

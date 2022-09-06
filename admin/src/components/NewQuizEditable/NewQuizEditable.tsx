@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  reset,
+  reset as resetStore,
   setChallenges,
   setIncludedWordIds,
   setName,
@@ -35,16 +35,18 @@ const NewQuizEditable = () => {
   const {
     handleSubmit,
     register,
+    resetField,
     formState: { errors },
   } = useForm<any>({});
   const onSaveQuizHandler = (values: any) => {
     saveNewQuiz({ name: values.name, challenges });
-    dispatch(reset());
+    dispatch(resetStore());
   };
   const onNewQuizNameEnterHandler = (name: string) => {
     dispatch(setName(name));
   };
-  const reseQuizNameHandler = () => {
+  const reseQuizNameHandler = (e: FormEvent) => {
+    e.preventDefault();
     dispatch(setName(""));
   };
   const includeWordHandler = (word: WordWithId) => {
@@ -59,7 +61,8 @@ const NewQuizEditable = () => {
     }
     dispatch(setIncludedWordIds(wordsToInclude));
   };
-  const generateChallengesHandler = () => {
+  const generateChallengesHandler = (e: FormEvent) => {
+    e.preventDefault();
     generateChallenges(includedWordIds);
   };
   useEffect(() => {
@@ -71,6 +74,12 @@ const NewQuizEditable = () => {
     }
     // eslint-disable-next-line
   }, [data]);
+  useEffect(() => {
+    return () => {
+      resetField("name");
+    };
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="modal-container">
       <form
