@@ -75,11 +75,6 @@ const addNewQuizSlice = createSlice({
       state,
       action: PayloadAction<{ index: number; challenge: Challenge }>
     ) {
-      console.log(
-        state.challenges,
-        action.payload.index,
-        action.payload.challenge
-      );
       state.challenges[action.payload.index] = action.payload.challenge;
     },
   },

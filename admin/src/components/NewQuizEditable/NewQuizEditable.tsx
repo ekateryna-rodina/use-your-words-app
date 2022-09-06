@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  reset,
   setChallenges,
   setIncludedWordIds,
   setName,
   setShowChallengesResult,
 } from "../../features/addNewQuiz/addnewquiz-slice";
-import { apiSlice } from "../../features/app-api-slice";
+import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { QuizChallengesResult } from "../QuizChallengesResult";
@@ -16,13 +17,17 @@ import { QuizChallengesResult } from "../QuizChallengesResult";
 const NewQuizEditable = () => {
   const [minQuizQuestions, maxQuizQuestions] = [3, 7];
   const { isLoading } = useAppSelector((state) => state.loading);
-  const { includedWordIds, isShowChallengesResult: showChallengesResult } =
-    useAppSelector((state) => state.addNewQuiz);
+  const {
+    includedWordIds,
+    isShowChallengesResult: showChallengesResult,
+    challenges,
+  } = useAppSelector((state) => state.addNewQuiz);
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
     { data, isError, isLoading: challengeGenerationLoading },
   ] = apiSlice.endpoints.generateChallenges.useLazyQuery();
+  const [saveNewQuiz] = useAddNewQuizMutation();
   const [showWordsWithoutQuizOnly, setShowWordsWithoutQuizOnly] =
     useState<boolean>(false);
   const { data: vocabularyWords } =
@@ -32,7 +37,10 @@ const NewQuizEditable = () => {
     register,
     formState: { errors },
   } = useForm<any>({});
-  const onSaveQuizHandler = (values: any) => {};
+  const onSaveQuizHandler = (values: any) => {
+    saveNewQuiz({ name: values.name, challenges });
+    dispatch(reset());
+  };
   const onNewQuizNameEnterHandler = (name: string) => {
     dispatch(setName(name));
   };

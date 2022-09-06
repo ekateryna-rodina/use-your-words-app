@@ -6,14 +6,14 @@ import {
   WordWithId,
 } from "use-your-words-common";
 import { v4 } from "uuid";
-import { FormValue, PartOfSpeech, Word } from "../types";
+import { Challenges, FormValue, PartOfSpeech, Word } from "../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api",
   }),
-  tagTypes: ["Word"],
+  tagTypes: ["Word", "Quiz"],
   endpoints(builder) {
     return {
       fetchVocabulary: builder.query<{ words: WordWithId[] }, void>({
@@ -230,6 +230,42 @@ export const apiSlice = createApi({
           };
         },
       }),
+      fetchQuizzes: builder.query<
+        { id: string; name: string; challenges: Challenges }[],
+        void
+      >({
+        query() {
+          return "/quiz";
+        },
+        providesTags: ["Quiz"],
+      }),
+      addNewQuiz: builder.mutation<
+        void,
+        { name: string; challenges: Challenges }
+      >({
+        query: ({ name, challenges }) => ({
+          url: `quiz/`,
+          method: "POST",
+          body: { name, challenges },
+        }),
+        invalidatesTags: ["Quiz"],
+        async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
+          const patchResult = dispatch(
+            apiSlice.util.updateQueryData(
+              "fetchQuizzes",
+              undefined,
+              (draft) => {
+                Object.assign(draft, patch);
+              }
+            )
+          );
+          try {
+            await queryFulfilled;
+          } catch {
+            patchResult.undo();
+          }
+        },
+      }),
     };
   },
 });
@@ -244,4 +280,6 @@ export const {
   useGetQuizzesQuery,
   useLazyGenerateChallengesQuery,
   useLazyRegenerateChallengeQuery,
+  useAddNewQuizMutation,
+  useFetchQuizzesQuery,
 } = apiSlice;

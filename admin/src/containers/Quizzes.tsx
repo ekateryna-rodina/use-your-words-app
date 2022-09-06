@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../app/hooks";
 import AddIcon from "../components/icons/AddIcon";
+import { QuizList } from "../components/QuizList";
 import { SearchQuizWords } from "../components/SearchQuizWords";
 import { setIsNew } from "../features/addNewQuiz/addnewquiz-slice";
 import { useGetQuizzesQuery } from "../features/app-api-slice";
@@ -24,6 +25,7 @@ const Quizzes = () => {
           <AddIcon />
         </button>
       </div>
+      <QuizList />
     </>
   );
 };
