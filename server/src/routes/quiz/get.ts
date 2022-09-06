@@ -7,6 +7,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const quizzes = await getQuizQuestions();
+      console.log(quizzes);
       res.status(200).json(quizzes);
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -7,6 +7,7 @@ const fetchQuizQuestions = async () => {
     const quizDtos = await db.Quiz.findAll({
       include: [{ model: db.Question }],
     });
+    console.log("dtos", quizDtos);
     const quizzes = mapToQuizzes(quizDtos);
     return quizzes;
   } catch (error) {

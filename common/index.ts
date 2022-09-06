@@ -80,5 +80,5 @@ export type Quiz = {
   //TODO: add progress
   id: string;
   name: string;
-  challenges: (BaseQuestion & { __type: QuestionType })[];
+  challenges: (BaseQuestion & { __type: QuestionType; word?: string })[];
 };

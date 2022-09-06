@@ -42,7 +42,7 @@ function restInfo() {
 
 export function runSeed() {
   //   createWords();
-  //   createPartOfSpeech();
+  // createPartOfSpeech();
   // createWordPartOfSpeech();
   // restInfo();
 }

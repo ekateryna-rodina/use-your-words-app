@@ -86,5 +86,6 @@ export declare type Quiz = {
     name: string;
     challenges: (BaseQuestion & {
         __type: QuestionType;
+        word?: string;
     })[];
 };
