@@ -93,7 +93,8 @@ const NewWordEditable = () => {
     saveNewWord({ ...values, fileUrl });
     dispatch(setLoading(false));
   };
-  const resetWordHandler = () => {
+  const resetWordHandler = (e: FormEvent) => {
+    e.preventDefault();
     dispatch(resetWord());
     resetField("word");
   };

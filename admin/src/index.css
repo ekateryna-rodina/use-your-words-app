@@ -29,7 +29,7 @@ button, input[type="submit"]{
   cursor: pointer;
 }
 .btn.generate{
-  @apply bg-blue-700 w-8 h-8 flex justify-center items-center ml-auto;
+  @apply bg-blue-700 w-8 h-8 flex justify-center items-center;
 }
 input[type="text"]{
  @apply  p-4 border border-slate-300 h-8 outlined;

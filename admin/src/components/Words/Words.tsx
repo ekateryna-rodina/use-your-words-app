@@ -33,6 +33,8 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
     }
     // eslint-disable-next-line
   }, [searchState]);
+  if (!words?.length && !apiWordsResponse.isLoading)
+    return <div className="text-center  mt-8">No words added yet</div>;
   if (apiWordsResponse.isLoading || !words) {
     return (
       <div className="h-full flex justify-center items-start pt-8">
