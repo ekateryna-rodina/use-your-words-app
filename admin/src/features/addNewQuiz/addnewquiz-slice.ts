@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BaseQuestion, QuestionType } from "use-your-words-common";
+import { Challenge } from "../../types";
 
 interface AddNewQuizState {
   isNew: boolean;
@@ -70,6 +71,17 @@ const addNewQuizSlice = createSlice({
     toggleSelectAllChallenges(state) {
       state.isSelectAllChallenges = !state.isSelectAllChallenges;
     },
+    updateSingleChallenge(
+      state,
+      action: PayloadAction<{ index: number; challenge: Challenge }>
+    ) {
+      console.log(
+        state.challenges,
+        action.payload.index,
+        action.payload.challenge
+      );
+      state.challenges[action.payload.index] = action.payload.challenge;
+    },
   },
 });
 
@@ -82,5 +94,6 @@ export const {
   setShowChallengesResult,
   toggleSelection,
   toggleSelectAllChallenges,
+  updateSingleChallenge,
 } = addNewQuizSlice.actions;
 export default addNewQuizSlice.reducer;

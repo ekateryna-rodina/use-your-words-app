@@ -18,7 +18,7 @@ const QuestionsFactory = (
   type: QuestionType,
   wordInfo: ExistingWord,
   allOtherWordsInfo: ExistingWord[]
-): (BaseQuestion & { __type: QuestionType }) | null => {
+): (BaseQuestion & { __type: QuestionType; word?: string }) | null => {
   switch (type) {
     case QuestionType.FillGap:
       return createFillGapQuestion(wordInfo);
@@ -47,9 +47,7 @@ const QuestionsFactory = (
       if (!wordInfo.antonyms.length) return null;
       return createChooseWordByAntonymQuestion(wordInfo, allOtherWordsInfo);
     case QuestionType.ChooseAntonymByWord:
-      console.log("basic check", wordInfo.word);
       if (!wordInfo.antonyms.length) return null;
-      console.log("basic check passed", wordInfo.word);
       return createChooseAntonymByWordQuestion(wordInfo, allOtherWordsInfo);
     default:
       return null;

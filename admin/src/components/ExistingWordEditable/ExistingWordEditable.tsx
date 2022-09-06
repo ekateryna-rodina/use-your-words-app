@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   useFetchVocabularyQuery,
@@ -8,7 +9,7 @@ import {
 import { setEditMode } from "../../features/wordDetails/worddetails-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { editWordSchema } from "../../schema/editWordSchema";
-import { FormValue, WordWithId } from "../../types";
+import { FormValue } from "../../types";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 import EditIcon from "../icons/EditIcon";

@@ -3,7 +3,7 @@ import { QuestionType } from "use-your-words-common";
 import { generateChallengesByWorddIds as generateChallenges } from "../../controllers/questions.controller";
 import validate from "../../middleware/validate";
 import { validateGetQuestionsInput } from "../../schema/questions";
-import { generateQuestion } from "../../services/questions.service";
+import { generateQuestion as generateChallenge } from "../../services/questions.service";
 const router = express.Router();
 
 router.get(
@@ -17,15 +17,16 @@ router.get(
 );
 
 router.get(
-  "/api/question/",
+  "/api/challenge",
   async (req: Request, res: Response, next: NextFunction) => {
-    const { wordId, quizWordIds, questionType } = req.query;
-    const question = await generateQuestion(
+    const { wordId, quizWordIds, questionType, word } = req.query;
+    const challenge = await generateChallenge(
       wordId as string,
       (quizWordIds as string).split(","),
-      QuestionType[questionType as keyof typeof QuestionType]
+      QuestionType[QuestionType[questionType as any]]
     );
-    res.status(200).json({ question });
+    challenge.word = word as string;
+    res.status(200).json(challenge);
   }
 );
 

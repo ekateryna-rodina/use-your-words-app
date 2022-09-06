@@ -160,6 +160,7 @@ export const createChooseWordBySynonymQuestion = (
   const wrongOptions = randomize<ExistingWord>(otherWordsInfo).map(
     (o: ExistingWord) => o.word
   );
+
   const options = randomize([...wrongOptions, wordInfo.word]);
   const randomSynonym = getRandom<Value>(wordInfo.synonyms as Value[]);
   const question: ChooseWordBySynonymQuestion = {

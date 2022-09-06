@@ -20,6 +20,7 @@ code {
 
 button{
   all: unset;
+  cursor: pointer;
 }
 
 button:disabled{

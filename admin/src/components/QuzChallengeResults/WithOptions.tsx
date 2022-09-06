@@ -1,7 +1,8 @@
 import React from "react";
 import { ChallengesRsultProps } from ".";
+
 import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
-import RandomIcon from "../icons/RandomIcon";
+import { RegenerateChallengeButton } from "../RegenerateChallengeButton";
 
 const WithOptions = ({ challenges, title }: ChallengesRsultProps) => {
   const headers = ["", "Word", "Question", "Options", "Answer", ""];
@@ -19,7 +20,7 @@ const WithOptions = ({ challenges, title }: ChallengesRsultProps) => {
         </div>
       ))}
       {challenges.map((q) => (
-        <React.Fragment key={`${q.wordId}_csw`}>
+        <React.Fragment key={`${q.wordId}_csw_${q.question}`}>
           <ChallengesResultCheckbox type={q.__type} wordId={q.wordId} />
           <div className="quiz-challenges-result-word">{q.word}</div>
           <div className="quiz-challenges-result-question">{q.question}</div>
@@ -29,15 +30,15 @@ const WithOptions = ({ challenges, title }: ChallengesRsultProps) => {
             ))}
           </div>
           <div className="quiz-challenges-result-answer">{q.answer}</div>
-          <div>
-            <button className="btn generate">
-              <RandomIcon />
-            </button>
-          </div>
+          <RegenerateChallengeButton
+            type={q.__type}
+            word={q.word as string}
+            wordId={q.wordId}
+          />
         </React.Fragment>
       ))}
     </div>
   );
 };
 
-export default WithOptions;
+export default React.memo(WithOptions);

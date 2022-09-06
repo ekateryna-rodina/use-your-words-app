@@ -188,6 +188,48 @@ export const apiSlice = createApi({
           };
         },
       }),
+      regenerateChallenge: builder.query<
+        BaseQuestion & {
+          __type: QuestionType;
+          word?: string;
+          isSelected: boolean;
+        },
+        {
+          wordId: string;
+          type: QuestionType;
+          quizWordIds: string[];
+          word: string;
+        }
+      >({
+        query({ wordId, type, quizWordIds, word }) {
+          return `/challenge?wordId=${wordId}&questionType=${type}&word=${word}&quizWordIds=${quizWordIds.join(
+            ","
+          )}`;
+        },
+        transformResponse: (
+          response:
+            | (BaseQuestion & {
+                __type: QuestionType;
+                word?: string;
+                isSelected: boolean;
+              })
+            | Promise<
+                BaseQuestion & {
+                  __type: QuestionType;
+                  word?: string;
+                  isSelected: boolean;
+                }
+              >
+        ) => {
+          if (response instanceof Promise) return response;
+          response.isSelected = true;
+          return response as BaseQuestion & {
+            __type: QuestionType;
+            word: string;
+            isSelected: boolean;
+          };
+        },
+      }),
     };
   },
 });
@@ -201,4 +243,5 @@ export const {
   useAddNewWordMutation,
   useGetQuizzesQuery,
   useLazyGenerateChallengesQuery,
+  useLazyRegenerateChallengeQuery,
 } = apiSlice;

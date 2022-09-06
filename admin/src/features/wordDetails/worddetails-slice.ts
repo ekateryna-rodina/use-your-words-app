@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WordWithId } from "../../types";
+import { WordWithId } from "use-your-words-common";
 
 interface WordDetailsState {
   currentWord: WordWithId | null;

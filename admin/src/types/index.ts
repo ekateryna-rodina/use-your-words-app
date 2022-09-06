@@ -1,9 +1,18 @@
+import { BaseQuestion, QuestionType } from "use-your-words-common";
+
 export type PronunciationType = "autofill" | "upload" | "record";
 
 export type PartOfSpeech = {
   id: string;
   value: string;
 };
+
+export type Challenge = BaseQuestion & {
+  __type: QuestionType;
+  isSelected: boolean;
+  word?: string;
+};
+export type Challenges = Challenge[];
 
 export type FormValue = { id?: string; value: string };
 export type Word = {
@@ -19,20 +28,6 @@ export type Word = {
   recordPronunciation?: string;
 };
 
-export type WordWithId = Word & { id: string };
+// export type WordWithId = Word & { id: string };
 
 export type Tabs = "vocabulary" | "quizzes";
-
-// export enum QuestionType {
-//   FillGap = "Fill the gap",
-//   Pronounce = "Pronounce the word",
-//   TypeWordByPronunciation = "Type the word you heard",
-//   TypeWordByMeaning = "What a word does match the meaning",
-//   ChooseMeaningByWord = "Given a word. What is the closest meaning?",
-//   ChooseWordByMeaning = "Given a meaning. What is the closest word?",
-//   ConnectWordsWithMeanings = "Connect meanings with words",
-//   ChooseSynonymByWord = "What is the synonym to the word?",
-//   ChooseAntonymByWord = "What is the antonym to the word?",
-//   ChooseWordBySynonym = "What is the word associated with the synonym?",
-//   ChooseWordByAntonym = "What is the word associated with the antonym?",
-// }
