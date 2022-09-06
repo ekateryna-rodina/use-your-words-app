@@ -26,7 +26,9 @@ const RegenerateChallengeButton = ({
     regenerate({
       wordId,
       type,
-      quizWordIds: challenges.map((c) => c.wordId).filter((c) => c !== wordId),
+      quizWordIds: Array.from(
+        new Set(challenges.map((c) => c.wordId).filter((c) => c !== wordId))
+      ),
       word,
     });
   };

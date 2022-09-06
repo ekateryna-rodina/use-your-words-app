@@ -50,7 +50,7 @@ const generateQuestion = async (
   quizWordIds: string[],
   questionType: QuestionType
 ) => {
-  if (!wordId || !questionType) return null;
+  if (!wordId || typeof questionType === "undefined") return null;
   try {
     const itemDtos = await db.Word.findAll({
       where: {

@@ -11,7 +11,7 @@ import {
 import { apiSlice } from "../../features/app-api-slice";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
-import { QuizQuestionsResult } from "../QuizQuestionsResult";
+import { QuizChallengesResult } from "../QuizChallengesResult";
 
 const NewQuizEditable = () => {
   const [minQuizQuestions, maxQuizQuestions] = [3, 7];
@@ -188,7 +188,7 @@ const NewQuizEditable = () => {
             }`}
           >
             {data?.challenges.length && showChallengesResult ? (
-              <QuizQuestionsResult />
+              <QuizChallengesResult />
             ) : (
               <></>
             )}

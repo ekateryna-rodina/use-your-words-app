@@ -20,13 +20,14 @@ code {
 
 button{
   all: unset;
-  cursor: pointer;
 }
 
 button:disabled{
   @apply bg-slate-300;
 }
-
+button, input[type="submit"]{
+  cursor: pointer;
+}
 .btn.generate{
   @apply bg-blue-700 w-8 h-8 flex justify-center items-center ml-auto;
 }

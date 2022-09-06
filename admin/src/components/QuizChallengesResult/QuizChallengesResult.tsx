@@ -10,9 +10,9 @@ import {
   WithOptions,
   WithPair,
   WithQuestionInput,
-} from "../QuzChallengeResults/";
+} from "../QuzChallengeResultsByTypes";
 
-const QuizQuestionsResult = () => {
+const QuizChallengesResult = () => {
   const { challenges, isSelectAllChallenges } = useAppSelector(
     (state) => state.addNewQuiz
   );
@@ -123,4 +123,4 @@ const QuizQuestionsResult = () => {
   );
 };
 
-export default QuizQuestionsResult;
+export default QuizChallengesResult;

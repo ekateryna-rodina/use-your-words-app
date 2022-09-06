@@ -48,4 +48,4 @@ const WithMedia = ({ title, challenges }: ChallengesRsultProps) => {
   );
 };
 
-export default WithMedia;
+export default React.memo(WithMedia);

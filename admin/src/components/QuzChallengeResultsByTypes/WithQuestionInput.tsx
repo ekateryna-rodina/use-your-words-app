@@ -1,7 +1,7 @@
 import React from "react";
 import { ChallengesRsultProps } from ".";
 import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
-import RandomIcon from "../icons/RandomIcon";
+import { RegenerateChallengeButton } from "../RegenerateChallengeButton";
 
 const WithQuestionInput = ({ challenges, title }: ChallengesRsultProps) => {
   const headers = ["", "Word", "Question", "Answer", ""];
@@ -24,15 +24,15 @@ const WithQuestionInput = ({ challenges, title }: ChallengesRsultProps) => {
           <div className="quiz-challenges-result-word">{q.word}</div>
           <div className="quiz-challenges-result-question">{q.question}</div>
           <div className="quiz-challenges-result-answer">{q.answer}</div>
-          <div>
-            <button className="btn generate">
-              <RandomIcon />
-            </button>
-          </div>
+          <RegenerateChallengeButton
+            type={q.__type}
+            word={q.word as string}
+            wordId={q.wordId}
+          />
         </React.Fragment>
       ))}
     </div>
   );
 };
 
-export default WithQuestionInput;
+export default React.memo(WithQuestionInput);

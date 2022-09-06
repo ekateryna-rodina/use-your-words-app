@@ -2,7 +2,7 @@ import React from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
-import RandomIcon from "../icons/RandomIcon";
+import { RegenerateChallengeButton } from "../RegenerateChallengeButton";
 
 const WithPair = () => {
   const { challenges } = useAppSelector((state) => state.addNewQuiz);
@@ -61,15 +61,15 @@ const WithPair = () => {
                 </React.Fragment>
               ))}
             </div>
-            <div>
-              <button className="btn generate">
-                <RandomIcon />
-              </button>
-            </div>
+            <RegenerateChallengeButton
+              type={q.__type}
+              word={q.word as string}
+              wordId={q.wordId}
+            />
           </React.Fragment>
         ))}
     </div>
   );
 };
 
-export default WithPair;
+export default React.memo(WithPair);
