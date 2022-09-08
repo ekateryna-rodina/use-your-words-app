@@ -50,13 +50,16 @@ export async function executeTransaction({
           });
 
           const partsResult = [];
-          db.PartOfSpeech.findAll({
-            where: {
-              part: {
-                [Op.in]: partOfSpeech,
+          db.PartOfSpeech.findAll(
+            {
+              where: {
+                id: {
+                  [Op.in]: partOfSpeech,
+                },
               },
             },
-          }).then((parts: { dataValues: { id: string; part: string } }[]) => {
+            { transaction: t }
+          ).then((parts: { dataValues: { id: string; part: string } }[]) => {
             parts.forEach((part) => {
               const PartOfSpeechId = part.dataValues.id;
               const promise = db.WordPartOfSpeech.create(
