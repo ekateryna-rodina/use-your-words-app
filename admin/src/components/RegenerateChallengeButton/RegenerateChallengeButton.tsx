@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { QuestionType } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateSingleChallenge } from "../../features/addNewQuiz/addnewquiz-slice";
 import { useLazyRegenerateChallengeQuery } from "../../features/app-api-slice";
-import RandomIcon from "../icons/RandomIcon";
+import { AutofillButton } from "../AutofillButton";
 
 type RegenerateChallengeButtonProps = {
   wordId: string;
@@ -16,7 +16,8 @@ const RegenerateChallengeButton = ({
   word,
 }: RegenerateChallengeButtonProps) => {
   const { challenges } = useAppSelector((state) => state.addNewQuiz);
-  const [regenerate, { data, error }] = useLazyRegenerateChallengeQuery();
+  const [regenerate, { data, error, isLoading }] =
+    useLazyRegenerateChallengeQuery();
   const dispatch = useAppDispatch();
   const regenerateHandler = (
     wordId: string,
@@ -41,12 +42,13 @@ const RegenerateChallengeButton = ({
     // eslint-disable-next-line
   }, [data, error, challenges, type, wordId]);
   return (
-    <button
-      className="btn generate"
-      onClick={() => regenerateHandler(wordId, type, word)}
-    >
-      <RandomIcon />
-    </button>
+    <AutofillButton
+      onClickHandler={(e: FormEvent) => {
+        e.preventDefault();
+        regenerateHandler(wordId, type, word);
+      }}
+      isLoading={isLoading}
+    />
   );
 };
 

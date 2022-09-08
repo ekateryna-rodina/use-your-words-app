@@ -37,8 +37,8 @@ const WithOptions = ({
           <div className="quiz-challenges-result-word">{q.word}</div>
           <div className="quiz-challenges-result-question">{q.question}</div>
           <div className="quiz-challenges-options-cell">
-            {q.options?.map((o) => (
-              <div key={`${q.wordId}_csw_o_${o}`}>{o}</div>
+            {q.options?.map((o, i) => (
+              <div key={`${q.wordId}_csw_o_${o}_${i}`}>{o}</div>
             ))}
           </div>
           <div className="quiz-challenges-result-answer">{q.answer}</div>

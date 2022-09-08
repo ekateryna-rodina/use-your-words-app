@@ -23,7 +23,7 @@ const Layout: React.FC = ({ children }) => {
     useFetchQuizzesQuery();
   const dispatch = useAppDispatch();
   const closeModalHandler = () => {
-    dispatch(resetNewWord());
+    dispatch(resetNewWord(false));
     dispatch(resetExistingWord());
     dispatch(resetNewQuiz());
     dispatch(resetQuizDetails());

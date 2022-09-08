@@ -49,6 +49,7 @@ const NewQuizEditable = () => {
   const reseQuizNameHandler = (e: FormEvent) => {
     e.preventDefault();
     dispatch(setName(""));
+    resetField("name");
   };
   const includeWordHandler = (word: WordWithId) => {
     const isIncluded = includedWordIds.filter(

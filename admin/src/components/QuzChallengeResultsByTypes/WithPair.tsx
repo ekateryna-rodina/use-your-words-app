@@ -40,8 +40,8 @@ const WithPair = ({ challenges, title, isEditable }: ChallengesRsultProps) => {
           <div className="quiz-challenges-options-cell pink">
             {(q.question as { words: string[]; meanings: string[] })[
               "meanings"
-            ].map((m) => (
-              <div key={`${q.wordId}_meanings_fp_${m}`}>{m}</div>
+            ].map((m, i) => (
+              <div key={`${q.wordId}_meanings_fp_${m}_${i}`}>{m}</div>
             ))}
           </div>
           <div

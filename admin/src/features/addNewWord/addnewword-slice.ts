@@ -83,8 +83,8 @@ const addNewWordSlice = createSlice({
     setMediaError(state, action: PayloadAction<boolean>) {
       state.media.error = action.payload;
     },
-    reset(state) {
-      state.isNew = false;
+    reset(state, action: PayloadAction<boolean>) {
+      state.isNew = action.payload;
       state.isAutofill = false;
       state.word = "";
       state.isAutofillError = false;

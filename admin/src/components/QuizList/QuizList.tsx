@@ -33,7 +33,7 @@ const QuizList = ({ allowDelete }: { allowDelete: Function }) => {
     }
     // eslint-disable-next-line
   }, [quizWords, data]);
-  console.log("herer", quizzes);
+
   if (isLoading) return <Loading />;
   if (!quizzes?.length && !isLoading)
     return <div className="text-center  mt-8">No quizzes added yet</div>;

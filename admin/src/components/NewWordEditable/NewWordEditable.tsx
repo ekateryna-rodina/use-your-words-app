@@ -15,10 +15,10 @@ import { setLoading } from "../../features/loading/loading-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addWordSchema } from "../../schema/addWordSchema";
 import { FormValue, PartOfSpeech, Word } from "../../types";
+import { AutofillButton } from "../AutofillButton";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
 import CloseIcon from "../icons/CloseIcon";
-import RandomIcon from "../icons/RandomIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { PronunciationRadio } from "../PronunciationRadio";
 import { SelectField } from "../SelectField";
@@ -95,7 +95,7 @@ const NewWordEditable = () => {
   };
   const resetWordHandler = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(resetWord());
+    dispatch(resetWord(true));
     resetField("word");
   };
 
@@ -249,9 +249,10 @@ const NewWordEditable = () => {
           ) : (
             <></>
           )}
-          <button className="btn generate" onClick={autofillHandler}>
-            <RandomIcon />
-          </button>
+          <AutofillButton
+            onClickHandler={autofillHandler}
+            isLoading={result.isLoading}
+          />
           <div className="relative w-8 h-8">
             <input
               type="submit"

@@ -47,23 +47,6 @@ const postQuizQuestions = async (quiz: Quiz) => {
 };
 
 const deleteQuiz = async (id: string) => {
-  // try {
-  //   // get all challenges by quiz id
-  //   const challengeDtos = await db.QuizQuestion.findAll(
-  //     { attributes: ["QuestionId"] },
-  //     { where: { QuizId: id } }
-  //   );
-  //   const challengesIds = challengeDtos.map(
-  //     (c: any) => c.dataValues.QuestionId
-  //   );
-  //   // delete quiz
-  //   await db.Quiz.destroy({ where: { id } });
-  //   deleteQuestions(challengesIds);
-  // } catch (error) {
-  //   console.log(error.message);
-  //   throw new ApiError(500, error.message);
-  // }
-
   return executeDeleteTransaction(id).catch((err) => {
     console.log(err);
     return null;
