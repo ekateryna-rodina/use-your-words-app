@@ -5676,3 +5676,6 @@
 ::1 - - [08/Sep/2022:12:11:42 +0000] "GET /api/quiz HTTP/1.1" 200 48932
 ::1 - - [08/Sep/2022:12:11:42 +0000] "GET /api/words HTTP/1.1" 200 11964
 ::1 - - [08/Sep/2022:12:11:45 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
+::1 - - [08/Sep/2022:12:29:26 +0000] "GET /api/challenges?wordIds=5119fedc-d7f6-47cf-a091-cd6f00c5b945,134bc5c4-7a7f-4f71-8fb6-bedbf720f134,94d6e4d4-4aba-4c96-8890-7137aa3dab17 HTTP/1.1" 200 6521
+::1 - - [08/Sep/2022:12:29:32 +0000] "POST /api/quiz/ HTTP/1.1" 200 8799
+::1 - - [08/Sep/2022:12:29:32 +0000] "GET /api/quiz HTTP/1.1" 200 65507

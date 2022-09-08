@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { reset as resetNewQuiz } from "../../features/addNewQuiz/addnewquiz-slice";
 import { reset as resetNewWord } from "../../features/addNewWord/addnewword-slice";
-import { useFetchVocabularyQuery } from "../../features/app-api-slice";
+import {
+  useFetchQuizzesQuery,
+  useFetchVocabularyQuery,
+} from "../../features/app-api-slice";
 import { reset as resetQuizDetails } from "../../features/quizDetails/quizdetails-slice";
 import { reset as resetExistingWord } from "../../features/wordDetails/worddetails-slice";
 import { ExistingQuizDetails } from "../ExistingQuizDetails";
@@ -14,7 +17,10 @@ import { NewWordEditable } from "../NewWordEditable";
 
 const Layout: React.FC = ({ children }) => {
   const { activeTab } = useAppSelector((state) => state.tabs);
-  const { data, isLoading } = useFetchVocabularyQuery();
+  const { data: wordsData, isLoading: wordsIsLoading } =
+    useFetchVocabularyQuery();
+  const { data: quizzesData, isLoading: quizzesIsLoading } =
+    useFetchQuizzesQuery();
   const dispatch = useAppDispatch();
   const closeModalHandler = () => {
     dispatch(resetNewWord());
@@ -46,10 +52,10 @@ const Layout: React.FC = ({ children }) => {
             Vocabulary
           </Link>
 
-          {isLoading ? (
+          {wordsIsLoading ? (
             <div className="loading ml-[3px]">1</div>
           ) : (
-            <div className="count-label">{data?.words.length}</div>
+            <div className="count-label">{wordsData?.words.length}</div>
           )}
         </li>
         <li>
@@ -61,6 +67,11 @@ const Layout: React.FC = ({ children }) => {
           >
             Quizzes
           </Link>
+          {quizzesIsLoading ? (
+            <div className="loading ml-[3px]">1</div>
+          ) : (
+            <div className="count-label">{quizzesData?.length}</div>
+          )}
         </li>
       </ul>
       <main className="mt-8 h-full">
