@@ -209,6 +209,17 @@ const deleteWord = async (id: string) => {
   }
 };
 
+const updateIsFreezeWords = async (ids: string[], toFreeze: boolean) => {
+  try {
+    await db.Word.update(
+      { isFreeze: toFreeze },
+      { where: { id: { [Op.in]: ids } } }
+    );
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+
 const getPartsOfSpeech = async () => {
   try {
     const response = await db.PartOfSpeech.findAll({});
@@ -224,4 +235,11 @@ const getPartsOfSpeech = async () => {
   }
 };
 
-export { getWords, postWord, putWord, deleteWord, getPartsOfSpeech };
+export {
+  getWords,
+  postWord,
+  putWord,
+  deleteWord,
+  getPartsOfSpeech,
+  updateIsFreezeWords,
+};

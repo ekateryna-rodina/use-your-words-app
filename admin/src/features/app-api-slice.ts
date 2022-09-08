@@ -205,7 +205,7 @@ export const apiSlice = createApi({
           method: "POST",
           body: { name, challenges },
         }),
-        invalidatesTags: ["Quiz"],
+        invalidatesTags: ["Quiz", "Word"],
       }),
     };
   },

@@ -66,7 +66,7 @@ const ExistingWordEditable = () => {
       };
     }, [meanings, phrases, synonyms, antonyms]),
   });
-
+  console.log(currentWord);
   const onSaveWordHandler = async (values: any) => {
     updateWord({ ...values, id: (currentWord as WordWithId).id });
     dispatch(setEditMode(false));
@@ -130,12 +130,22 @@ const ExistingWordEditable = () => {
                 <SaveIcon />
               </div>
             </div>
-          ) : (
+          ) : !currentWord.isFreeze ? (
             <button className="p-[2px]" onClick={editHandler}>
               <EditIcon />
             </button>
+          ) : (
+            <></>
           )}
         </div>
+        {currentWord.isFreeze ? (
+          <div className="text-amber-500">
+            You cannot edit this word because it's included in one or more
+            quizzes
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="bordered-paragraph mt-4">
           {currentWord.partOfSpeech
             .map((p) => (p as FormValue).value)

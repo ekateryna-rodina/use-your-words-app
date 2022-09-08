@@ -2,6 +2,7 @@ import { BaseQuestion, QuestionType } from "use-your-words-common";
 import ApiError from "../error/apiError";
 import db from "../models";
 import { stringify } from "../utils/strings";
+import { updateIsFreezeWords } from "./words.service";
 
 export async function executeTransaction({ name, challenges }) {
   return db.sequelize
@@ -38,6 +39,12 @@ export async function executeTransaction({ name, challenges }) {
               quizChallengePromises.push(promise);
             });
           await Promise.all(quizChallengePromises);
+          // set words frozen, so they cannot be edited or deleted after inclusion in quizzes
+          const wordsToFreeze = Array.from(
+            new Set(challenges.map((c: any) => c.wordId))
+          ) as string[];
+
+          updateIsFreezeWords(wordsToFreeze, true);
           return {
             id: QUIZ_ID,
             name,

@@ -103,8 +103,18 @@ const Word = ({
           <button className="p-4" onClick={detailsHandler}>
             <DetailsIcon />
           </button>
-          <button className="p-4" onClick={deleteHandler}>
-            <DeleteIcon />
+          <button
+            title={`${
+              word.isFreeze
+                ? "Cannot be deleted because it`s part of a quiz"
+                : ""
+            }`}
+            className={`p-4 ${
+              word.isFreeze ? "active:pointer-events-none " : ""
+            }`}
+            onClick={deleteHandler}
+          >
+            <DeleteIcon isDisabled={word.isFreeze} />
           </button>
         </div>
       </div>

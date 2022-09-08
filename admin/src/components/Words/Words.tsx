@@ -14,6 +14,7 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
   useEffect(() => {
     if (apiWordsResponse.isLoading) return;
     setWords(apiWordsResponse.data?.words ?? []);
+    console.log(apiWordsResponse.data?.words);
   }, [apiWordsResponse]);
   useEffect(() => {
     if (searchState.words.filter((w) => w !== "").length > 0) {
