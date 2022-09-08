@@ -21,6 +21,7 @@ const NewQuizEditable = () => {
     includedWordIds,
     isShowChallengesResult: showChallengesResult,
     challenges,
+    isNew,
   } = useAppSelector((state) => state.addNewQuiz);
   const dispatch = useAppDispatch();
   const [
@@ -75,11 +76,9 @@ const NewQuizEditable = () => {
     // eslint-disable-next-line
   }, [data]);
   useEffect(() => {
-    return () => {
-      resetField("name");
-    };
+    resetField("name");
     // eslint-disable-next-line
-  }, []);
+  }, [isNew]);
   return (
     <div className="modal-container">
       <form

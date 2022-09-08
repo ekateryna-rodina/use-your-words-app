@@ -99,7 +99,6 @@ export async function executeDeleteTransaction(id: string) {
           const wordIds = Array.from(
             new Set(challengeDtos.map((c) => c.dataValues.wordId))
           ) as [];
-          console.log("hhh", wordIds);
           // select all word ids which are not WORD_IDS and have freeze true, update freeze to false
           await db.Word.update(
             { isFreeze: false },

@@ -12,8 +12,6 @@ type QuizProps = {
 };
 const Quiz = ({ quizId, allowDelete }: QuizProps) => {
   const { data } = apiSlice.endpoints.fetchQuizzes.useQuery();
-
-  console.log("hnyyyy", data);
   const [challengeWords, setChallengeWords] = useState([]);
   const dispatch = useAppDispatch();
   const [deleteQuiz] = useDeleteQuizMutation();
