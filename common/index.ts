@@ -1,6 +1,7 @@
 export type Word = {
   word: string;
   fileUrl: string;
+  isFreeze: boolean;
   meanings: string[] | { id?: string; value: string }[];
   partOfSpeech: string[] | { id?: string; value: string }[];
   phrases: string[] | { id?: string; value: string }[];
@@ -76,9 +77,16 @@ export type ChooseWordByAntonymQuestion = BaseQuestion & {
   __type: QuestionType.ChooseWordByAntonym;
 };
 
+export type Challenge = BaseQuestion & {
+  __type: QuestionType;
+  isSelected?: boolean;
+  word?: string;
+};
+export type Challenges = Challenge[];
+
 export type Quiz = {
-  //TODO: add progress
   id: string;
   name: string;
-  challenges: (BaseQuestion & { __type: QuestionType; word?: string })[];
+  isFreeze: boolean;
+  challenges: Challenges;
 };

@@ -5,7 +5,8 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
   const words = [];
   let partOfSpeech = [];
   for (const dto of dtos) {
-    const { id, word, fileUrl, createdAt, updatedAt } = dto.dataValues;
+    const { id, word, fileUrl, isFreeze, createdAt, updatedAt } =
+      dto.dataValues;
     const meanings = dto.dataValues.Meanings.map(
       (m: { dataValues: { meaning: string; id: string } }) => ({
         value: m.dataValues.meaning,
@@ -46,6 +47,7 @@ export function mapToWords(dtos: any[]): ExistingWord[] {
       id,
       word,
       fileUrl,
+      isFreeze,
       createdAt,
       updatedAt,
       meanings,

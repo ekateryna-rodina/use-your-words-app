@@ -4,11 +4,13 @@ import { Model } from "sequelize";
 interface QuizAttributes {
   id: string;
   name: string;
+  isFreeze: boolean;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
   class Quiz extends Model<QuizAttributes> implements QuizAttributes {
     id!: string;
     name!: string;
+    isFreeze!: boolean;
     static associate(models: any) {
       Quiz.belongsToMany(models.Question, {
         through: {
@@ -32,6 +34,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
         validate: { len: [3, 255] },
         allowNull: false,
         unique: true,
+      },
+      isFreeze: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {

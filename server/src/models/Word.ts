@@ -5,12 +5,14 @@ interface WordAttributes {
   id: string;
   word: string;
   fileUrl: string;
+  isFreeze: boolean;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
   class Word extends Model<WordAttributes> implements WordAttributes {
     id!: string;
     word!: string;
     fileUrl!: string;
+    isFreeze!: boolean;
     static associate(models: any) {
       Word.belongsToMany(models.PartOfSpeech, {
         through: "WordPartOfSpeech",
@@ -44,6 +46,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       fileUrl: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      isFreeze: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {

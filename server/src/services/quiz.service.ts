@@ -4,7 +4,7 @@ import { mapToQuizzes } from "../utils/mapToObject";
 import { executeTransaction } from "./quizApi.transaction";
 
 const toObject = (response) => {
-  const { id, name, challenges } = response;
+  const { id: quizId, name, challenges } = response;
   const challengedObj = [];
   for (const challenge of challenges) {
     const {
@@ -13,7 +13,7 @@ const toObject = (response) => {
     challengedObj.push({ id, type, wordId, answer, question, options });
   }
   return {
-    id,
+    id: quizId,
     name,
     challenges: challengedObj,
   };

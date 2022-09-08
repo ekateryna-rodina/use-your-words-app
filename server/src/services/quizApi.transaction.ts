@@ -40,7 +40,7 @@ export async function executeTransaction({ name, challenges }) {
           await Promise.all(quizChallengePromises);
           return {
             id: QUIZ_ID,
-            name: name,
+            name,
             challenges: all,
           };
         }

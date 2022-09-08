@@ -15,6 +15,7 @@ export type Word = {
   word: string;
   meanings: string[] | WordData[] | Value[];
   fileUrl: string;
+  isFreeze: boolean;
   partOfSpeech: string[] | WordData[];
   phrases: string[] | WordData[] | Value[];
   synonyms: string[] | WordData[] | Value[];

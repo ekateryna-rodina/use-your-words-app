@@ -1,6 +1,7 @@
 export declare type Word = {
     word: string;
     fileUrl: string;
+    isFreeze: boolean;
     meanings: string[] | {
         id?: string;
         value: string;
@@ -81,11 +82,15 @@ export declare type ChooseWordBySynonymQuestion = BaseQuestion & {
 export declare type ChooseWordByAntonymQuestion = BaseQuestion & {
     __type: QuestionType.ChooseWordByAntonym;
 };
+export declare type Challenge = BaseQuestion & {
+    __type: QuestionType;
+    isSelected?: boolean;
+    word?: string;
+};
+export declare type Challenges = Challenge[];
 export declare type Quiz = {
     id: string;
     name: string;
-    challenges: (BaseQuestion & {
-        __type: QuestionType;
-        word?: string;
-    })[];
+    isFreeze: boolean;
+    challenges: Challenges;
 };
