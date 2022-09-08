@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Quiz as QuizType } from "use-your-words-common";
+import { Challenges, Quiz as QuizType } from "use-your-words-common";
 import { useAppDispatch } from "../../app/hooks";
 import { apiSlice, useDeleteQuizMutation } from "../../features/app-api-slice";
 import { setCurrentQuiz } from "../../features/quizDetails/quizdetails-slice";
@@ -8,36 +8,55 @@ import DetailsIcon from "../icons/DetailsIcon";
 
 type QuizProps = {
   quizId: string;
+  allowDelete: Function;
 };
-const Quiz = ({ quizId }: QuizProps) => {
-  const { data } = apiSlice.endpoints.fetchQuizzes.useQueryState();
+const Quiz = ({ quizId, allowDelete }: QuizProps) => {
+  const { data } = apiSlice.endpoints.fetchQuizzes.useQuery();
+
+  console.log("hnyyyy", data);
   const [challengeWords, setChallengeWords] = useState([]);
   const dispatch = useAppDispatch();
   const [deleteQuiz] = useDeleteQuizMutation();
-  const { name, challenges } = data?.filter(
-    (q) => q.id === quizId
-  )[0] as QuizType;
+  const [quizDetails, setQuizDetails] = useState<{
+    name: string;
+    challenges: Challenges;
+  } | null>(null);
+
   //   Fetch words from cache
   const { data: words } = apiSlice.endpoints.fetchVocabulary.useQuery();
   const quizDetailsHandler = () => {
     dispatch(setCurrentQuiz(quizId));
   };
-  const deleteQuizHandler = () => {
+  const deleteQuizHandler = async () => {
+    const isOk = await allowDelete();
+    if (!isOk) return;
     deleteQuiz(quizId);
   };
   useEffect(() => {
-    const wordIds = Array.from(new Set(challenges.map((c) => c.wordId)));
+    const quizData = data?.filter((q) => q.id === quizId)[0] as QuizType;
+    if (quizData && quizData.name && quizData.challenges) {
+      setQuizDetails({ name: quizData.name, challenges: quizData.challenges });
+      return;
+    }
+    setQuizDetails(null);
+
+    // eslint-disable-next-line
+  }, [data]);
+  useEffect(() => {
+    if (!quizDetails) return;
+    const wordIds = Array.from(
+      new Set(quizDetails.challenges.map((c) => c.wordId))
+    );
     const challengeWords = wordIds.map(
       (id) => words?.words.filter((w) => w.id === id)[0].word
     ) as [];
     setChallengeWords(challengeWords);
     // eslint-disable-next-line
-  }, [challenges, name]);
-
+  }, [quizDetails]);
   return (
     <div className="relative p-2 border border-slate-300 flex gap-4">
       <div className="pr-12">
-        <h4 className="text-blue-300">{name}</h4>
+        <h4 className="text-blue-300">{quizDetails?.name ?? ""}</h4>
         <div className="flex flex-wrap gap-2 mt-2">
           {challengeWords.map((w) => (
             <div key={w} className="p-2 text-sm bg-slate-100">

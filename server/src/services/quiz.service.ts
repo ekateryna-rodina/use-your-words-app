@@ -1,8 +1,10 @@
 import { Quiz } from "use-your-words-common";
-import ApiError from "../error/apiError";
 import db from "../models";
 import { mapToQuizzes } from "../utils/mapToObject";
-import { executeTransaction } from "./quizApi.transaction";
+import {
+  executeDeleteTransaction,
+  executePostTransaction,
+} from "./quizApi.transaction";
 
 const toObject = (response) => {
   const { id: quizId, name, challenges } = response;
@@ -34,7 +36,7 @@ const fetchQuizQuestions = async () => {
 
 const postQuizQuestions = async (quiz: Quiz) => {
   if (!quiz.name || !quiz.challenges.length) return null;
-  return executeTransaction(quiz)
+  return executePostTransaction(quiz)
     .then((response) => {
       return toObject(response);
     })
@@ -45,11 +47,27 @@ const postQuizQuestions = async (quiz: Quiz) => {
 };
 
 const deleteQuiz = async (id: string) => {
-  try {
-    await db.Quiz.destroy({ where: { id } });
-  } catch (error) {
-    throw new ApiError(500, error.message);
-  }
+  // try {
+  //   // get all challenges by quiz id
+  //   const challengeDtos = await db.QuizQuestion.findAll(
+  //     { attributes: ["QuestionId"] },
+  //     { where: { QuizId: id } }
+  //   );
+  //   const challengesIds = challengeDtos.map(
+  //     (c: any) => c.dataValues.QuestionId
+  //   );
+  //   // delete quiz
+  //   await db.Quiz.destroy({ where: { id } });
+  //   deleteQuestions(challengesIds);
+  // } catch (error) {
+  //   console.log(error.message);
+  //   throw new ApiError(500, error.message);
+  // }
+
+  return executeDeleteTransaction(id).catch((err) => {
+    console.log(err);
+    return null;
+  });
 };
 
 export { postQuizQuestions, fetchQuizQuestions, deleteQuiz };

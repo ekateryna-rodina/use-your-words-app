@@ -5,9 +5,10 @@ import { useFetchQuizzesQuery } from "../../features/app-api-slice";
 import { Loading } from "../Loading";
 import { Quiz } from "../Quiz";
 
-const QuizList = () => {
+const QuizList = ({ allowDelete }: { allowDelete: Function }) => {
   const { data, isLoading } = useFetchQuizzesQuery();
   const { quizWords } = useAppSelector((state) => state.search);
+  console.log("daaata", data);
   const [quizzes, setQuizzes] = useState<QuizType[]>(data ?? []);
 
   const startsWith = (word: string) => {
@@ -32,15 +33,20 @@ const QuizList = () => {
     }
     // eslint-disable-next-line
   }, [quizWords, data]);
+  console.log("herer", quizzes);
   if (isLoading) return <Loading />;
   if (!quizzes?.length && !isLoading)
     return <div className="text-center  mt-8">No quizzes added yet</div>;
 
   return (
     <div className="mt-4 flex gap-2 flex-wrap overflow-y-auto max-h-[80vh]">
-      {quizzes.map((q) => (
-        <Quiz key={q.name} quizId={q.id} />
-      ))}
+      {quizzes.length ? (
+        quizzes.map((q) => (
+          <Quiz key={q.name} quizId={q.id} allowDelete={allowDelete} />
+        ))
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -78,4 +78,15 @@ const generateQuestion = async (
   }
 };
 
-export { generateQuizChallenges as generateQuizQuestions, generateQuestion };
+const deleteQuestions = async (ids: string[]) => {
+  try {
+    await db.Question.destroy({ where: { id: { [Op.in]: ids } } });
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+export {
+  generateQuizChallenges as generateQuizQuestions,
+  generateQuestion,
+  deleteQuestions,
+};

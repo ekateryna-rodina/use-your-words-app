@@ -1,10 +1,11 @@
+import { Op } from "sequelize";
 import { BaseQuestion, QuestionType } from "use-your-words-common";
 import ApiError from "../error/apiError";
 import db from "../models";
 import { stringify } from "../utils/strings";
-import { updateIsFreezeWords } from "./words.service";
+import { deleteQuestions } from "./questions.service";
 
-export async function executeTransaction({ name, challenges }) {
+export async function executePostTransaction({ name, challenges }) {
   return db.sequelize
     .transaction(async (t: any) => {
       // create quiz first
@@ -44,12 +45,63 @@ export async function executeTransaction({ name, challenges }) {
             new Set(challenges.map((c: any) => c.wordId))
           ) as string[];
 
-          updateIsFreezeWords(wordsToFreeze, true);
+          await db.Word.update(
+            { isFreeze: true },
+            { where: { id: { [Op.in]: wordsToFreeze } } },
+            { transaction: t }
+          );
           return {
             id: QUIZ_ID,
             name,
             challenges: all,
           };
+        }
+      );
+    })
+    .catch((err: any) => {
+      if (err.name === "SequelizeUniqueConstraintError")
+        ApiError.WordAlreadyExists(err.message);
+      throw new ApiError(500, "Server error");
+    });
+}
+
+export async function executeDeleteTransaction(id: string) {
+  return db.sequelize
+    .transaction(async (t: any) => {
+      // get all challenges by quiz id
+      const challengeDtos = await db.QuizQuestion.findAll(
+        { attributes: ["QuestionId"] },
+        { where: { QuizId: id } }
+      );
+      const challengesIds = challengeDtos.map(
+        (c: any) => c.dataValues.QuestionId
+      );
+
+      // create quiz first
+      return db.Quiz.destroy({ where: { id } }, { transaction: t }).then(
+        async () => {
+          deleteQuestions(challengesIds);
+          // select all challenges which are included into quizzes and pick WORD_IDS
+          const allQuizChallengesDtos = await db.QuizQuestion.findAll({
+            attributes: ["QuestionId"],
+          });
+          const allQuizChallengeIds = allQuizChallengesDtos.map(
+            (q) => q.dataValues.QuestionId
+          );
+          const challengeDtos = await db.Question.findAll(
+            { attributes: ["wordId"] },
+            { where: { id: { [Op.in]: allQuizChallengeIds } } }
+          );
+          const wordIds = Array.from(
+            new Set(challengeDtos.map((c) => c.dataValues.wordId))
+          ) as [];
+          console.log("hhh", wordIds);
+          // select all word ids which are not WORD_IDS and have freeze true, update freeze to false
+          await db.Word.update(
+            { isFreeze: false },
+            { where: { id: { [Op.in]: wordIds } } },
+            { transaction: t }
+          );
         }
       );
     })

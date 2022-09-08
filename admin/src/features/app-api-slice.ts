@@ -209,7 +209,7 @@ export const apiSlice = createApi({
       }),
       deleteQuiz: builder.mutation<void, string>({
         query: (id) => ({
-          url: `quiz/${id}`,
+          url: `quiz?id=${id}`,
           method: "DELETE",
         }),
         invalidatesTags: ["Quiz", "Word"],
