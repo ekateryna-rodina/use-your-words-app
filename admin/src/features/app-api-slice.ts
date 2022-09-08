@@ -207,6 +207,13 @@ export const apiSlice = createApi({
         }),
         invalidatesTags: ["Quiz", "Word"],
       }),
+      deleteQuiz: builder.mutation<void, string>({
+        query: (id) => ({
+          url: `quiz/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["Quiz", "Word"],
+      }),
     };
   },
 });
@@ -216,6 +223,7 @@ export const {
   useFetchPartsOfSpeechQuery,
   useUpdateWordMutation,
   useDeleteWordMutation,
+  useDeleteQuizMutation,
   useLazyAutofillQuery,
   useAddNewWordMutation,
   useGetQuizzesQuery,

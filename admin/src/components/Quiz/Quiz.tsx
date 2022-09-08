@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Quiz as QuizType } from "use-your-words-common";
 import { useAppDispatch } from "../../app/hooks";
-import { apiSlice } from "../../features/app-api-slice";
+import { apiSlice, useDeleteQuizMutation } from "../../features/app-api-slice";
 import { setCurrentQuiz } from "../../features/quizDetails/quizdetails-slice";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
@@ -13,6 +13,7 @@ const Quiz = ({ quizId }: QuizProps) => {
   const { data } = apiSlice.endpoints.fetchQuizzes.useQueryState();
   const [challengeWords, setChallengeWords] = useState([]);
   const dispatch = useAppDispatch();
+  const [deleteQuiz] = useDeleteQuizMutation();
   const { name, challenges } = data?.filter(
     (q) => q.id === quizId
   )[0] as QuizType;
@@ -20,6 +21,9 @@ const Quiz = ({ quizId }: QuizProps) => {
   const { data: words } = apiSlice.endpoints.fetchVocabulary.useQuery();
   const quizDetailsHandler = () => {
     dispatch(setCurrentQuiz(quizId));
+  };
+  const deleteQuizHandler = () => {
+    deleteQuiz(quizId);
   };
   useEffect(() => {
     const wordIds = Array.from(new Set(challenges.map((c) => c.wordId)));
@@ -47,7 +51,7 @@ const Quiz = ({ quizId }: QuizProps) => {
           <button onClick={quizDetailsHandler}>
             <DetailsIcon />
           </button>
-          <button>
+          <button onClick={deleteQuizHandler}>
             <DeleteIcon />
           </button>
         </div>

@@ -1,4 +1,5 @@
 import { Quiz } from "use-your-words-common";
+import ApiError from "../error/apiError";
 import db from "../models";
 import { mapToQuizzes } from "../utils/mapToObject";
 import { executeTransaction } from "./quizApi.transaction";
@@ -43,4 +44,12 @@ const postQuizQuestions = async (quiz: Quiz) => {
     });
 };
 
-export { postQuizQuestions, fetchQuizQuestions };
+const deleteQuiz = async (id: string) => {
+  try {
+    await db.Quiz.destroy({ where: { id } });
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+
+export { postQuizQuestions, fetchQuizQuestions, deleteQuiz };
