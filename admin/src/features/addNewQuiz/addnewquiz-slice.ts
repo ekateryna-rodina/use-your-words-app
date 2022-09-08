@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BaseQuestion, QuestionType } from "use-your-words-common";
-import { Challenge } from "../../types";
+import { Challenge, Challenges } from "../../types";
 
 interface AddNewQuizState {
   isNew: boolean;
   name: string;
-  challenges: (BaseQuestion & {
-    __type: QuestionType;
-    word?: string;
-    isSelected: boolean;
-  })[];
+  challenges: Challenges;
   includedWordIds: string[];
   isShowChallengesResult: boolean;
   isSelectAllChallenges: boolean;

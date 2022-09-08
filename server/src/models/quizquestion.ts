@@ -2,22 +2,18 @@
 import { Model } from "sequelize";
 
 interface QuizQuestionAttributes {
-  QuizId: string;
-  QuestionId: string;
+  QuizId: number;
+  QuestionId: number;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
   class QuizQuestion
     extends Model<QuizQuestionAttributes>
     implements QuizQuestionAttributes
   {
-    QuizId!: string;
-    QuestionId!: string;
+    QuizId!: number;
+    QuestionId!: number;
     static associate(models: any) {
-      QuizQuestion.belongsToMany(models.Question, {
-        through: "QuizQuestion",
-        onDelete: "CASCADE",
-        hooks: true,
-      });
+      /* tslint:disable:no-empty */
     }
   }
   QuizQuestion.init(

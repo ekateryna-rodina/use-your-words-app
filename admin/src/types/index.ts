@@ -9,7 +9,7 @@ export type PartOfSpeech = {
 
 export type Challenge = BaseQuestion & {
   __type: QuestionType;
-  isSelected: boolean;
+  isSelected?: boolean;
   word?: string;
 };
 export type Challenges = Challenge[];

@@ -98,7 +98,6 @@ const postWord = async (wordFullInfo: PostWord) => {
       return toObject(response);
     })
     .catch((err) => {
-      console.log(err);
       return null;
     });
 };

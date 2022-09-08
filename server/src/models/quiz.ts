@@ -11,7 +11,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
     name!: string;
     static associate(models: any) {
       Quiz.belongsToMany(models.Question, {
-        through: "QuizQuestion",
+        through: {
+          model: "QuizQuestion",
+          unique: false,
+        },
         onDelete: "CASCADE",
         hooks: true,
       });

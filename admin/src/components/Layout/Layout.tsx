@@ -4,7 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { reset as resetNewQuiz } from "../../features/addNewQuiz/addnewquiz-slice";
 import { reset as resetNewWord } from "../../features/addNewWord/addnewword-slice";
 import { useFetchVocabularyQuery } from "../../features/app-api-slice";
+import { reset as resetQuizDetails } from "../../features/quizDetails/quizdetails-slice";
 import { reset as resetExistingWord } from "../../features/wordDetails/worddetails-slice";
+import { ExistingQuizDetails } from "../ExistingQuizDetails";
 import { ExistingWordEditable } from "../ExistingWordEditable";
 import CloseIcon from "../icons/CloseIcon";
 import { NewQuizEditable } from "../NewQuizEditable";
@@ -18,13 +20,16 @@ const Layout: React.FC = ({ children }) => {
     dispatch(resetNewWord());
     dispatch(resetExistingWord());
     dispatch(resetNewQuiz());
+    dispatch(resetQuizDetails());
   };
   const { isNew: isNewWord } = useAppSelector((state) => state.addNewWord);
   const { isNew: isNewQuiz } = useAppSelector((state) => state.addNewQuiz);
   const { currentWordId } = useAppSelector((state) => state.wordDetails);
+  const { currentQuizId } = useAppSelector((state) => state.quizDetails);
   const renderModalContent = () => {
     if (currentWordId) return <ExistingWordEditable />;
     else if (isNewWord) return <NewWordEditable />;
+    else if (currentQuizId) return <ExistingQuizDetails />;
     return <NewQuizEditable />;
   };
   return (
@@ -62,7 +67,9 @@ const Layout: React.FC = ({ children }) => {
         {children}
         <div
           className={`absolute inset-0 transition bg-slate-100 ${
-            !currentWordId && !isNewWord && !isNewQuiz ? "translate-y-full" : ""
+            !currentWordId && !isNewWord && !isNewQuiz && !currentQuizId
+              ? "translate-y-full"
+              : ""
           }`}
         >
           <div className="relative w-full h-full">

@@ -15,6 +15,7 @@ const ChallengesResultCheckbox = ({
   const includeChallengeHandler = () => {
     dispatch(toggleSelection({ wordId, type }));
   };
+
   return (
     <div>
       <input

@@ -7,6 +7,7 @@ import WithQuestionInput from "./WithQuestionInput";
 export type ChallengesRsultProps = {
   challenges: Challenges;
   title: string;
+  isEditable: boolean;
 };
 
 export { WithMedia, WithPair, WithOptions, WithQuestionInput };

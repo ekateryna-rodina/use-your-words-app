@@ -3,16 +3,16 @@ import { ChallengesRsultProps } from ".";
 import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
 import { PlaySound } from "../PlaySound";
 
-const WithMedia = ({ title, challenges }: ChallengesRsultProps) => {
+const WithMedia = ({ title, challenges, isEditable }: ChallengesRsultProps) => {
   const withAnswer: boolean = challenges.filter((c) => c.answer).length > 0;
-  const headers = ["", "Word", "Media"];
+  const headers = isEditable ? ["", "Word", "Media"] : ["Word", "Media"];
   if (withAnswer) headers.push("Answer");
   else headers.push("");
   return (
     <div
       className="quiz-challenges-grid"
       style={{
-        gridTemplateColumns: "20px 2fr 1fr 1fr",
+        gridTemplateColumns: isEditable ? "20px 2fr 1fr 1fr" : "2fr 1fr 1fr",
       }}
     >
       <div className="quiz-challenges-result-name">{title}</div>
@@ -24,7 +24,11 @@ const WithMedia = ({ title, challenges }: ChallengesRsultProps) => {
 
       {challenges.map((q) => (
         <React.Fragment key={`${q.wordId}_p`}>
-          <ChallengesResultCheckbox type={q.__type} wordId={q.wordId} />
+          {isEditable ? (
+            <ChallengesResultCheckbox type={q.__type} wordId={q.wordId} />
+          ) : (
+            <></>
+          )}
           <div
             className="quiz-challenges-result-word"
             key={`${q.wordId}_word_pronounce`}

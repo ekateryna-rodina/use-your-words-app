@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { WordWithId } from "use-your-words-common";
 import { useAppSelector } from "../../app/hooks";
 import { useFetchVocabularyQuery } from "../../features/app-api-slice";
+import { Loading } from "../Loading";
 import Word from "../Word/Word";
 
 const Words = ({ allowDelete }: { allowDelete: Function }) => {
@@ -33,14 +34,10 @@ const Words = ({ allowDelete }: { allowDelete: Function }) => {
     }
     // eslint-disable-next-line
   }, [searchState]);
-  if (!words?.length && !apiWordsResponse.isLoading)
+  if (!apiWordsResponse.isLoading && !words?.length)
     return <div className="text-center  mt-8">No words added yet</div>;
   if (apiWordsResponse.isLoading || !words) {
-    return (
-      <div className="h-full flex justify-center items-start pt-8">
-        <div className="loading loading-lg"></div>
-      </div>
-    );
+    return <Loading />;
   }
   return (
     <div className="flex flex-col mt-4 max-h-[72vh] overflow-y-auto pr-[10px]">

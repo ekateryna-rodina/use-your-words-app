@@ -16,14 +16,17 @@ module.exports = (sequelize: any, DataTypes: any) => {
   {
     id!: string;
     wordId!: string;
-    question!: string;
-    answer!: string;
-    options!: string;
+    question: string;
+    answer: string;
+    options: string;
     type!: string;
 
     static associate(models: any) {
       Question.belongsToMany(models.Quiz, {
-        through: "QuizQuestion",
+        through: {
+          model: "QuizQuestion",
+        },
+        constraints: false,
         onDelete: "CASCADE",
         hooks: true,
       });
@@ -38,6 +41,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
         primaryKey: true,
       },
       wordId: {
@@ -74,6 +78,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
           "ChooseWordBySynonym",
           "ChooseWordByAntonym"
         ),
+        allowNull: false,
       },
     },
     {

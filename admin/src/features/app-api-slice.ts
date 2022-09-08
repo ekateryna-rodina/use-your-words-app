@@ -6,7 +6,8 @@ import {
   WordWithId,
 } from "use-your-words-common";
 import { v4 } from "uuid";
-import { Challenges, FormValue, PartOfSpeech, Word } from "../types";
+import { Challenge, Challenges, FormValue, PartOfSpeech, Word } from "../types";
+import { isEqualType, transformChallenges } from "../utils/apiTransform";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -147,53 +148,23 @@ export const apiSlice = createApi({
         transformResponse: (
           response:
             | {
-                challenges: (BaseQuestion & {
-                  __type: QuestionType;
-                })[];
+                challenges: Challenges;
               }
             | Promise<{
-                challenges: (BaseQuestion & {
-                  __type: QuestionType;
-                })[];
+                challenges: Challenges;
               }>
         ) => {
           if (response instanceof Promise) return response;
-          // TODO: this is a dirty solution :()
-          const nameById = response.challenges
-            .filter((c) => c.__type === QuestionType.FillGap)
-            .reduce(
-              (
-                acc: { [id: string]: string },
-                curr: BaseQuestion & {
-                  __type: QuestionType;
-                }
-              ) => {
-                const id = curr.wordId;
-                acc[id] = curr.answer as string;
-                return acc;
-              },
-              {}
-            );
-          const challengesModified = response.challenges.map((c) => ({
-            ...c,
-            word: nameById[c.wordId],
-            isSelected: true,
-          }));
-          response.challenges = challengesModified;
-          return response as {
-            challenges: (BaseQuestion & {
-              __type: QuestionType;
-              word: string;
-            })[];
-          };
+          response.challenges = transformChallenges(
+            response.challenges,
+            (current: QuestionType, target: QuestionType) => current === target,
+            true
+          );
+          return response;
         },
       }),
       regenerateChallenge: builder.query<
-        BaseQuestion & {
-          __type: QuestionType;
-          word?: string;
-          isSelected: boolean;
-        },
+        Challenge,
         {
           wordId: string;
           type: QuestionType;
@@ -206,38 +177,24 @@ export const apiSlice = createApi({
             ","
           )}`;
         },
-        transformResponse: (
-          response:
-            | (BaseQuestion & {
-                __type: QuestionType;
-                word?: string;
-                isSelected: boolean;
-              })
-            | Promise<
-                BaseQuestion & {
-                  __type: QuestionType;
-                  word?: string;
-                  isSelected: boolean;
-                }
-              >
-        ) => {
+        transformResponse: (response: Challenge | Promise<Challenge>) => {
           if (response instanceof Promise) return response;
           response.isSelected = true;
-          return response as BaseQuestion & {
-            __type: QuestionType;
-            word: string;
-            isSelected: boolean;
-          };
+          return response;
         },
       }),
-      fetchQuizzes: builder.query<
-        { id: string; name: string; challenges: Challenges }[],
-        void
-      >({
+      fetchQuizzes: builder.query<Quiz[], void>({
         query() {
           return "/quiz";
         },
         providesTags: ["Quiz"],
+        transformResponse: (response: Quiz[] | Promise<Quiz[]>) => {
+          if (response instanceof Promise) return response;
+          for (let quiz of response) {
+            quiz.challenges = transformChallenges(quiz.challenges, isEqualType);
+          }
+          return response;
+        },
       }),
       addNewQuiz: builder.mutation<
         void,
