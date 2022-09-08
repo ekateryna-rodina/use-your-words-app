@@ -82,15 +82,19 @@ export async function executeDeleteTransaction(id: string) {
         async () => {
           deleteQuestions(challengesIds);
           // select all challenges which are included into quizzes and pick WORD_IDS
-          const allQuizChallengesDtos = await db.QuizQuestion.findAll({
-            attributes: ["QuestionId"],
-          });
+          const allQuizChallengesDtos = await db.QuizQuestion.findAll(
+            {
+              attributes: ["QuestionId"],
+            },
+            { transaction: t }
+          );
           const allQuizChallengeIds = allQuizChallengesDtos.map(
             (q) => q.dataValues.QuestionId
           );
           const challengeDtos = await db.Question.findAll(
             { attributes: ["wordId"] },
-            { where: { id: { [Op.in]: allQuizChallengeIds } } }
+            { where: { id: { [Op.in]: allQuizChallengeIds } } },
+            { transaction: t }
           );
           const wordIds = Array.from(
             new Set(challengeDtos.map((c) => c.dataValues.wordId))
