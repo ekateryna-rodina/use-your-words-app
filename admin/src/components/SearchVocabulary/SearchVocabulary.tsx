@@ -1,10 +1,10 @@
 import { useAppDispatch } from "../../app/hooks";
-import { setSearch } from "../../features/search/search-slice";
+import { setWordsSearch } from "../../features/search/search-slice";
 
 function SearchVocabulary() {
   const dispatch = useAppDispatch();
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearch(e.currentTarget.value));
+    dispatch(setWordsSearch(e.currentTarget.value));
   };
   return (
     <input

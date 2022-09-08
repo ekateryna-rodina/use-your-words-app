@@ -1,14 +1,16 @@
-import { useState } from "react";
-import { apiSlice } from "../../features/app-api-slice";
+import { useAppDispatch } from "../../app/hooks";
+import { setQuizzesSearch } from "../../features/search/search-slice";
 
 const SearchQuizWords = () => {
-  const [searchTerm, setSearchTerm] = useState<string>();
-  const { data } = apiSlice.endpoints.getQuizzes.useQueryState();
+  const dispatch = useAppDispatch();
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setQuizzesSearch(e.currentTarget.value));
+  };
   return (
     <input
       placeholder="Search quiz words...."
       className="p-4 border border-slate-300 h-8 outlined"
-      onChange={(e) => setSearchTerm(e.currentTarget.value)}
+      onChange={searchHandler}
     />
   );
 };
