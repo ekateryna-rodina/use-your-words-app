@@ -54,7 +54,9 @@ const SelectField = <T extends { id: string; value: string }>({
             ref={field.ref}
             value={selectOptions.filter((c) => field.value.includes(c.value))}
             options={selectOptions as []}
-            onChange={(val) => field.onChange(val)}
+            onChange={(val) => {
+              field.onChange(val.map((v) => v.value));
+            }}
           />
         )}
       />

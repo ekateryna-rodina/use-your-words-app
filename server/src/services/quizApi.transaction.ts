@@ -69,11 +69,11 @@ export async function executeDeleteTransaction(id: string) {
   return db.sequelize
     .transaction(async (t: any) => {
       // get all challenges by quiz id
-      const challengeDtos = await db.QuizQuestion.findAll(
+      const quizChallengeDtos = await db.QuizQuestion.findAll(
         { attributes: ["QuestionId"] },
         { where: { QuizId: id } }
       );
-      const challengesIds = challengeDtos.map(
+      const challengesIds = quizChallengeDtos.map(
         (c: any) => c.dataValues.QuestionId
       );
 

@@ -47,6 +47,7 @@ const NewWordEditable = () => {
     control,
     getValues,
     setValue,
+    reset,
     resetField,
     formState: { errors },
   } = useForm<any>({
@@ -96,7 +97,7 @@ const NewWordEditable = () => {
   const resetWordHandler = (e: FormEvent) => {
     e.preventDefault();
     dispatch(resetWord(true));
-    resetField("word");
+    reset();
   };
 
   const submitFileToStorage = async () => {
@@ -264,7 +265,11 @@ const NewWordEditable = () => {
             </div>
           </div>
         </div>
-        <div className="word-details-container">
+        <div
+          className={`word-details-container ${
+            isAutofillError ? "mt-[8px]" : ""
+          }`}
+        >
           <div style={{ marginTop: `calc(8px + ${errorsHeight}px)` }}>
             <SelectField
               labelClass="text-xl text-slate-300"
