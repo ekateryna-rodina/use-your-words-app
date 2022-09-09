@@ -14,7 +14,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api",
   }),
-  tagTypes: ["Word", "Quiz"],
+  tagTypes: ["Word", "Quiz", "Tag"],
   endpoints(builder) {
     return {
       fetchVocabulary: builder.query<{ words: WordWithId[] }, void>({
@@ -214,6 +214,21 @@ export const apiSlice = createApi({
         }),
         invalidatesTags: ["Quiz", "Word"],
       }),
+      fetchTags: builder.query<
+        { tagsInfo: { id: string; name: string }[] },
+        void
+      >({
+        query: (id) => ({
+          url: "tags/",
+        }),
+      }),
+      saveTags: builder.mutation<void, string[]>({
+        query: (id) => ({
+          url: "tags/",
+          method: "POST",
+        }),
+        invalidatesTags: ["Tag"],
+      }),
     };
   },
 });
@@ -231,4 +246,6 @@ export const {
   useLazyRegenerateChallengeQuery,
   useAddNewQuizMutation,
   useFetchQuizzesQuery,
+  useFetchTagsQuery,
+  useSaveTagsMutation,
 } = apiSlice;

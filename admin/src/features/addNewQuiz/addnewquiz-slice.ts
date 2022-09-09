@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BaseQuestion, QuestionType } from "use-your-words-common";
-import { Challenge, Challenges } from "../../types";
+import { Challenge, Challenges, NewQuizFormSteps } from "../../types";
 
 interface AddNewQuizState {
   isNew: boolean;
   name: string;
   challenges: Challenges;
   includedWordIds: string[];
-  isShowChallengesResult: boolean;
   isSelectAllChallenges: boolean;
+  step: NewQuizFormSteps;
 }
 
 const initialState: AddNewQuizState = {
@@ -16,10 +16,9 @@ const initialState: AddNewQuizState = {
   name: "",
   challenges: [],
   includedWordIds: [],
-  isShowChallengesResult: false,
   isSelectAllChallenges: true,
+  step: NewQuizFormSteps.Words,
 };
-
 const addNewQuizSlice = createSlice({
   name: "addNewQuiz",
   initialState,
@@ -32,7 +31,7 @@ const addNewQuizSlice = createSlice({
       state.name = "";
       state.challenges = [];
       state.includedWordIds = [];
-      state.isShowChallengesResult = false;
+      // state.isShowChallengesResult = false;
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
@@ -50,8 +49,8 @@ const addNewQuizSlice = createSlice({
     ) {
       state.challenges = action.payload;
     },
-    setShowChallengesResult(state, action: PayloadAction<boolean>) {
-      state.isShowChallengesResult = action.payload;
+    setStep(state, action: PayloadAction<NewQuizFormSteps>) {
+      state.step = action.payload;
     },
     toggleSelection(
       state,
@@ -82,7 +81,7 @@ export const {
   setName,
   setIncludedWordIds,
   setChallenges,
-  setShowChallengesResult,
+  setStep,
   toggleSelection,
   toggleSelectAllChallenges,
   updateSingleChallenge,

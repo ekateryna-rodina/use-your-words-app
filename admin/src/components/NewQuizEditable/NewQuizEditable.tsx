@@ -4,30 +4,28 @@ import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   reset as resetStore,
-  setChallenges,
   setIncludedWordIds,
   setName,
-  setShowChallengesResult,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
 import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addQuizSchema } from "../../schema/addQuizSchema";
+import { NewQuizFormSteps } from "../../types";
 import { FormErrors } from "../FormErrors";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
+import { NewQuizStepsPanel } from "../NewQuizStepsPanel";
 import { QuizChallengesResult } from "../QuizChallengesResult";
+import { QuizTags } from "../QuizTags";
 
 const NewQuizEditable = () => {
-  const [minQuizQuestions, maxQuizQuestions] = [3, 7];
+  const maxQuizQuestions = 7;
   const { isLoading } = useAppSelector((state) => state.loading);
   const [challengeErrors, setChallengeErrors] = useState<string[]>([]);
-  const {
-    includedWordIds,
-    isShowChallengesResult: showChallengesResult,
-    challenges,
-    isNew,
-  } = useAppSelector((state) => state.addNewQuiz);
+  const { includedWordIds, step, challenges, isNew } = useAppSelector(
+    (state) => state.addNewQuiz
+  );
   const resolver = useYupValidationResolver(addQuizSchema);
   const dispatch = useAppDispatch();
   const [
@@ -35,8 +33,6 @@ const NewQuizEditable = () => {
     { data, isError, isLoading: challengeGenerationLoading },
   ] = apiSlice.endpoints.generateChallenges.useLazyQuery();
   const [saveNewQuiz] = useAddNewQuizMutation();
-  const [showWordsWithoutQuizOnly, setShowWordsWithoutQuizOnly] =
-    useState<boolean>(false);
   const errorsRef = useRef<HTMLDivElement>(null);
   const { data: vocabularyWords } =
     apiSlice.endpoints.fetchVocabulary.useQueryState();
@@ -75,19 +71,7 @@ const NewQuizEditable = () => {
     }
     dispatch(setIncludedWordIds(wordsToInclude));
   };
-  const generateChallengesHandler = (e: FormEvent) => {
-    e.preventDefault();
-    generateChallenges(includedWordIds);
-  };
-  useEffect(() => {
-    if (data?.challenges.length) {
-      dispatch(
-        setChallenges(data.challenges.map((c) => ({ ...c, isSelected: true })))
-      );
-      dispatch(setShowChallengesResult(true));
-    }
-    // eslint-disable-next-line
-  }, [data]);
+
   useEffect(() => {
     resetField("name");
     // eslint-disable-next-line
@@ -149,55 +133,14 @@ const NewQuizEditable = () => {
             </div>
           </div>
         </div>
-
         <div className="quiz-questions-container mt-4 relative">
-          <div className="absolute top-0 left-0 right-0 h-auto pb-8 border-b-[1px] border-dotted border-slate-300">
-            {!showChallengesResult && (
-              <h2 className="quiz-challenges-header">Including Words</h2>
-            )}
-            {!showChallengesResult && (
-              <div className="flex xs:justify-between xs:items-center translate-y-1/8 md:translate-y-1/2 flex-col justify-center items-center gap-2 xs:flex-row">
-                <label
-                  htmlFor="showWordsWithoutQuizOnly"
-                  className="text-xs md:text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    id="showWordsWithoutQuizOnly"
-                    checked={showWordsWithoutQuizOnly}
-                    className="mr-2"
-                    onChange={() =>
-                      setShowWordsWithoutQuizOnly(!showWordsWithoutQuizOnly)
-                    }
-                  />
-                  Show only words not included in any quiz
-                </label>
-                <button
-                  className="quiz-challenges-button sm:ml-4"
-                  onClick={generateChallengesHandler}
-                  disabled={includedWordIds.length < minQuizQuestions}
-                >
-                  Generate challenges
-                </button>
-              </div>
-            )}
-            {showChallengesResult && (
-              <h2 className="quiz-challenges-header">Challenges</h2>
-            )}
-            {showChallengesResult && (
-              <div className="flex justify-start items-center translate-y-1/2">
-                <button
-                  className="quiz-challenges-button"
-                  onClick={() => dispatch(setShowChallengesResult(false))}
-                >
-                  Back
-                </button>
-              </div>
-            )}
-          </div>
+          <NewQuizStepsPanel />
           <div
             className={`transition ease-in-out duration-300 absolute top-32 md:top-28 left-0 right-0 bottom-0 ${
-              showChallengesResult ? "-translate-x-full" : ""
+              step === NewQuizFormSteps.Challenges ||
+              step === NewQuizFormSteps.Tags
+                ? "-translate-x-full"
+                : ""
             }`}
           >
             {vocabularyWords?.words.map((w) => (
@@ -217,14 +160,17 @@ const NewQuizEditable = () => {
           </div>
           <div
             className={`transition ease-in-out duration-300 absolute top-28 left-0 right-0 bottom-0 ${
-              showChallengesResult ? "" : "translate-x-full"
+              step === NewQuizFormSteps.Challenges ? "" : "translate-x-full"
             }`}
           >
-            {data?.challenges.length && showChallengesResult ? (
-              <QuizChallengesResult />
-            ) : (
-              <></>
-            )}
+            <QuizChallengesResult />
+          </div>
+          <div
+            className={`transition ease-in-out duration-300 absolute top-28 left-0 right-0 bottom-0 ${
+              step === NewQuizFormSteps.Tags ? "" : "translate-x-full"
+            }`}
+          >
+            <QuizTags />
           </div>
         </div>
       </form>

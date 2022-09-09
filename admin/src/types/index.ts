@@ -28,6 +28,10 @@ export type Word = {
   recordPronunciation?: string;
 };
 
-// export type WordWithId = Word & { id: string };
-
 export type Tabs = "vocabulary" | "quizzes";
+
+export enum NewQuizFormSteps {
+  Words,
+  Challenges,
+  Tags,
+}
