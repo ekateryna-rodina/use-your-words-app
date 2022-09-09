@@ -8,7 +8,6 @@ import { Quiz } from "../Quiz";
 const QuizList = ({ allowDelete }: { allowDelete: Function }) => {
   const { data, isLoading } = useFetchQuizzesQuery();
   const { quizWords } = useAppSelector((state) => state.search);
-  console.log("daaata", data);
   const [quizzes, setQuizzes] = useState<QuizType[]>(data ?? []);
 
   const startsWith = (word: string) => {

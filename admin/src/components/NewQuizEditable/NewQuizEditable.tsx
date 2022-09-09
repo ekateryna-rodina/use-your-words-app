@@ -10,6 +10,8 @@ import {
   setShowChallengesResult,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
+import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
+import { addQuizSchema } from "../../schema/addQuizSchema";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { QuizChallengesResult } from "../QuizChallengesResult";
@@ -17,12 +19,14 @@ import { QuizChallengesResult } from "../QuizChallengesResult";
 const NewQuizEditable = () => {
   const [minQuizQuestions, maxQuizQuestions] = [3, 7];
   const { isLoading } = useAppSelector((state) => state.loading);
+  const [challengeErrors, setChallengeErrors] = useState<string[]>([]);
   const {
     includedWordIds,
     isShowChallengesResult: showChallengesResult,
     challenges,
     isNew,
   } = useAppSelector((state) => state.addNewQuiz);
+  const resolver = useYupValidationResolver(addQuizSchema);
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
@@ -38,8 +42,12 @@ const NewQuizEditable = () => {
     register,
     resetField,
     formState: { errors },
-  } = useForm<any>({});
+  } = useForm<any>({ resolver });
   const onSaveQuizHandler = (values: any) => {
+    if (!challenges.length) {
+      setChallengeErrors(["create challenges for this quiz"]);
+      return;
+    }
     saveNewQuiz({ name: values.name, challenges });
     dispatch(resetStore());
   };
@@ -111,11 +119,17 @@ const NewQuizEditable = () => {
               </button>
             </div>
           </div>
-          {Object.keys(errors).length ? (
-            <div className="absolute left-0 -bottom-8 flex flex-col">
-              {Object.values(errors).map((v: any) => (
-                <small key={v.message} className="text-red">
-                  {v.message}
+          {[
+            ...Object.values(errors).map((e) => (e as any).message),
+            ...challengeErrors,
+          ].length ? (
+            <div className="absolute left-0 top-[2.1rem] flex flex-col">
+              {[
+                ...Object.values(errors).map((e) => (e as any).message),
+                ...challengeErrors,
+              ].map((err, i) => (
+                <small key={i} className="text-red">
+                  {err}
                 </small>
               ))}
             </div>

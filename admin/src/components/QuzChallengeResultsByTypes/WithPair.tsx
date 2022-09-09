@@ -4,7 +4,6 @@ import { ChallengesResultCheckbox } from "../ChallengesResultCheckbox";
 import { RegenerateChallengeButton } from "../RegenerateChallengeButton";
 
 const WithPair = ({ challenges, title, isEditable }: ChallengesRsultProps) => {
-  console.log("her", challenges);
   const headers = isEditable
     ? ["", "Word options", "Definition options", "Answer", ""]
     : ["Word options", "Definition options", "Answer"];
