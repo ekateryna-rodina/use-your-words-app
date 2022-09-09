@@ -1,26 +1,16 @@
 "use strict";
 import { Model } from "sequelize";
 
-interface QuizAttributes {
+interface TagAttributes {
   id: string;
   name: string;
-  isFreeze: boolean;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Quiz extends Model<QuizAttributes> implements QuizAttributes {
+  class Tag extends Model<TagAttributes> implements TagAttributes {
     id!: string;
     name!: string;
-    isFreeze!: boolean;
     static associate(models: any) {
-      Quiz.belongsToMany(models.Question, {
-        through: {
-          model: "QuizQuestion",
-          unique: false,
-        },
-        onDelete: "CASCADE",
-        hooks: true,
-      });
-      Quiz.belongsToMany(models.Tag, {
+      Tag.belongsToMany(models.Quiz, {
         through: {
           model: "TagQuiz",
           unique: false,
@@ -29,7 +19,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       });
     }
   }
-  Quiz.init(
+  Tag.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -42,16 +32,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         unique: true,
       },
-      isFreeze: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
     },
     {
       sequelize,
-      modelName: "Quiz",
+      modelName: "Tag",
     }
   );
-  return Quiz;
+  return Tag;
 };

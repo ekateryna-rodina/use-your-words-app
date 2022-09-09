@@ -6306,3 +6306,4 @@
 ::1 - - [09/Sep/2022:10:38:18 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521
 ::1 - - [09/Sep/2022:10:38:18 +0000] "GET /api/quiz HTTP/1.1" 200 60246
 ::1 - - [09/Sep/2022:10:38:18 +0000] "GET /api/words HTTP/1.1" 200 41871
+::1 - - [09/Sep/2022:10:42:26 +0000] "GET /api/partOfSpeech HTTP/1.1" 200 521

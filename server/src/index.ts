@@ -10,6 +10,8 @@ import { getQuestionsRouter } from "./routes/questions/get";
 import { deleteQuizRouter } from "./routes/quiz/delete";
 import { getQuizRouter } from "./routes/quiz/get";
 import { postQuizRouter } from "./routes/quiz/post";
+import { getTagsRouter } from "./routes/tag/get";
+import { postTagsRouter } from "./routes/tag/post";
 import { deleteWordsRouter } from "./routes/vocabulary/delete";
 import { getWordsRouter } from "./routes/vocabulary/get";
 import { postWordsRouter } from "./routes/vocabulary/post";
@@ -45,6 +47,8 @@ app.use(getPartOfSpeechRouter);
 app.use(getQuestionsRouter);
 app.use(postQuizRouter);
 app.use(getQuizRouter);
+app.use(getTagsRouter);
+app.use(postTagsRouter);
 
 // middleware
 app.use(apiErrorHandler);
