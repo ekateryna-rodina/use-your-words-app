@@ -18,6 +18,7 @@ import { FormValue, PartOfSpeech, Word } from "../../types";
 import { AutofillButton } from "../AutofillButton";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
+import { FormErrors } from "../FormErrors";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { PronunciationRadio } from "../PronunciationRadio";
@@ -48,7 +49,6 @@ const NewWordEditable = () => {
     getValues,
     setValue,
     reset,
-    resetField,
     formState: { errors },
   } = useForm<any>({
     resolver,
@@ -235,21 +235,12 @@ const NewWordEditable = () => {
           ) : (
             <></>
           )}
-          {Object.keys(errors).length ? (
-            <div
-              className="absolute left-0 flex flex-col"
-              style={{ bottom: `-${errorsHeight}px` }}
-              ref={errorsRef}
-            >
-              {Object.values(errors).map((v: any) => (
-                <small key={v.message} className="text-red">
-                  {v.message}
-                </small>
-              ))}
-            </div>
-          ) : (
-            <></>
-          )}
+
+          <FormErrors
+            errors={Object.values(errors).map((v: any) => v.message)}
+            height={errorsHeight}
+            ref={errorsRef}
+          />
           <AutofillButton
             onClickHandler={autofillHandler}
             isLoading={result.isLoading}
@@ -270,7 +261,11 @@ const NewWordEditable = () => {
             isAutofillError ? "mt-[8px]" : ""
           }`}
         >
-          <div style={{ marginTop: `calc(8px + ${errorsHeight}px)` }}>
+          <div
+            style={{
+              marginTop: `calc(8px + ${errorsHeight}px)`,
+            }}
+          >
             <SelectField
               labelClass="text-xl text-slate-300"
               label="Parts of speech"

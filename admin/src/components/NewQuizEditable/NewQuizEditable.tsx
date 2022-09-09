@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -12,6 +12,7 @@ import {
 import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addQuizSchema } from "../../schema/addQuizSchema";
+import { FormErrors } from "../FormErrors";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { QuizChallengesResult } from "../QuizChallengesResult";
@@ -27,6 +28,7 @@ const NewQuizEditable = () => {
     isNew,
   } = useAppSelector((state) => state.addNewQuiz);
   const resolver = useYupValidationResolver(addQuizSchema);
+  const [errorsHeight, setErrorsHeight] = useState<number>(0);
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
@@ -35,6 +37,7 @@ const NewQuizEditable = () => {
   const [saveNewQuiz] = useAddNewQuizMutation();
   const [showWordsWithoutQuizOnly, setShowWordsWithoutQuizOnly] =
     useState<boolean>(false);
+  const errorsRef = useRef<HTMLDivElement>(null);
   const { data: vocabularyWords } =
     apiSlice.endpoints.fetchVocabulary.useQueryState();
   const {
@@ -59,6 +62,11 @@ const NewQuizEditable = () => {
     dispatch(setName(""));
     resetField("name");
   };
+  useEffect(() => {
+    if (!Object.keys(errors).length) return;
+    const errorsHeight = errorsRef.current?.clientHeight;
+    setErrorsHeight(errorsHeight ?? 0);
+  }, [errors]);
   const includeWordHandler = (word: WordWithId) => {
     const isIncluded = includedWordIds.filter(
       (id: string) => id === word.id
@@ -119,23 +127,14 @@ const NewQuizEditable = () => {
               </button>
             </div>
           </div>
-          {[
-            ...Object.values(errors).map((e) => (e as any).message),
-            ...challengeErrors,
-          ].length ? (
-            <div className="absolute left-0 top-[2.1rem] flex flex-col">
-              {[
-                ...Object.values(errors).map((e) => (e as any).message),
-                ...challengeErrors,
-              ].map((err, i) => (
-                <small key={i} className="text-red">
-                  {err}
-                </small>
-              ))}
-            </div>
-          ) : (
-            <></>
-          )}
+          <FormErrors
+            errors={[
+              ...Object.values(errors).map((e) => (e as any).message),
+              ...challengeErrors,
+            ]}
+            height={errorsHeight}
+            ref={errorsRef}
+          />
           <div className="relative w-8 h-8">
             <input
               type="submit"

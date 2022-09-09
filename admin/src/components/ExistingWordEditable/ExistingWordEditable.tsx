@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -12,6 +12,7 @@ import { editWordSchema } from "../../schema/editWordSchema";
 import { FormValue } from "../../types";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
+import { FormErrors } from "../FormErrors";
 import EditIcon from "../icons/EditIcon";
 import SaveIcon from "../icons/SaveIcon";
 import { PlaySound } from "../PlaySound";
@@ -33,18 +34,14 @@ const ExistingWordEditable = () => {
   const { meanings, phrases, synonyms, antonyms } = currentWord;
   const [expanded, setExpanded] = useState<string[]>([]);
   const resolver = useYupValidationResolver(editWordSchema);
-  const [file, setFile] = useState<File | null>(null);
   const dispatch = useAppDispatch();
   const [updateWord] = useUpdateWordMutation();
-  const [fileError, setFileError] = useState<boolean>(false);
+  const [errorsHeight, setErrorsHeight] = useState<number>(0);
   const {
     handleSubmit,
     register,
     reset,
     control,
-    getValues,
-    setValue,
-    resetField,
     formState: { errors },
   } = useForm<any>({
     resolver,
@@ -66,7 +63,7 @@ const ExistingWordEditable = () => {
       };
     }, [meanings, phrases, synonyms, antonyms]),
   });
-  console.log(currentWord);
+  const errorsRef = useRef<HTMLDivElement>(null);
   const onSaveWordHandler = async (values: any) => {
     updateWord({ ...values, id: (currentWord as WordWithId).id });
     dispatch(setEditMode(false));
@@ -103,6 +100,11 @@ const ExistingWordEditable = () => {
     });
     // eslint-disable-next-line
   }, [currentWord]);
+  useEffect(() => {
+    if (!Object.keys(errors).length) return;
+    const errorsHeight = errorsRef.current?.clientHeight;
+    setErrorsHeight(errorsHeight ?? 0);
+  }, [errors]);
   return (
     <div className="modal-container">
       <form
@@ -114,7 +116,7 @@ const ExistingWordEditable = () => {
         )}
         className="w-full h-full"
       >
-        <div className="w-full flex justify-start items-center gap-4">
+        <div className="relative w-full flex justify-start items-center gap-4">
           <span className="text-2xl font-bold">
             {currentWord.word[0].toUpperCase() + currentWord.word.slice(1)}
           </span>
@@ -137,6 +139,11 @@ const ExistingWordEditable = () => {
           ) : (
             <></>
           )}
+          <FormErrors
+            errors={Object.values(errors).map((v: any) => v.message)}
+            ref={errorsRef}
+            height={errorsHeight}
+          />
         </div>
         {currentWord.isFreeze ? (
           <div className="text-amber-500">
@@ -146,7 +153,12 @@ const ExistingWordEditable = () => {
         ) : (
           <></>
         )}
-        <div className="bordered-paragraph mt-4">
+        <div
+          className="bordered-paragraph"
+          style={{
+            marginTop: `calc(8px + ${errorsHeight}px)`,
+          }}
+        >
           {currentWord.partOfSpeech
             .map((p) => (p as FormValue).value)
             .join(", ")}
