@@ -7,6 +7,7 @@ import {
   useUpdateWordMutation,
 } from "../../features/app-api-slice";
 import { setEditMode } from "../../features/wordDetails/worddetails-slice";
+import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { editWordSchema } from "../../schema/editWordSchema";
 import { FormValue } from "../../types";
@@ -36,7 +37,6 @@ const ExistingWordEditable = () => {
   const resolver = useYupValidationResolver(editWordSchema);
   const dispatch = useAppDispatch();
   const [updateWord] = useUpdateWordMutation();
-  const [errorsHeight, setErrorsHeight] = useState<number>(0);
   const {
     handleSubmit,
     register,
@@ -100,11 +100,10 @@ const ExistingWordEditable = () => {
     });
     // eslint-disable-next-line
   }, [currentWord]);
-  useEffect(() => {
-    if (!Object.keys(errors).length) return;
-    const errorsHeight = errorsRef.current?.clientHeight;
-    setErrorsHeight(errorsHeight ?? 0);
-  }, [errors]);
+  const errorsHeight = useFormErrors(
+    Object.values(errors).map((v: any) => v.message),
+    errorsRef
+  );
   return (
     <div className="modal-container">
       <form

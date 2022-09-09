@@ -12,6 +12,7 @@ import {
 } from "../../features/addNewWord/addnewword-slice";
 import { apiSlice, useAddNewWordMutation } from "../../features/app-api-slice";
 import { setLoading } from "../../features/loading/loading-slice";
+import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addWordSchema } from "../../schema/addWordSchema";
 import { FormValue, PartOfSpeech, Word } from "../../types";
@@ -37,7 +38,6 @@ const NewWordEditable = () => {
   const [trigger, result] = apiSlice.endpoints.autofill.useLazyQuery();
   const [saveNewWord] = useAddNewWordMutation();
   const [expanded, setExpanded] = useState<string[]>([]);
-  const [errorsHeight, setErrorsHeight] = useState<number>(0);
   const autofillHandler = async (e: FormEvent) => {
     e.preventDefault();
     trigger(word, true);
@@ -122,7 +122,10 @@ const NewWordEditable = () => {
       }
     }
   };
-
+  const errorsHeight = useFormErrors(
+    Object.values(errors).map((v: any) => v.message),
+    errorsRef
+  );
   useEffect(() => {
     if (wordDetails.word && wordDetails.word !== word) {
       // reset autofill state
@@ -192,11 +195,7 @@ const NewWordEditable = () => {
     dispatch(setIsAutofill(true));
     // eslint-disable-next-line
   }, [result]);
-  useEffect(() => {
-    if (!Object.keys(errors).length) return;
-    const errorsHeight = errorsRef.current?.clientHeight;
-    setErrorsHeight(errorsHeight ?? 0);
-  }, [errors]);
+
   return (
     <div className="modal-container">
       <form

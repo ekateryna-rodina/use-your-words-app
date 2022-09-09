@@ -10,6 +10,7 @@ import {
   setShowChallengesResult,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
+import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addQuizSchema } from "../../schema/addQuizSchema";
 import { FormErrors } from "../FormErrors";
@@ -28,7 +29,6 @@ const NewQuizEditable = () => {
     isNew,
   } = useAppSelector((state) => state.addNewQuiz);
   const resolver = useYupValidationResolver(addQuizSchema);
-  const [errorsHeight, setErrorsHeight] = useState<number>(0);
   const dispatch = useAppDispatch();
   const [
     generateChallenges,
@@ -62,11 +62,7 @@ const NewQuizEditable = () => {
     dispatch(setName(""));
     resetField("name");
   };
-  useEffect(() => {
-    if (!Object.keys(errors).length) return;
-    const errorsHeight = errorsRef.current?.clientHeight;
-    setErrorsHeight(errorsHeight ?? 0);
-  }, [errors]);
+
   const includeWordHandler = (word: WordWithId) => {
     const isIncluded = includedWordIds.filter(
       (id: string) => id === word.id
@@ -96,6 +92,13 @@ const NewQuizEditable = () => {
     resetField("name");
     // eslint-disable-next-line
   }, [isNew]);
+  const errorsHeight = useFormErrors(
+    [
+      ...Object.values(errors).map((e) => (e as any).message),
+      ...challengeErrors,
+    ],
+    errorsRef
+  );
   return (
     <div className="modal-container">
       <form
