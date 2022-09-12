@@ -12,7 +12,8 @@ const fetchTags = async () => {
 
 const postTags = async (tags: string[]) => {
   try {
-    db.Tag.bulkCreate(tags.map((t) => ({ name: t })));
+    const response = await db.Tag.bulkCreate(tags.map((t) => ({ name: t })));
+    return response.map((v: { dataValues: any }) => v.dataValues);
   } catch (error) {
     console.log(error);
   }

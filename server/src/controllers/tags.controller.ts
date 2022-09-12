@@ -10,8 +10,8 @@ export async function getAllTags() {
 }
 export async function saveTags(tags: string[]) {
   try {
-    const newWord = await postTags(tags);
-    return newWord;
+    const newTags = await postTags(tags);
+    return newTags;
   } catch (error) {
     throw new Error(error);
   }

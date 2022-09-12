@@ -8,7 +8,7 @@ import { apiSlice } from "../../features/app-api-slice";
 import { NewQuizFormSteps } from "../../types";
 
 const NewQuizStepsPanel = () => {
-  const [generateChallenges, { isLoading, data }] =
+  const [generateChallenges, { data }] =
     apiSlice.endpoints.generateChallenges.useLazyQuery();
   const { includedWordIds, step, challenges } = useAppSelector(
     (state) => state.addNewQuiz

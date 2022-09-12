@@ -3,11 +3,14 @@ import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  reset as resetStore,
   setIncludedWordIds,
   setName,
 } from "../../features/addNewQuiz/addnewquiz-slice";
-import { apiSlice, useAddNewQuizMutation } from "../../features/app-api-slice";
+import {
+  apiSlice,
+  useAddNewQuizMutation,
+  useSaveTagsMutation,
+} from "../../features/app-api-slice";
 import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addQuizSchema } from "../../schema/addQuizSchema";
@@ -22,37 +25,49 @@ import { QuizTags } from "../QuizTags";
 const NewQuizEditable = () => {
   const maxQuizQuestions = 7;
   const { isLoading } = useAppSelector((state) => state.loading);
-  const [challengeErrors, setChallengeErrors] = useState<string[]>([]);
+  const [customErrors, setCustomErrors] = useState<string[]>([]);
   const { includedWordIds, step, challenges, isNew } = useAppSelector(
     (state) => state.addNewQuiz
   );
+
   const resolver = useYupValidationResolver(addQuizSchema);
   const dispatch = useAppDispatch();
-  const [
-    generateChallenges,
-    { data, isError, isLoading: challengeGenerationLoading },
-  ] = apiSlice.endpoints.generateChallenges.useLazyQuery();
   const [saveNewQuiz] = useAddNewQuizMutation();
   const errorsRef = useRef<HTMLDivElement>(null);
   const { data: vocabularyWords } =
     apiSlice.endpoints.fetchVocabulary.useQueryState();
+  const [saveTags, { data: tagsData, isLoading: tagsLoading }] =
+    useSaveTagsMutation();
   const {
     handleSubmit,
     register,
+    control,
     resetField,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<any>({ resolver });
+  const errorsHeight = useFormErrors(
+    [...Object.values(errors).map((e) => (e as any).message), ...customErrors],
+    errorsRef
+  );
+
   const onSaveQuizHandler = (values: any) => {
-    if (!challenges.length) {
-      setChallengeErrors(["create challenges for this quiz"]);
-      return;
+    // create tags if necessary
+    type Tag = { value: string; label: string; __isNew__: boolean };
+    const newTags = getValues("tags").filter((t: Tag) => t.__isNew__);
+    if (!newTags.length) {
+      // post form
+      postForm();
+    } else {
+      saveTags(newTags.map((nt: Tag) => nt.value));
     }
-    saveNewQuiz({ name: values.name, challenges });
-    dispatch(resetStore());
   };
+
   const onNewQuizNameEnterHandler = (name: string) => {
     dispatch(setName(name));
   };
+
   const reseQuizNameHandler = (e: FormEvent) => {
     e.preventDefault();
     dispatch(setName(""));
@@ -72,17 +87,30 @@ const NewQuizEditable = () => {
     dispatch(setIncludedWordIds(wordsToInclude));
   };
 
+  const postForm = () => {
+    console.log(getValues("tags"), "vals");
+    if (!challenges.length || !getValues("tags").length) {
+      const errors = [];
+      if (!challenges.length) errors.push("Create challenges for this quiz");
+      else errors.push("At least one tag is required");
+      setCustomErrors(errors);
+      return;
+    }
+    // saveNewQuiz({ name: values.name, challenges });
+    // dispatch(resetStore());
+  };
+  useEffect(() => {
+    if (tagsData?.length) {
+      const existingTags = getValues("tags");
+      setValue("tags", [...tagsData, existingTags]);
+      postForm();
+    }
+    // eslint-disable-next-line
+  }, [tagsData]);
   useEffect(() => {
     resetField("name");
     // eslint-disable-next-line
   }, [isNew]);
-  const errorsHeight = useFormErrors(
-    [
-      ...Object.values(errors).map((e) => (e as any).message),
-      ...challengeErrors,
-    ],
-    errorsRef
-  );
   return (
     <div className="modal-container">
       <form
@@ -117,7 +145,7 @@ const NewQuizEditable = () => {
           <FormErrors
             errors={[
               ...Object.values(errors).map((e) => (e as any).message),
-              ...challengeErrors,
+              ...customErrors,
             ]}
             height={errorsHeight}
             ref={errorsRef}
@@ -129,7 +157,11 @@ const NewQuizEditable = () => {
               value=""
             />
             <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] flex justify-center items-center">
-              {isLoading ? <div className="loading"></div> : <SaveIcon />}
+              {isLoading || tagsLoading ? (
+                <div className="loading"></div>
+              ) : (
+                <SaveIcon />
+              )}
             </div>
           </div>
         </div>
@@ -170,7 +202,7 @@ const NewQuizEditable = () => {
               step === NewQuizFormSteps.Tags ? "" : "translate-x-full"
             }`}
           >
-            <QuizTags />
+            <QuizTags control={control} />
           </div>
         </div>
       </form>

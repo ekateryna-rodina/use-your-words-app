@@ -214,20 +214,42 @@ export const apiSlice = createApi({
         }),
         invalidatesTags: ["Quiz", "Word"],
       }),
-      fetchTags: builder.query<
-        { tagsInfo: { id: string; name: string }[] },
-        void
-      >({
+      fetchTags: builder.query<{ value: string; label: string }[], void>({
         query: (id) => ({
           url: "tags/",
         }),
+        transformResponse: (
+          response: { tags: { id: string; name: string }[] } | Promise<any>
+        ) => {
+          if (response instanceof Promise) return response;
+          const modifiedResponse = response.tags.map((ti) => ({
+            value: ti.id,
+            label: ti.name,
+          }));
+
+          return modifiedResponse as { value: string; label: string }[];
+        },
       }),
-      saveTags: builder.mutation<void, string[]>({
-        query: (id) => ({
-          url: "tags/",
-          method: "POST",
-        }),
+      saveTags: builder.mutation<{ value: string; label: string }[], string[]>({
+        query: (values) => {
+          return {
+            url: "tags/",
+            method: "POST",
+            body: { tags: values },
+          };
+        },
         invalidatesTags: ["Tag"],
+        transformResponse: (
+          response: { tags: { id: string; name: string }[] } | Promise<any>
+        ) => {
+          if (response instanceof Promise) return response;
+          const modifiedResponse = response.tags.map((ti) => ({
+            value: ti.id,
+            label: ti.name,
+          }));
+
+          return modifiedResponse as { value: string; label: string }[];
+        },
       }),
     };
   },

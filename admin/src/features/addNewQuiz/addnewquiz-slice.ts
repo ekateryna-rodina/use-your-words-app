@@ -9,6 +9,7 @@ interface AddNewQuizState {
   includedWordIds: string[];
   isSelectAllChallenges: boolean;
   step: NewQuizFormSteps;
+  isNewTagAdded: boolean;
 }
 
 const initialState: AddNewQuizState = {
@@ -18,6 +19,7 @@ const initialState: AddNewQuizState = {
   includedWordIds: [],
   isSelectAllChallenges: true,
   step: NewQuizFormSteps.Words,
+  isNewTagAdded: false,
 };
 const addNewQuizSlice = createSlice({
   name: "addNewQuiz",
@@ -31,7 +33,7 @@ const addNewQuizSlice = createSlice({
       state.name = "";
       state.challenges = [];
       state.includedWordIds = [];
-      // state.isShowChallengesResult = false;
+      state.step = NewQuizFormSteps.Words;
     },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
