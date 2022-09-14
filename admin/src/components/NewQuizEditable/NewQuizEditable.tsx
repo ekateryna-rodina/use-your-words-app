@@ -1,14 +1,11 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   reset as resetStore,
-  setIncludedWordIds,
   setName,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import {
-  apiSlice,
   useAddNewQuizMutation,
   useSaveTagsMutation,
 } from "../../features/app-api-slice";
@@ -22,12 +19,12 @@ import SaveIcon from "../icons/SaveIcon";
 import { NewQuizStepsPanel } from "../NewQuizStepsPanel";
 import { QuizChallengesResult } from "../QuizChallengesResult";
 import { QuizTags } from "../QuizTags";
+import { QuizWords } from "../QuizWords";
 
 const NewQuizEditable = () => {
-  const maxQuizQuestions = 7;
   const { isLoading } = useAppSelector((state) => state.loading);
   const [customErrors, setCustomErrors] = useState<string[]>([]);
-  const { includedWordIds, step, challenges, isNew } = useAppSelector(
+  const { step, challenges, isNew } = useAppSelector(
     (state) => state.addNewQuiz
   );
 
@@ -35,8 +32,7 @@ const NewQuizEditable = () => {
   const dispatch = useAppDispatch();
   const [saveNewQuiz] = useAddNewQuizMutation();
   const errorsRef = useRef<HTMLDivElement>(null);
-  const { data: vocabularyWords } =
-    apiSlice.endpoints.fetchVocabulary.useQueryState();
+
   const [saveTags, { data: tagsData, isLoading: tagsLoading }] =
     useSaveTagsMutation();
   const {
@@ -72,19 +68,6 @@ const NewQuizEditable = () => {
     e.preventDefault();
     dispatch(setName(""));
     resetField("name");
-  };
-
-  const includeWordHandler = (word: WordWithId) => {
-    const isIncluded = includedWordIds.filter(
-      (id: string) => id === word.id
-    ).length;
-    let wordsToInclude = [];
-    if (isIncluded) {
-      wordsToInclude = includedWordIds.filter((w) => w !== word.id);
-    } else {
-      wordsToInclude = [...includedWordIds, word.id];
-    }
-    dispatch(setIncludedWordIds(wordsToInclude));
   };
 
   const postForm = () => {
@@ -176,26 +159,10 @@ const NewQuizEditable = () => {
           <NewQuizStepsPanel />
           <div
             className={`transition ease-in-out duration-300 absolute top-32 md:top-28 left-0 right-0 bottom-0 ${
-              step === NewQuizFormSteps.Challenges ||
-              step === NewQuizFormSteps.Tags
-                ? "-translate-x-full"
-                : ""
+              step === NewQuizFormSteps.Words ? "" : "translate-x-full"
             }`}
           >
-            {vocabularyWords?.words.map((w) => (
-              <div className="mt-2" key={w.id}>
-                <input
-                  type="checkbox"
-                  checked={includedWordIds.includes(w.id)}
-                  disabled={
-                    includedWordIds?.length >= maxQuizQuestions &&
-                    !includedWordIds.includes(w.id)
-                  }
-                  onChange={() => includeWordHandler(w)}
-                />
-                <span className="ml-2 text-sm">{w.word}</span>
-              </div>
-            ))}
+            <QuizWords />
           </div>
           <div
             className={`transition ease-in-out duration-300 absolute top-28 left-0 right-0 bottom-0 ${
