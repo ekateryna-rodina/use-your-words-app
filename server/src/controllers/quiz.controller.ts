@@ -1,12 +1,9 @@
 import { Quiz } from "use-your-words-common";
-import {
-  fetchQuizQuestions,
-  postQuizQuestions,
-} from "../services/quiz.service";
+import { fetchQuizQuestions, postQuiz } from "../services/quiz.service";
 
-export async function saveQuizQuestions(data: Quiz) {
+export async function saveQuiz(data: Quiz) {
   try {
-    const quizQuestions = await postQuizQuestions(data);
+    const quizQuestions = await postQuiz(data);
     return quizQuestions;
   } catch (error) {
     throw new Error(error);

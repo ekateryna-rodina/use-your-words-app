@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { WordWithId } from "use-your-words-common";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  reset as resetStore,
   setIncludedWordIds,
   setName,
 } from "../../features/addNewQuiz/addnewquiz-slice";
@@ -57,7 +58,6 @@ const NewQuizEditable = () => {
     type Tag = { value: string; label: string; __isNew__: boolean };
     const newTags = getValues("tags").filter((t: Tag) => t.__isNew__);
     if (!newTags.length) {
-      // post form
       postForm();
     } else {
       saveTags(newTags.map((nt: Tag) => nt.value));
@@ -88,7 +88,6 @@ const NewQuizEditable = () => {
   };
 
   const postForm = () => {
-    console.log(getValues("tags"), "vals");
     if (!challenges.length || !getValues("tags").length) {
       const errors = [];
       if (!challenges.length) errors.push("Create challenges for this quiz");
@@ -96,13 +95,21 @@ const NewQuizEditable = () => {
       setCustomErrors(errors);
       return;
     }
-    // saveNewQuiz({ name: values.name, challenges });
-    // dispatch(resetStore());
+    const values = getValues();
+    saveNewQuiz({
+      name: values.name,
+      challenges,
+      tags: values.tags.map((t: { value: string; label: string }) => t.value),
+    });
+    dispatch(resetStore());
   };
   useEffect(() => {
     if (tagsData?.length) {
-      const existingTags = getValues("tags");
-      setValue("tags", [...tagsData, existingTags]);
+      const existingTags = getValues("tags").filter(
+        (t: { __isNew__: boolean }) => !t.__isNew__
+      );
+      const newQuizTagIds = [...tagsData, ...existingTags];
+      setValue("tags", newQuizTagIds);
       postForm();
     }
     // eslint-disable-next-line

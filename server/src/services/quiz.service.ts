@@ -24,7 +24,7 @@ const toObject = (response) => {
 const fetchQuizQuestions = async () => {
   try {
     const quizDtos = await db.Quiz.findAll({
-      include: [{ model: db.Question }],
+      include: [{ model: db.Question }, { model: db.Tag }],
       nest: true,
     });
     const quizzes = mapToQuizzes(quizDtos);
@@ -34,8 +34,8 @@ const fetchQuizQuestions = async () => {
   }
 };
 
-const postQuizQuestions = async (quiz: Quiz) => {
-  if (!quiz.name || !quiz.challenges.length) return null;
+const postQuiz = async (quiz: Quiz) => {
+  if (!quiz.name || !quiz.challenges.length || !quiz.tags.length) return null;
   return executePostTransaction(quiz)
     .then((response) => {
       return toObject(response);
@@ -53,4 +53,4 @@ const deleteQuiz = async (id: string) => {
   });
 };
 
-export { postQuizQuestions, fetchQuizQuestions, deleteQuiz };
+export { postQuiz, fetchQuizQuestions, deleteQuiz };

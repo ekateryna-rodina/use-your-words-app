@@ -88,10 +88,16 @@ export function mapToQuizzes(dtos: any[]) {
       challenges.push(parsedQuestion);
     });
 
+    const tags = dto.dataValues.Tags.map(({ dataValues: { id, name } }) => ({
+      id,
+      name,
+    }));
     const quiz: Quiz = {
       id: dto.id,
       name: dto.name,
+      isFreeze: dto.isFreeze,
       challenges,
+      tags,
     };
     quizzes.push(quiz);
   }

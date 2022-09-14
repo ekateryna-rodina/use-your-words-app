@@ -5,7 +5,7 @@ import db from "../models";
 import { stringify } from "../utils/strings";
 import { deleteQuestions } from "./questions.service";
 
-export async function executePostTransaction({ name, challenges }) {
+export async function executePostTransaction({ name, challenges, tags }) {
   return db.sequelize
     .transaction(async (t: any) => {
       // create quiz first
@@ -26,7 +26,6 @@ export async function executePostTransaction({ name, challenges }) {
           );
 
           const all = await Promise.all(challengePromises);
-
           //   connect challenges with quiz
           all
             .map((p) => p.dataValues.id)
@@ -45,20 +44,30 @@ export async function executePostTransaction({ name, challenges }) {
             new Set(challenges.map((c: any) => c.wordId))
           ) as string[];
 
+          // update isFreeze
           await db.Word.update(
             { isFreeze: true },
             { where: { id: { [Op.in]: wordsToFreeze } } },
             { transaction: t }
           );
+          // assign tags
+          const quizTags = tags.map((tagId: string) => ({
+            TagId: tagId,
+            QuizId: QUIZ_ID,
+          }));
+
+          await db.TagQuiz.bulkCreate(quizTags, { transaction: t });
           return {
             id: QUIZ_ID,
             name,
             challenges: all,
+            tags,
           };
         }
       );
     })
     .catch((err: any) => {
+      console.log(err.message);
       if (err.name === "SequelizeUniqueConstraintError")
         ApiError.WordAlreadyExists(err.message);
       throw new ApiError(500, "Server error");

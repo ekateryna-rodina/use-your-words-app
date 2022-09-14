@@ -5,6 +5,7 @@ import { apiSlice, useDeleteQuizMutation } from "../../features/app-api-slice";
 import { setCurrentQuiz } from "../../features/quizDetails/quizdetails-slice";
 import DeleteIcon from "../icons/DeleteIcon";
 import DetailsIcon from "../icons/DetailsIcon";
+import QuizTag from "../QuizTag/QuizTag";
 
 type QuizProps = {
   quizId: string;
@@ -18,6 +19,7 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
   const [quizDetails, setQuizDetails] = useState<{
     name: string;
     challenges: Challenges;
+    tags: { id: string; name: string }[];
   } | null>(null);
 
   //   Fetch words from cache
@@ -33,7 +35,11 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
   useEffect(() => {
     const quizData = data?.filter((q) => q.id === quizId)[0] as QuizType;
     if (quizData && quizData.name && quizData.challenges) {
-      setQuizDetails({ name: quizData.name, challenges: quizData.challenges });
+      setQuizDetails({
+        name: quizData.name,
+        challenges: quizData.challenges,
+        tags: quizData.tags as { id: string; name: string }[],
+      });
       return;
     }
     setQuizDetails(null);
@@ -60,6 +66,11 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
             <div key={w} className="p-2 text-sm bg-slate-100">
               {w}
             </div>
+          ))}
+        </div>
+        <div className="border-t-[1px] border-dotted border-slate-300 flex gap-2 mt-2 py-2">
+          {quizDetails?.tags.map(({ name }) => (
+            <QuizTag key={name} {...{ name }} />
           ))}
         </div>
       </div>

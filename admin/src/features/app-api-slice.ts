@@ -198,13 +198,15 @@ export const apiSlice = createApi({
       }),
       addNewQuiz: builder.mutation<
         void,
-        { name: string; challenges: Challenges }
+        { name: string; challenges: Challenges; tags: string[] }
       >({
-        query: ({ name, challenges }) => ({
-          url: `quiz/`,
-          method: "POST",
-          body: { name, challenges },
-        }),
+        query: ({ name, challenges, tags }) => {
+          return {
+            url: `quiz/`,
+            method: "POST",
+            body: { name, challenges, tags },
+          };
+        },
         invalidatesTags: ["Quiz", "Word"],
       }),
       deleteQuiz: builder.mutation<void, string>({
