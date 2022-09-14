@@ -2,6 +2,7 @@ import { FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setChallenges,
+  setIsHideConnectedToQuiz,
   setStep,
 } from "../../features/addNewQuiz/addnewquiz-slice";
 import { apiSlice } from "../../features/app-api-slice";
@@ -10,9 +11,8 @@ import { NewQuizFormSteps } from "../../types";
 const NewQuizStepsPanel = () => {
   const [generateChallenges, { data }] =
     apiSlice.endpoints.generateChallenges.useLazyQuery();
-  const { includedWordIds, step, challenges } = useAppSelector(
-    (state) => state.addNewQuiz
-  );
+  const { isHideConnectedToQuiz, includedWordIds, step, challenges } =
+    useAppSelector((state) => state.addNewQuiz);
   const dispatch = useAppDispatch();
   const generateChallengesHandler = (e: FormEvent) => {
     e.preventDefault();
@@ -45,9 +45,9 @@ const NewQuizStepsPanel = () => {
               <input
                 type="checkbox"
                 id="showWordsWithoutQuizOnly"
-                checked={true}
+                checked={isHideConnectedToQuiz}
                 className="mr-2"
-                onChange={() => null}
+                onChange={() => dispatch(setIsHideConnectedToQuiz())}
               />
               Show only words not included in any quiz
             </label>

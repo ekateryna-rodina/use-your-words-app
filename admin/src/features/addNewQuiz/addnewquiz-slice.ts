@@ -10,6 +10,7 @@ interface AddNewQuizState {
   isSelectAllChallenges: boolean;
   step: NewQuizFormSteps;
   isNewTagAdded: boolean;
+  isHideConnectedToQuiz: boolean;
 }
 
 const initialState: AddNewQuizState = {
@@ -20,6 +21,7 @@ const initialState: AddNewQuizState = {
   isSelectAllChallenges: true,
   step: NewQuizFormSteps.Words,
   isNewTagAdded: false,
+  isHideConnectedToQuiz: false,
 };
 const addNewQuizSlice = createSlice({
   name: "addNewQuiz",
@@ -74,6 +76,9 @@ const addNewQuizSlice = createSlice({
     ) {
       state.challenges[action.payload.index] = action.payload.challenge;
     },
+    setIsHideConnectedToQuiz(state) {
+      state.isHideConnectedToQuiz = !state.isHideConnectedToQuiz;
+    },
   },
 });
 
@@ -87,5 +92,6 @@ export const {
   toggleSelection,
   toggleSelectAllChallenges,
   updateSingleChallenge,
+  setIsHideConnectedToQuiz,
 } = addNewQuizSlice.actions;
 export default addNewQuizSlice.reducer;
