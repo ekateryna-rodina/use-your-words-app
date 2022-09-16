@@ -12,7 +12,9 @@ import {
 import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addQuizSchema } from "../../schema/addQuizSchema";
-import { NewQuizFormSteps } from "../../types";
+import { AcceptedMediaFiles, NewQuizFormSteps } from "../../types";
+import { submitFileToStorage } from "../../utils/cloudinary";
+import { FileUploader } from "../FileUploader";
 import { FormErrors } from "../FormErrors";
 import CloseIcon from "../icons/CloseIcon";
 import SaveIcon from "../icons/SaveIcon";
@@ -28,6 +30,7 @@ const NewQuizEditable = () => {
     (state) => state.addNewQuiz
   );
 
+  const [file, setFile] = useState<(File & { preview?: any }) | undefined>();
   const resolver = useYupValidationResolver(addQuizSchema);
   const dispatch = useAppDispatch();
   const [saveNewQuiz] = useAddNewQuizMutation();
@@ -49,7 +52,10 @@ const NewQuizEditable = () => {
     errorsRef
   );
 
-  const onSaveQuizHandler = (values: any) => {
+  const onSaveQuizHandler = async (values: any) => {
+    // save image
+    const fileUrl = await submitFileToStorage(file as Blob);
+    setValue("fileUrl", fileUrl);
     // create tags if necessary
     type Tag = { value: string; label: string; __isNew__: boolean };
     const newTags = getValues("tags").filter((t: Tag) => t.__isNew__);
@@ -83,8 +89,14 @@ const NewQuizEditable = () => {
       name: values.name,
       challenges,
       tags: values.tags.map((t: { value: string; label: string }) => t.value),
+      fileUrl: values.fileUrl,
     });
     dispatch(resetStore());
+  };
+  const uploadFileHandler = (file: File) => {
+    const fileWithPreview: File & { preview?: any } = file;
+    fileWithPreview.preview = URL.createObjectURL(file);
+    setFile(fileWithPreview);
   };
   useEffect(() => {
     if (tagsData?.length) {
@@ -112,6 +124,13 @@ const NewQuizEditable = () => {
         )}
       >
         <div className="relative w-full flex justify-start items-center gap-2">
+          <FileUploader
+            onChange={uploadFileHandler}
+            disabled={false}
+            label=""
+            file={file as File}
+            acceptedMediaFiles={AcceptedMediaFiles.Img}
+          />
           <div className="relative w-[60%]">
             <input
               type="text"

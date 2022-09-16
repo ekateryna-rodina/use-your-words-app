@@ -96,6 +96,7 @@ export function mapToQuizzes(dtos: any[]) {
       id: dto.id,
       name: dto.name,
       isFreeze: dto.isFreeze,
+      fileUrl: dto.fileUrl,
       challenges,
       tags,
     };

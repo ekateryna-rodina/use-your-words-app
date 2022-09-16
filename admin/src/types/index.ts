@@ -35,3 +35,8 @@ export enum NewQuizFormSteps {
   Challenges,
   Tags,
 }
+
+export enum AcceptedMediaFiles {
+  Audio,
+  Img,
+}
