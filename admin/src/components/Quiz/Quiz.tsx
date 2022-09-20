@@ -20,6 +20,7 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
     name: string;
     challenges: Challenges;
     tags: { id: string; name: string }[];
+    fileUrl?: string;
   } | null>(null);
 
   //   Fetch words from cache
@@ -39,6 +40,7 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
         name: quizData.name,
         challenges: quizData.challenges,
         tags: quizData.tags as { id: string; name: string }[],
+        fileUrl: quizData.fileUrl,
       });
       return;
     }
@@ -60,7 +62,16 @@ const Quiz = ({ quizId, allowDelete }: QuizProps) => {
   return (
     <div className="relative p-2 border border-slate-300 flex gap-4">
       <div className="pr-12">
-        <h4 className="text-blue-300">{quizDetails?.name ?? ""}</h4>
+        <div className="flex flex-row gap-2">
+          {quizDetails?.fileUrl ? (
+            <div className="w-[30px] h-[30px]">
+              <img alt="" src={quizDetails?.fileUrl} />
+            </div>
+          ) : (
+            <></>
+          )}
+          <h4 className="text-blue-300">{quizDetails?.name ?? ""}</h4>
+        </div>
         <div className="flex flex-wrap gap-2 mt-2">
           {challengeWords.map((w) => (
             <div key={w} className="p-2 text-sm bg-slate-100">

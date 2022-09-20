@@ -1,4 +1,3 @@
-import axios from "axios";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -16,6 +15,7 @@ import { useFormErrors } from "../../hooks/useFormErrors";
 import { useYupValidationResolver } from "../../hooks/useYupValidationResolver";
 import { addWordSchema } from "../../schema/addWordSchema";
 import { FormValue, PartOfSpeech, Word } from "../../types";
+import { submitFileToStorage } from "../../utils/cloudinary";
 import { AutofillButton } from "../AutofillButton";
 import { Collapsible } from "../Collapsible";
 import { DynamicMultipleTextarea } from "../DynamicMultipleTextarea";
@@ -89,7 +89,7 @@ const NewWordEditable = () => {
     let fileUrl = getValues("fileUrl");
     dispatch(setLoading(true));
     if (["upload", "record"].includes(getValues("pronunciationRadio"))) {
-      fileUrl = await submitFileToStorage();
+      fileUrl = await submitFileToStorage(file as File | Blob);
     }
     saveNewWord({ ...values, fileUrl });
     dispatch(setLoading(false));
@@ -100,28 +100,6 @@ const NewWordEditable = () => {
     reset();
   };
 
-  const submitFileToStorage = async () => {
-    if ((file as File).name) {
-      const [cloudName, uploadPreset] = [
-        process.env.REACT_APP_CLOUD_NAME ?? "",
-        process.env.REACT_APP_UPLOAD_PRESET ?? "",
-      ];
-      if (!cloudName || !uploadPreset) return;
-      const formData = new FormData();
-      formData.append("file", file as File);
-      formData.append("upload_preset", uploadPreset);
-      formData.append("resource_type", "video");
-      try {
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
-          formData
-        );
-        return response.data.secure_url;
-      } catch (error) {
-        return null;
-      }
-    }
-  };
   const errorsHeight = useFormErrors(
     Object.values(errors).map((v: any) => v.message),
     errorsRef

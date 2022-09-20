@@ -5,12 +5,14 @@ interface QuizAttributes {
   id: string;
   name: string;
   isFreeze: boolean;
+  fileUrl: string;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
   class Quiz extends Model<QuizAttributes> implements QuizAttributes {
     id!: string;
     name!: string;
     isFreeze!: boolean;
+    fileUrl: string;
     static associate(models: any) {
       Quiz.belongsToMany(models.Question, {
         through: {
@@ -41,6 +43,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
         validate: { len: [3, 255] },
         allowNull: false,
         unique: true,
+      },
+      fileUrl: {
+        type: DataTypes.STRING,
+        validate: { len: [3, 255] },
+        allowNull: true,
       },
       isFreeze: {
         type: DataTypes.BOOLEAN,

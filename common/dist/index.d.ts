@@ -93,6 +93,7 @@ export declare type Quiz = {
     name: string;
     isFreeze: boolean;
     challenges: Challenges;
+    fileUrl?: string;
     tags: string[] | {
         id: string;
         name: string;

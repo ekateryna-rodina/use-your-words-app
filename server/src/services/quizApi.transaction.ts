@@ -5,11 +5,16 @@ import db from "../models";
 import { stringify } from "../utils/strings";
 import { deleteQuestions } from "./questions.service";
 
-export async function executePostTransaction({ name, challenges, tags }) {
+export async function executePostTransaction({
+  name,
+  challenges,
+  tags,
+  fileUrl = null,
+}) {
   return db.sequelize
     .transaction(async (t: any) => {
       // create quiz first
-      return db.Quiz.create({ name }, { transaction: t }).then(
+      return db.Quiz.create({ name, fileUrl }, { transaction: t }).then(
         async (quiz: { dataValues: { id: string } }) => {
           const challengePromises = [];
           const quizChallengePromises = [];
